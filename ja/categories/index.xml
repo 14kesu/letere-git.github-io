@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Categories on サンプルサイト</title>
-        <link>https://letere-gzj.github.io/ja/categories/</link>
+        <link>http://localhost:1313/letere-git.github-io/ja/categories/</link>
         <description>Recent content in Categories on サンプルサイト</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>ja</language>
-        <copyright>水元素长弓</copyright><atom:link href="https://letere-gzj.github.io/ja/categories/index.xml" rel="self" type="application/rss+xml" />
+        <copyright>水元素长弓</copyright><atom:link href="http://localhost:1313/letere-git.github-io/ja/categories/index.xml" rel="self" type="application/rss+xml" />
     </channel>
 </rss>
