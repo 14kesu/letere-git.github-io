@@ -39,13 +39,13 @@
     <loc>http://localhost:1313/letere-git.github-io/zh-tw/tags/</loc>
     <xhtml:link
                 rel="alternate"
-                hreflang="ja"
-                href="http://localhost:1313/letere-git.github-io/ja/tags/"
+                hreflang="zh-cn"
+                href="http://localhost:1313/letere-git.github-io/tags/"
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="zh-cn"
-                href="http://localhost:1313/letere-git.github-io/tags/"
+                hreflang="ja"
+                href="http://localhost:1313/letere-git.github-io/ja/tags/"
                 />
     <xhtml:link
                 rel="alternate"
