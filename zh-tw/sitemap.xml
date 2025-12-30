@@ -2,55 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/letere-git.github-io/zh-tw/</loc>
+    <loc>https://14kesu.github.io/letere-git.github-io/zh-tw/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:1313/letere-git.github-io/"
+                href="https://14kesu.github.io/letere-git.github-io/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="http://localhost:1313/letere-git.github-io/ja/"
+                href="https://14kesu.github.io/letere-git.github-io/ja/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-tw"
-                href="http://localhost:1313/letere-git.github-io/zh-tw/"
+                href="https://14kesu.github.io/letere-git.github-io/zh-tw/"
                 />
   </url><url>
-    <loc>http://localhost:1313/letere-git.github-io/zh-tw/categories/</loc>
+    <loc>https://14kesu.github.io/letere-git.github-io/zh-tw/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="http://localhost:1313/letere-git.github-io/ja/categories/"
+                href="https://14kesu.github.io/letere-git.github-io/ja/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:1313/letere-git.github-io/categories/"
+                href="https://14kesu.github.io/letere-git.github-io/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-tw"
-                href="http://localhost:1313/letere-git.github-io/zh-tw/categories/"
+                href="https://14kesu.github.io/letere-git.github-io/zh-tw/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/letere-git.github-io/zh-tw/tags/</loc>
+    <loc>https://14kesu.github.io/letere-git.github-io/zh-tw/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:1313/letere-git.github-io/tags/"
+                href="https://14kesu.github.io/letere-git.github-io/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
-                href="http://localhost:1313/letere-git.github-io/ja/tags/"
+                href="https://14kesu.github.io/letere-git.github-io/ja/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-tw"
-                href="http://localhost:1313/letere-git.github-io/zh-tw/tags/"
+                href="https://14kesu.github.io/letere-git.github-io/zh-tw/tags/"
                 />
   </url>
 </urlset>
