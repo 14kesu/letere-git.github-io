@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/archives/'>
 
-<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.833d6eed45de56f48306bf57268d5b8cdfc8a60e8e7bdc99810464fcd033f7c6.css"><meta property='og:title' content="归档">
+<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.889c76d757ec3fb9abb8259e4ad00306645e8a21397794a2c161e1136fed99a4.css"><meta property='og:title' content="归档">
 <meta property='og:description' content="">
 <meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/archives/'>
 <meta property='og:site_name' content='水元素长弓'>
@@ -354,7 +354,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/letere-git.github-io/ts/main.c922af694cc257bf1ecc41c0dd7b0430f9114ec280ccf67cd2c6ad55f5316c4e.js" defer></script>
+            </script><script type="text/javascript" src="/letere-git.github-io/ts/main.2c0312e7e748e78a4aa14e1691eb3d162b1c6324085f70ab935a42b0e4fa756d.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
@@ -366,6 +366,118 @@
         document.head.appendChild(customFont);
     }());
 </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+
+<div id="aplayer"></div>
+
+<script>
+    const home = "https:\/\/14kesu.github.io\/letere-git.github-io\/"
+    console.log(home);
+    const ap = new APlayer({
+        lrcType: 3,
+        container: document.getElementById('aplayer'),
+        fixed: true,
+        audio: [{
+        name: '电击曼波',
+        artist: '毒药是汤底',
+        url: home + 'music/电击曼波-毒药是汤底/song.mp3',
+        cover: home +  'music/电击曼波-毒药是汤底/cover.jpg',
+        lrc: home + 'music/电击曼波-毒药是汤底/lyric.lrc'
+        }]
+    });
+    
+
+    
+
+    window.onbeforeunload = () => {
+        
+        const playInfo = {
+            index: ap.list.index,
+            currentTime: ap.audio.currentTime,
+            paused: ap.paused
+        };
+        localStorage.setItem("playInfo", JSON.stringify(playInfo));
+    };
+
+    
+
+    window.onload = () => {
+        
+        const playInfo = JSON.parse(localStorage.getItem("playInfo"));
+        if (!playInfo) {
+            return;
+        }
+        
+        ap.list.switch(playInfo.index);
+        
+        setTimeout(() => {
+            
+            ap.seek(playInfo.currentTime);
+            
+            if (!playInfo.paused) {
+                ap.play()
+            }
+        }, 500);
+    };
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container"
+        ]
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass)
+            }
+            
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            
+        }
+    }
+</script>
+<script>
+    document.addEventListener('pjax:complete', () => {
+        
+        window.Stack.init();
+    })
+</script>
+...
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ...
+            ".js-Pjax"
+        ]
+    })
+</script>
+<div class="js-Pjax">
+    <script>
+        
+        (function() {
+            let script = document.createElement('script');
+            
+             script.setAttribute('key', 'value');
+            
+            
+            document.querySelector('xxx').appendchild(script)
+        })(document)
+    </script>
+<div>
+
 
     </body>
 </html>
