@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/post/'>
 
-<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.889c76d757ec3fb9abb8259e4ad00306645e8a21397794a2c161e1136fed99a4.css"><meta property='og:title' content="Posts">
+<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.b2944aefbc8b344c6292fb41518c34f1bd83bcd18dcd140857d69eb44e5fe98f.css"><meta property='og:title' content="Posts">
 <meta property='og:description' content="嘿嘿嘿嘿嘿">
 <meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/post/'>
 <meta property='og:site_name' content='水元素长弓'>
@@ -425,7 +425,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/letere-git.github-io/ts/main.2c0312e7e748e78a4aa14e1691eb3d162b1c6324085f70ab935a42b0e4fa756d.js" defer></script>
+            </script><script type="text/javascript" src="/letere-git.github-io/ts/main.b4654cd74006fe7475d7723cd7373672b5ea2035ab23404eb9ff511cb27b581c.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
@@ -526,28 +526,32 @@
         window.Stack.init();
     })
 </script>
-...
+
+
+    
+    <script src=https://14kesu.github.io/letere-git.github-io/js/topbar.min.js></script>
+
 <script>
-    var pjax = new Pjax({
-        selectors: [
-            ...
-            ".js-Pjax"
-        ]
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        
+        topbar.hide();
     })
 </script>
-<div class="js-Pjax">
-    <script>
-        
-        (function() {
-            let script = document.createElement('script');
-            
-             script.setAttribute('key', 'value');
-            
-            
-            document.querySelector('xxx').appendchild(script)
-        })(document)
-    </script>
-<div>
+
 
 
     </body>
