@@ -313,6 +313,40 @@
         <li><a href="#勾选框">勾选框</a></li>
       </ol>
     </li>
+    <li><a href="#代码块">代码块</a>
+      <ol>
+        <li><a href="#方法一">方法一</a></li>
+        <li><a href="#方法二">方法二</a></li>
+      </ol>
+    </li>
+    <li><a href="#引用文本">引用文本</a></li>
+    <li><a href="#超链接">超链接</a>
+      <ol>
+        <li><a href="#初级用法">初级用法</a></li>
+        <li><a href="#高级用法">高级用法</a></li>
+        <li><a href="#角注索引注释">角注（索引，注释）</a></li>
+      </ol>
+    </li>
+    <li><a href="#图片的插入">图片的插入</a></li>
+    <li><a href="#表格的插入">表格的插入</a>
+      <ol>
+        <li><a href="#编写表格">编写表格</a></li>
+        <li><a href="#表格的形式">表格的形式</a></li>
+      </ol>
+    </li>
+    <li><a href="#嵌入式html语言学习前端过后可看">嵌入式HTML语言（学习前端过后可看）</a></li>
+    <li><a href="#其他拓展语法">其他拓展语法</a>
+      <ol>
+        <li><a href="#下标-上表-高亮">下标 上表 高亮</a></li>
+      </ol>
+    </li>
+    <li><a href="#数学公式的插入与排版">数学公式的插入与排版</a>
+      <ol>
+        <li><a href="#美元符号的使用">美元符号的使用</a></li>
+        <li><a href="#分数">分数</a></li>
+      </ol>
+    </li>
+    <li><a href="#由于我暂时为配置数学公式的兼容所以这篇文章到此为止">由于我暂时为配置数学公式的兼容，所以这篇文章到此为止</a></li>
   </ol>
 </nav>
         </div>
@@ -449,12 +483,192 @@ Markdown 语法简单直观，易于学习和使用，逐渐成为了各种平�
 <h3 id="列表换行">列表换行
 </h3><p>虽然加两个空格回车可以换行，但是对其的不是列表序号，所以我们需要另一种方法。</p>
 <h3 id="勾选框">勾选框
-</h3><p>在列表的基础上再符号后面加上<a class="link" href="%e8%8b%b1%e6%96%87" ></a></p>
+</h3><p>在列表的基础上再符号后面加上 - <a class="link" href="%e8%8b%b1%e6%96%87" > </a>,方框内写上x可以表示已勾选</p>
 <ul>
-<li>[  ] 我是第一项任务</li>
-<li>我是第二项任务</li>
-<li>我是第三项任务</li>
+<li>
+<ul>
+<li><input disabled="" type="checkbox"> 我是第一项任务</li>
 </ul>
+</li>
+<li>
+<ul>
+<li><input disabled="" type="checkbox"> 我是第二项任务</li>
+</ul>
+</li>
+<li>
+<ul>
+<li><input disabled="" type="checkbox"> 我是第三项任务</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 123
+<ul>
+<li><input disabled="" type="checkbox"> 子待办事项（支持嵌套，需额外缩进2个空格）</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码块">代码块
+</h2><pre><code>public class Main {
+    public static void main(String[] args){
+        System.out.println(&quot;Hello World&quot;);
+    }
+}
+</code></pre>
+<h3 id="方法一">方法一
+</h3><p>在代码前连着打三个 ```，</p>
+<p>后面也连着打三个 ```，可以在第一组符号后面写上语言类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">){</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&#34;Hello World&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">    
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在行内要让函数名被标注，直接在其左右两边加上一个 ` 即可。</p>
+<p>如：调用<code>equals（）</code>方法。</p>
+<h3 id="方法二">方法二
+</h3><p>在代码的每一行前面加上四个空格。</p>
+<pre><code>public class Main {
+    public static void main(String[] args){
+        System.out.println(&quot;Hello World&quot;);
+    }
+}
+</code></pre>
+<h2 id="引用文本">引用文本
+</h2><blockquote>
+<p>在语段前面加上一个&gt; 表示这是我从别人的文章摘抄过来的。<br>
+如果要换行的话遵循正常文本的换行规则，但是不能直接空一行，否则会认为是另一段文本</p>
+</blockquote>
+<p>或者在每一段前面加上尖括号，源代码比较清晰。</p>
+<p>当然也可以嵌套其他的内容，代码块，列表，引用等。</p>
+<h2 id="超链接">超链接
+</h2><h3 id="初级用法">初级用法
+</h3><p>直接将网站贴上去之后显然不够美观</p>
+<p><a class="link" href="https://www.bilibili.com/"  target="_blank" rel="noopener"
+    >https://www.bilibili.com/</a></p>
+<p>所以我们可以将超链接，直接将超链接的载体左右两边加上方框，在右方框后面加上小括号，小括号贴上链接</p>
+<p>如：前往<a class="link" href="https://www.bilibili.com/"  target="_blank" rel="noopener"
+    >bilibili官网</a>观看视频。</p>
+<h3 id="高级用法">高级用法
+</h3><p>当一段话有数量较多的超链接时，我们可以在每个文本的右括号在加一组方括号，括号内给其起名，然后再文章末写上方框与起的名字，冒号，冒号后面空一格写上链接。</p>
+<p>如：前往<a class="link" href="https://www.bilibili.com/"  target="_blank" rel="noopener"
+    >bilibili</a>或者<a class="link" href="https://v.qq.com/"  target="_blank" rel="noopener"
+    >腾讯视频</a>观看视频</p>
+<p>而且变量是可以复用的。</p>
+<h3 id="角注索引注释">角注（索引，注释）
+</h3><p>想要购买请前往官网<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<p>再要注释的地方后边加上方框，方框内写上^与变量名，变量名的赋值与超链接相同。</p>
+<h2 id="图片的插入">图片的插入
+</h2><p>图片的插入只能以链接（网络或本地）的形式上传。一般推荐以网络形式上传。</p>
+<p>首先打上一个感叹号，方括号，小括号</p>
+<p><img src="https://ts1.tc.mm.bing.net/th/id/R-C.987f582c510be58755c4933cda68d525?rik=C0D21hJDYvXosw&amp;riu=http%3a%2f%2fimg.pconline.com.cn%2fimages%2fupload%2fupc%2ftx%2fwallpaper%2f1305%2f16%2fc4%2f20990657_1368686545122.jpg&amp;ehk=netN2qzcCVS4ALUQfDOwxAwFcy41oxC%2b0xTFvOYy5ds%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0%22%e6%88%91%e6%98%af%e5%9b%be%e7%89%87%22"
+	
+	
+	
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+></p>
+<p>方括号内写名字，小括号写链接。这个图片不能手动调整大小。部分软件可以再链接后面写上&quot;&quot;,中间加上文字表示鼠标悬浮时的备注。</p>
+<p><img src="/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/YingYongTuPian.png"
+	width="770"
+	height="101"
+	srcset="/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/YingYongTuPian_hu_f15d14cb29f271a5.png 480w, /letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/YingYongTuPian_hu_6f357a438cae0a72.png 1024w"
+	loading="lazy"
+	
+		alt="图片2"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="762"
+		data-flex-basis="1829px"
+	
+></p>
+<p>本地上传可以直接写图片名字。也可以使用与超链接方式相同的变量方式命名。</p>
+<h2 id="表格的插入">表格的插入
+</h2><h3 id="编写表格">编写表格
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>姓名</th>
+          <th>年龄</th>
+          <th>性别</th>
+          <th>成绩</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>小明</td>
+          <td>18</td>
+          <td>男</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>小红</td>
+          <td>17</td>
+          <td>女</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table></div>
+<p><img src="/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/BiaoGe.png"
+	width="257"
+	height="111"
+	srcset="/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/BiaoGe_hu_25b5eebc09b90871.png 480w, /letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/BiaoGe_hu_40eab8ad37992ac6.png 1024w"
+	loading="lazy"
+	
+		alt="图片2"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="231"
+		data-flex-basis="555px"
+	
+></p>
+<p>如图所示。</p>
+<h3 id="表格的形式">表格的形式
+</h3><p>在分割线左面加上冒号为左对齐，右面加上冒号为右对齐，两边都加为居中。</p>
+<h2 id="嵌入式html语言学习前端过后可看">嵌入式HTML语言（学习前端过后可看）
+</h2><p>我暂时没学HTML，但似乎直接写HTML语言就行。</p>
+<h2 id="其他拓展语法">其他拓展语法
+</h2><p>这些语法是Markdown的拓展语法，这里无法显示，只做举例(可以使用HTML替代，但是我没学)</p>
+<h3 id="下标-上表-高亮">下标 上表 高亮
+</h3><p>在文本左右加两个等号为高亮。</p>
+<p>==这是高亮文本==</p>
+<p>上标，在上标位置加上^^中间加上标内容</p>
+<p>x^2^</p>
+<p>下标将^替换为飘号键~</p>
+<p>x<del>2</del></p>
+<h2 id="数学公式的插入与排版">数学公式的插入与排版
+</h2><h3 id="美元符号的使用">美元符号的使用
+</h3><p>使用两个美元符号，中间加上内容，不可换行。</p>
+<p>$x = 1 + y$</p>
+<p>或者在文本的上下两行分别打两个美元符号，中间全部内容变为数学公式的样式。</p>
+$$
+\frac{1}{x}*5
+$$<h3 id="分数">分数
+</h3><p>在右斜杠后面加上frac{}{}，两个花括号表示分子和分母。</p>
+<h2 id="由于我暂时为配置数学公式的兼容所以这篇文章到此为止">由于我暂时为配置数学公式的兼容，所以这篇文章到此为止
+</h2><div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>我是角注&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
 </section>
 

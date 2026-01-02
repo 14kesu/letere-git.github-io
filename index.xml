@@ -92,12 +92,192 @@ Markdown 语法简单直观，易于学习和使用，逐渐成为了各种平�
 &lt;h3 id=&#34;列表换行&#34;&gt;列表换行
 &lt;/h3&gt;&lt;p&gt;虽然加两个空格回车可以换行，但是对其的不是列表序号，所以我们需要另一种方法。&lt;/p&gt;
 &lt;h3 id=&#34;勾选框&#34;&gt;勾选框
-&lt;/h3&gt;&lt;p&gt;在列表的基础上再符号后面加上&lt;a class=&#34;link&#34; href=&#34;%e8%8b%b1%e6%96%87&#34; &gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;在列表的基础上再符号后面加上 - &lt;a class=&#34;link&#34; href=&#34;%e8%8b%b1%e6%96%87&#34; &gt; &lt;/a&gt;,方框内写上x可以表示已勾选&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;[  ] 我是第一项任务&lt;/li&gt;
-&lt;li&gt;我是第二项任务&lt;/li&gt;
-&lt;li&gt;我是第三项任务&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 我是第一项任务&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 我是第二项任务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 我是第三项任务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 123
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 子待办事项（支持嵌套，需额外缩进2个空格）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;代码块&#34;&gt;代码块
+&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;public class Main {
+    public static void main(String[] args){
+        System.out.println(&amp;quot;Hello World&amp;quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;方法一&#34;&gt;方法一
+&lt;/h3&gt;&lt;p&gt;在代码前连着打三个 ```，&lt;/p&gt;
+&lt;p&gt;后面也连着打三个 ```，可以在第一组符号后面写上语言类型&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Main&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;){&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;System&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;println&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Hello World&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在行内要让函数名被标注，直接在其左右两边加上一个 ` 即可。&lt;/p&gt;
+&lt;p&gt;如：调用&lt;code&gt;equals（）&lt;/code&gt;方法。&lt;/p&gt;
+&lt;h3 id=&#34;方法二&#34;&gt;方法二
+&lt;/h3&gt;&lt;p&gt;在代码的每一行前面加上四个空格。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class Main {
+    public static void main(String[] args){
+        System.out.println(&amp;quot;Hello World&amp;quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;引用文本&#34;&gt;引用文本
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;在语段前面加上一个&amp;gt; 表示这是我从别人的文章摘抄过来的。&lt;br&gt;
+如果要换行的话遵循正常文本的换行规则，但是不能直接空一行，否则会认为是另一段文本&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;或者在每一段前面加上尖括号，源代码比较清晰。&lt;/p&gt;
+&lt;p&gt;当然也可以嵌套其他的内容，代码块，列表，引用等。&lt;/p&gt;
+&lt;h2 id=&#34;超链接&#34;&gt;超链接
+&lt;/h2&gt;&lt;h3 id=&#34;初级用法&#34;&gt;初级用法
+&lt;/h3&gt;&lt;p&gt;直接将网站贴上去之后显然不够美观&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.bilibili.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;所以我们可以将超链接，直接将超链接的载体左右两边加上方框，在右方框后面加上小括号，小括号贴上链接&lt;/p&gt;
+&lt;p&gt;如：前往&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;bilibili官网&lt;/a&gt;观看视频。&lt;/p&gt;
+&lt;h3 id=&#34;高级用法&#34;&gt;高级用法
+&lt;/h3&gt;&lt;p&gt;当一段话有数量较多的超链接时，我们可以在每个文本的右括号在加一组方括号，括号内给其起名，然后再文章末写上方框与起的名字，冒号，冒号后面空一格写上链接。&lt;/p&gt;
+&lt;p&gt;如：前往&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;bilibili&lt;/a&gt;或者&lt;a class=&#34;link&#34; href=&#34;https://v.qq.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;腾讯视频&lt;/a&gt;观看视频&lt;/p&gt;
+&lt;p&gt;而且变量是可以复用的。&lt;/p&gt;
+&lt;h3 id=&#34;角注索引注释&#34;&gt;角注（索引，注释）
+&lt;/h3&gt;&lt;p&gt;想要购买请前往官网&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;再要注释的地方后边加上方框，方框内写上^与变量名，变量名的赋值与超链接相同。&lt;/p&gt;
+&lt;h2 id=&#34;图片的插入&#34;&gt;图片的插入
+&lt;/h2&gt;&lt;p&gt;图片的插入只能以链接（网络或本地）的形式上传。一般推荐以网络形式上传。&lt;/p&gt;
+&lt;p&gt;首先打上一个感叹号，方括号，小括号&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ts1.tc.mm.bing.net/th/id/R-C.987f582c510be58755c4933cda68d525?rik=C0D21hJDYvXosw&amp;amp;riu=http%3a%2f%2fimg.pconline.com.cn%2fimages%2fupload%2fupc%2ftx%2fwallpaper%2f1305%2f16%2fc4%2f20990657_1368686545122.jpg&amp;amp;ehk=netN2qzcCVS4ALUQfDOwxAwFcy41oxC%2b0xTFvOYy5ds%3d&amp;amp;risl=&amp;amp;pid=ImgRaw&amp;amp;r=0%22%e6%88%91%e6%98%af%e5%9b%be%e7%89%87%22&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;方括号内写名字，小括号写链接。这个图片不能手动调整大小。部分软件可以再链接后面写上&amp;quot;&amp;quot;,中间加上文字表示鼠标悬浮时的备注。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://14kesu.github.io/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/YingYongTuPian.png&#34;
+	width=&#34;770&#34;
+	height=&#34;101&#34;
+	srcset=&#34;https://14kesu.github.io/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/YingYongTuPian_hu_f15d14cb29f271a5.png 480w, https://14kesu.github.io/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/YingYongTuPian_hu_6f357a438cae0a72.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片2&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;762&#34;
+		data-flex-basis=&#34;1829px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;本地上传可以直接写图片名字。也可以使用与超链接方式相同的变量方式命名。&lt;/p&gt;
+&lt;h2 id=&#34;表格的插入&#34;&gt;表格的插入
+&lt;/h2&gt;&lt;h3 id=&#34;编写表格&#34;&gt;编写表格
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;姓名&lt;/th&gt;
+          &lt;th&gt;年龄&lt;/th&gt;
+          &lt;th&gt;性别&lt;/th&gt;
+          &lt;th&gt;成绩&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;小明&lt;/td&gt;
+          &lt;td&gt;18&lt;/td&gt;
+          &lt;td&gt;男&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;小红&lt;/td&gt;
+          &lt;td&gt;17&lt;/td&gt;
+          &lt;td&gt;女&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;img src=&#34;https://14kesu.github.io/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/BiaoGe.png&#34;
+	width=&#34;257&#34;
+	height=&#34;111&#34;
+	srcset=&#34;https://14kesu.github.io/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/BiaoGe_hu_25b5eebc09b90871.png 480w, https://14kesu.github.io/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/BiaoGe_hu_40eab8ad37992ac6.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片2&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;231&#34;
+		data-flex-basis=&#34;555px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;如图所示。&lt;/p&gt;
+&lt;h3 id=&#34;表格的形式&#34;&gt;表格的形式
+&lt;/h3&gt;&lt;p&gt;在分割线左面加上冒号为左对齐，右面加上冒号为右对齐，两边都加为居中。&lt;/p&gt;
+&lt;h2 id=&#34;嵌入式html语言学习前端过后可看&#34;&gt;嵌入式HTML语言（学习前端过后可看）
+&lt;/h2&gt;&lt;p&gt;我暂时没学HTML，但似乎直接写HTML语言就行。&lt;/p&gt;
+&lt;h2 id=&#34;其他拓展语法&#34;&gt;其他拓展语法
+&lt;/h2&gt;&lt;p&gt;这些语法是Markdown的拓展语法，这里无法显示，只做举例(可以使用HTML替代，但是我没学)&lt;/p&gt;
+&lt;h3 id=&#34;下标-上表-高亮&#34;&gt;下标 上表 高亮
+&lt;/h3&gt;&lt;p&gt;在文本左右加两个等号为高亮。&lt;/p&gt;
+&lt;p&gt;==这是高亮文本==&lt;/p&gt;
+&lt;p&gt;上标，在上标位置加上^^中间加上标内容&lt;/p&gt;
+&lt;p&gt;x^2^&lt;/p&gt;
+&lt;p&gt;下标将^替换为飘号键~&lt;/p&gt;
+&lt;p&gt;x&lt;del&gt;2&lt;/del&gt;&lt;/p&gt;
+&lt;h2 id=&#34;数学公式的插入与排版&#34;&gt;数学公式的插入与排版
+&lt;/h2&gt;&lt;h3 id=&#34;美元符号的使用&#34;&gt;美元符号的使用
+&lt;/h3&gt;&lt;p&gt;使用两个美元符号，中间加上内容，不可换行。&lt;/p&gt;
+&lt;p&gt;$x = 1 + y$&lt;/p&gt;
+&lt;p&gt;或者在文本的上下两行分别打两个美元符号，中间全部内容变为数学公式的样式。&lt;/p&gt;
+$$
+\frac{1}{x}*5
+$$&lt;h3 id=&#34;分数&#34;&gt;分数
+&lt;/h3&gt;&lt;p&gt;在右斜杠后面加上frac{}{}，两个花括号表示分子和分母。&lt;/p&gt;
+&lt;h2 id=&#34;由于我暂时为配置数学公式的兼容所以这篇文章到此为止&#34;&gt;由于我暂时为配置数学公式的兼容，所以这篇文章到此为止
+&lt;/h2&gt;&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;我是角注&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
 </description>
         </item>
         <item>
