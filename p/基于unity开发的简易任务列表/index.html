@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="基于unity开发的简易任务列表 前言 这是我在系统性学完c#基础与核心之后，完全由自己构思，编写的作品。其中的很多内容是较为劣质低效的，而且有很多不需要的步骤。同时因为是对自己基础的一次检验，有许多不必要的语法和方式被故意使用。所以不建议当作正常的学习参考。\n前期构建 ScriptableObject（SO） 先简单说一下SO是什么和SO的使用场景\nScriptableObject 是 Unity 特有的可序列化资产，数据存储在项目面板（Assets 文件夹）中，独立于场景对象，支持可视化编辑、多脚本共享引用，且非运行时实例化（内存占用低），这些特性决定了它的适用边界。\n当你需要在多个脚本（跨场景、跨对象）中共享通用数据，且数据无需永久保存（游戏重启后恢复默认值）时，SO 是首选。 典型用途：\n游戏全局配置：玩家初始血量 / 蓝量、移动速度、重力参数、音效音量默认值、关卡解锁规则； 全局状态标识：当前游戏难度（简单 / 中等 / 困难）、是否开启音效 / 震动、当前关卡编号； 通用常量集合：层掩码（LayerMask）、标签（Tag）、UI 显示层级、技能冷却时间常量等。 为什么不用其他方案：\n替代单例：避免单例的生命周期混乱、难以调试、不易扩展的问题，SO 可直接在 Inspector 中修改参数，无需编译代码； 替代普通类：普通类无法可视化编辑，修改参数需改代码重新编译，SO 可直观调整数值，实时预览效果； 替代 PlayerPrefs：PlayerPrefs 用于本地持久化存储，不适合核心配置（易被篡改），SO 仅存储默认配置，更安全高效。 当项目中有大量同类对象（道具、敌人、技能等），且每个对象有固定属性集合时，用 SO 做模板配置，可实现 “一处定义、多处复用”，大幅提升开发效率。 典型用途：\n道具配置：每个道具对应一个 SO，存储道具名称、图标、描述、价格、效果（回血 / 加攻击）、使用次数、预制体引用； 敌人模板：小兵 / 精英 / BOSS 的 SO，存储血量、攻击、防御、移动速度、攻击范围、掉落道具列表、预制体； 技能模板：每个技能对应一个 SO，存储技能名称、冷却时间、消耗蓝量、伤害值、特效预制体、释放动画、命中判定规则； 关卡模板：每个关卡的 SO，存储敌人刷新点、刷新数量、通关条件（消灭所有敌人 / 到达终点）、背景音乐、关卡奖励。 SO 支持自定义 Editor 脚本，可打造可视化、高易用性的编辑界面，解决复杂配置的编辑痛点，提升团队协作效率。 典型用途：\n自定义复杂配置界面：比如技能的多段伤害、特效触发时机、条件判定（如 “血量低于 30% 时伤害翻倍”），通过自定义 Editor 将杂乱的参数整理为折叠面板、下拉选择、预览窗口，避免默认 Inspector 的混乱； 批量数据管理：创建 “总表 SO”（如《道具总表》），引用所有道具 SO，方便编辑器下批量查找、筛选、导出（如导出 Excel 配置表）； 工具配置载体：将编辑器工具的参数（如批量烘焙光照的参数、资源打包的路径 / 规则、场景批量导出的配置）存储在 SO 中，方便保存和复用工具配置，无需每次打开工具重新设置。 场景中的游戏对象与场景强绑定（删除场景则对象消失，多场景共用需重复复制），而 SO 独立于场景，可有效降低场景耦合。 典型用途：\n">
+<title>基于unity开发的简易任务列表</title>
+
+<link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/'>
+
+<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.b2944aefbc8b344c6292fb41518c34f1bd83bcd18dcd140857d69eb44e5fe98f.css"><meta property='og:title' content="基于unity开发的简易任务列表">
+<meta property='og:description' content="基于unity开发的简易任务列表 前言 这是我在系统性学完c#基础与核心之后，完全由自己构思，编写的作品。其中的很多内容是较为劣质低效的，而且有很多不需要的步骤。同时因为是对自己基础的一次检验，有许多不必要的语法和方式被故意使用。所以不建议当作正常的学习参考。\n前期构建 ScriptableObject（SO） 先简单说一下SO是什么和SO的使用场景\nScriptableObject 是 Unity 特有的可序列化资产，数据存储在项目面板（Assets 文件夹）中，独立于场景对象，支持可视化编辑、多脚本共享引用，且非运行时实例化（内存占用低），这些特性决定了它的适用边界。\n当你需要在多个脚本（跨场景、跨对象）中共享通用数据，且数据无需永久保存（游戏重启后恢复默认值）时，SO 是首选。 典型用途：\n游戏全局配置：玩家初始血量 / 蓝量、移动速度、重力参数、音效音量默认值、关卡解锁规则； 全局状态标识：当前游戏难度（简单 / 中等 / 困难）、是否开启音效 / 震动、当前关卡编号； 通用常量集合：层掩码（LayerMask）、标签（Tag）、UI 显示层级、技能冷却时间常量等。 为什么不用其他方案：\n替代单例：避免单例的生命周期混乱、难以调试、不易扩展的问题，SO 可直接在 Inspector 中修改参数，无需编译代码； 替代普通类：普通类无法可视化编辑，修改参数需改代码重新编译，SO 可直观调整数值，实时预览效果； 替代 PlayerPrefs：PlayerPrefs 用于本地持久化存储，不适合核心配置（易被篡改），SO 仅存储默认配置，更安全高效。 当项目中有大量同类对象（道具、敌人、技能等），且每个对象有固定属性集合时，用 SO 做模板配置，可实现 “一处定义、多处复用”，大幅提升开发效率。 典型用途：\n道具配置：每个道具对应一个 SO，存储道具名称、图标、描述、价格、效果（回血 / 加攻击）、使用次数、预制体引用； 敌人模板：小兵 / 精英 / BOSS 的 SO，存储血量、攻击、防御、移动速度、攻击范围、掉落道具列表、预制体； 技能模板：每个技能对应一个 SO，存储技能名称、冷却时间、消耗蓝量、伤害值、特效预制体、释放动画、命中判定规则； 关卡模板：每个关卡的 SO，存储敌人刷新点、刷新数量、通关条件（消灭所有敌人 / 到达终点）、背景音乐、关卡奖励。 SO 支持自定义 Editor 脚本，可打造可视化、高易用性的编辑界面，解决复杂配置的编辑痛点，提升团队协作效率。 典型用途：\n自定义复杂配置界面：比如技能的多段伤害、特效触发时机、条件判定（如 “血量低于 30% 时伤害翻倍”），通过自定义 Editor 将杂乱的参数整理为折叠面板、下拉选择、预览窗口，避免默认 Inspector 的混乱； 批量数据管理：创建 “总表 SO”（如《道具总表》），引用所有道具 SO，方便编辑器下批量查找、筛选、导出（如导出 Excel 配置表）； 工具配置载体：将编辑器工具的参数（如批量烘焙光照的参数、资源打包的路径 / 规则、场景批量导出的配置）存储在 SO 中，方便保存和复用工具配置，无需每次打开工具重新设置。 场景中的游戏对象与场景强绑定（删除场景则对象消失，多场景共用需重复复制），而 SO 独立于场景，可有效降低场景耦合。 典型用途：\n">
+<meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/'>
+<meta property='og:site_name' content='水元素长弓'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-01-03T21:21:31&#43;08:00'/><meta property='article:modified_time' content='2026-01-03T21:21:31&#43;08:00'/><meta property='og:image' content='https://14kesu.github.io/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/cover.png' />
+<meta name="twitter:title" content="基于unity开发的简易任务列表">
+<meta name="twitter:description" content="基于unity开发的简易任务列表 前言 这是我在系统性学完c#基础与核心之后，完全由自己构思，编写的作品。其中的很多内容是较为劣质低效的，而且有很多不需要的步骤。同时因为是对自己基础的一次检验，有许多不必要的语法和方式被故意使用。所以不建议当作正常的学习参考。\n前期构建 ScriptableObject（SO） 先简单说一下SO是什么和SO的使用场景\nScriptableObject 是 Unity 特有的可序列化资产，数据存储在项目面板（Assets 文件夹）中，独立于场景对象，支持可视化编辑、多脚本共享引用，且非运行时实例化（内存占用低），这些特性决定了它的适用边界。\n当你需要在多个脚本（跨场景、跨对象）中共享通用数据，且数据无需永久保存（游戏重启后恢复默认值）时，SO 是首选。 典型用途：\n游戏全局配置：玩家初始血量 / 蓝量、移动速度、重力参数、音效音量默认值、关卡解锁规则； 全局状态标识：当前游戏难度（简单 / 中等 / 困难）、是否开启音效 / 震动、当前关卡编号； 通用常量集合：层掩码（LayerMask）、标签（Tag）、UI 显示层级、技能冷却时间常量等。 为什么不用其他方案：\n替代单例：避免单例的生命周期混乱、难以调试、不易扩展的问题，SO 可直接在 Inspector 中修改参数，无需编译代码； 替代普通类：普通类无法可视化编辑，修改参数需改代码重新编译，SO 可直观调整数值，实时预览效果； 替代 PlayerPrefs：PlayerPrefs 用于本地持久化存储，不适合核心配置（易被篡改），SO 仅存储默认配置，更安全高效。 当项目中有大量同类对象（道具、敌人、技能等），且每个对象有固定属性集合时，用 SO 做模板配置，可实现 “一处定义、多处复用”，大幅提升开发效率。 典型用途：\n道具配置：每个道具对应一个 SO，存储道具名称、图标、描述、价格、效果（回血 / 加攻击）、使用次数、预制体引用； 敌人模板：小兵 / 精英 / BOSS 的 SO，存储血量、攻击、防御、移动速度、攻击范围、掉落道具列表、预制体； 技能模板：每个技能对应一个 SO，存储技能名称、冷却时间、消耗蓝量、伤害值、特效预制体、释放动画、命中判定规则； 关卡模板：每个关卡的 SO，存储敌人刷新点、刷新数量、通关条件（消灭所有敌人 / 到达终点）、背景音乐、关卡奖励。 SO 支持自定义 Editor 脚本，可打造可视化、高易用性的编辑界面，解决复杂配置的编辑痛点，提升团队协作效率。 典型用途：\n自定义复杂配置界面：比如技能的多段伤害、特效触发时机、条件判定（如 “血量低于 30% 时伤害翻倍”），通过自定义 Editor 将杂乱的参数整理为折叠面板、下拉选择、预览窗口，避免默认 Inspector 的混乱； 批量数据管理：创建 “总表 SO”（如《道具总表》），引用所有道具 SO，方便编辑器下批量查找、筛选、导出（如导出 Excel 配置表）； 工具配置载体：将编辑器工具的参数（如批量烘焙光照的参数、资源打包的路径 / 规则、场景批量导出的配置）存储在 SO 中，方便保存和复用工具配置，无需每次打开工具重新设置。 场景中的游戏对象与场景强绑定（删除场景则对象消失，多场景共用需重复复制），而 SO 独立于场景，可有效降低场景耦合。 典型用途：\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://14kesu.github.io/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/cover.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/letere-git.github-io/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/letere-git.github-io/img/avatar_hu_94e8c67ed9d3c4cf.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">😋</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/letere-git.github-io">水元素长弓</a></h1>
+            <h2 class="site-description">嘿嘿嘿嘿嘿</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/448017544?spm_id_from=333.1007.0.0'
+                        target="_blank"
+                        title="BiliBili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/letere-git.github-io/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://14kesu.github.io/letere-git.github-io/" selected>简体中文</option>
+                                
+                                    <option value="https://14kesu.github.io/letere-git.github-io/ja/" >日本語</option>
+                                
+                                    <option value="https://14kesu.github.io/letere-git.github-io/zh-tw/" >正體中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#前期构建">前期构建</a>
+      <ol>
+        <li><a href="#scriptableobjectso">ScriptableObject（SO）</a>
+          <ol>
+            <li><a href="#当你需要在多个脚本跨场景跨对象中共享通用数据且数据无需永久保存游戏重启后恢复默认值时so-是首选">当你需要在多个脚本（跨场景、跨对象）中共享通用数据，且数据无需永久保存（游戏重启后恢复默认值）时，SO 是首选。</a></li>
+            <li><a href="#当项目中有大量同类对象道具敌人技能等且每个对象有固定属性集合时用-so-做模板配置可实现-一处定义多处复用大幅提升开发效率">当项目中有大量同类对象（道具、敌人、技能等），且每个对象有固定属性集合时，用 SO 做模板配置，可实现 “一处定义、多处复用”，大幅提升开发效率。</a></li>
+            <li><a href="#so-支持自定义-editor-脚本可打造可视化高易用性的编辑界面解决复杂配置的编辑痛点提升团队协作效率">SO 支持自定义 Editor 脚本，可打造可视化、高易用性的编辑界面，解决复杂配置的编辑痛点，提升团队协作效率。</a></li>
+            <li><a href="#场景中的游戏对象与场景强绑定删除场景则对象消失多场景共用需重复复制而-so-独立于场景可有效降低场景耦合">场景中的游戏对象与场景强绑定（删除场景则对象消失，多场景共用需重复复制），而 SO 独立于场景，可有效降低场景耦合。</a></li>
+            <li><a href="#在游戏运行时需要在多个脚本间实时共享动态修改的数据且方便编辑器调试时实时查看--修改数值so-是理想载体">在游戏运行时，需要在多个脚本间实时共享动态修改的数据，且方便编辑器调试时实时查看 / 修改数值，SO 是理想载体。</a></li>
+            <li><a href="#so是否适用于任务系统">SO是否适用于任务系统</a></li>
+            <li><a href="#核心代码">核心代码</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/">
+                <img src="/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/cover_hu_abf468b45c79179d.png"
+                        srcset="/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/cover_hu_abf468b45c79179d.png 800w, /letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/cover_hu_61123eb98f12ada7.png 1600w"
+                        width="800" 
+                        height="448" 
+                        loading="lazy"
+                        alt="Featured image of post 基于unity开发的简易任务列表" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/">基于unity开发的简易任务列表</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published" datetime='2026-01-03T21:21:31&#43;08:00'>2026-01-03</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="基于unity开发的简易任务列表">基于unity开发的简易任务列表
+</h1><h2 id="前言">前言
+</h2><p>这是我在系统性学完c#基础与核心之后，完全由自己构思，编写的作品。其中的很多内容是较为劣质低效的，而且有很多不需要的步骤。同时因为是对自己基础的一次检验，有许多不必要的语法和方式被故意使用。所以不建议当作正常的学习参考。</p>
+<h2 id="前期构建">前期构建
+</h2><h3 id="scriptableobjectso">ScriptableObject（SO）
+</h3><p>先简单说一下SO是什么和SO的使用场景</p>
+<p>ScriptableObject 是 Unity 特有的可序列化资产，数据存储在项目面板（Assets 文件夹）中，独立于场景对象，支持可视化编辑、多脚本共享引用，且非运行时实例化（内存占用低），这些特性决定了它的适用边界。</p>
+<h4 id="当你需要在多个脚本跨场景跨对象中共享通用数据且数据无需永久保存游戏重启后恢复默认值时so-是首选">当你需要在多个脚本（跨场景、跨对象）中共享通用数据，且数据无需永久保存（游戏重启后恢复默认值）时，SO 是首选。
+</h4><p>典型用途：</p>
+<ul>
+<li>游戏全局配置：玩家初始血量 / 蓝量、移动速度、重力参数、音效音量默认值、关卡解锁规则；</li>
+<li>全局状态标识：当前游戏难度（简单 / 中等 / 困难）、是否开启音效 / 震动、当前关卡编号；</li>
+<li>通用常量集合：层掩码（LayerMask）、标签（Tag）、UI 显示层级、技能冷却时间常量等。</li>
+</ul>
+<p>为什么不用其他方案：</p>
+<ul>
+<li>替代单例：避免单例的生命周期混乱、难以调试、不易扩展的问题，SO 可直接在 Inspector 中修改参数，无需编译代码；</li>
+<li>替代普通类：普通类无法可视化编辑，修改参数需改代码重新编译，SO 可直观调整数值，实时预览效果；</li>
+<li>替代 PlayerPrefs：PlayerPrefs 用于本地持久化存储，不适合核心配置（易被篡改），SO 仅存储默认配置，更安全高效。</li>
+</ul>
+<h4 id="当项目中有大量同类对象道具敌人技能等且每个对象有固定属性集合时用-so-做模板配置可实现-一处定义多处复用大幅提升开发效率">当项目中有大量同类对象（道具、敌人、技能等），且每个对象有固定属性集合时，用 SO 做模板配置，可实现 “一处定义、多处复用”，大幅提升开发效率。
+</h4><p>典型用途：</p>
+<ul>
+<li>道具配置：每个道具对应一个 SO，存储道具名称、图标、描述、价格、效果（回血 / 加攻击）、使用次数、预制体引用；</li>
+<li>敌人模板：小兵 / 精英 / BOSS 的 SO，存储血量、攻击、防御、移动速度、攻击范围、掉落道具列表、预制体；</li>
+<li>技能模板：每个技能对应一个 SO，存储技能名称、冷却时间、消耗蓝量、伤害值、特效预制体、释放动画、命中判定规则；</li>
+<li>关卡模板：每个关卡的 SO，存储敌人刷新点、刷新数量、通关条件（消灭所有敌人 / 到达终点）、背景音乐、关卡奖励。</li>
+</ul>
+<h4 id="so-支持自定义-editor-脚本可打造可视化高易用性的编辑界面解决复杂配置的编辑痛点提升团队协作效率">SO 支持自定义 Editor 脚本，可打造可视化、高易用性的编辑界面，解决复杂配置的编辑痛点，提升团队协作效率。
+</h4><p>典型用途：</p>
+<ul>
+<li>自定义复杂配置界面：比如技能的多段伤害、特效触发时机、条件判定（如 “血量低于 30% 时伤害翻倍”），通过自定义 Editor 将杂乱的参数整理为折叠面板、下拉选择、预览窗口，避免默认 Inspector 的混乱；
+批量数据管理：创建 “总表 SO”（如《道具总表》），引用所有道具 SO，方便编辑器下批量查找、筛选、导出（如导出 Excel 配置表）；</li>
+<li>工具配置载体：将编辑器工具的参数（如批量烘焙光照的参数、资源打包的路径 / 规则、场景批量导出的配置）存储在 SO 中，方便保存和复用工具配置，无需每次打开工具重新设置。</li>
+</ul>
+<h4 id="场景中的游戏对象与场景强绑定删除场景则对象消失多场景共用需重复复制而-so-独立于场景可有效降低场景耦合">场景中的游戏对象与场景强绑定（删除场景则对象消失，多场景共用需重复复制），而 SO 独立于场景，可有效降低场景耦合。
+</h4><p>典型用途：</p>
+<ul>
+<li>跨场景共用数据：如背景音乐列表、UI 文本配置（游戏标题、按钮文字）、通用材质库，无需在每个场景中创建对应的管理对象，只需在脚本中引用同一个 SO 即可；
+版本控制友好：SO 作为单独的文件存储，相比场景文件（.unity），其修改冲突更容易解决（场景文件包含大量对象信息，冲突后难以合并）；</li>
+<li>资源解耦：将对象的 “数据” 与 “逻辑 / 视图” 分离，比如敌人的 “属性数据” 存在 SO 中，“移动 / 攻击逻辑” 存在脚本中，“模型 / 动画” 存在预制体中，便于单独修改数据或逻辑，互不影响。</li>
+</ul>
+<h4 id="在游戏运行时需要在多个脚本间实时共享动态修改的数据且方便编辑器调试时实时查看--修改数值so-是理想载体">在游戏运行时，需要在多个脚本间实时共享动态修改的数据，且方便编辑器调试时实时查看 / 修改数值，SO 是理想载体。
+</h4><p>典型用途：</p>
+<ul>
+<li>实时状态共享：当前玩家金币数量、已收集道具列表、任务完成进度，多个脚本（玩家控制器、商店 UI、任务面板）可直接读取 / 修改 SO 中的数据，无需通过消息传递（如 EventSystem）间接通信；</li>
+<li>调试便捷性：在编辑器运行模式下，可直接在 Inspector 中修改 SO 的参数（如临时调高玩家血量、修改技能伤害），实时看到游戏效果，无需停止运行修改代码，大幅提升调试效率。</li>
+</ul>
+<h4 id="so是否适用于任务系统">SO是否适用于任务系统
+</h4><ul>
+<li>任务信息中的固定不变 / 可复用的静态数据，是 SO 的核心适用场景，这部分数据完全可以存储在 SO 中。</li>
+<li>任务信息的「动态运行时状态」：不适合直接存入 SO。</li>
+</ul>
+<h6 id="适合的部分">适合的部分
+</h6><p>这些数据是任务的「模板属性」，一旦定义后基本无需频繁修改，或修改后需全局生效：</p>
+<ul>
+<li>基础标识与描述：任务 ID、任务名称（如 “消灭 10 只野猪”）、任务描述文本、任务类型（主线 / 支线 / 日常 / 限时）、接取等级要求；</li>
+<li>任务目标：目标类型（击杀 / 收集 / 护送 / 探索）、目标对象（野猪 SO / 草药 SO/NPC 预制体）、目标数量（10 只 / 5 个）、目标场景（新手村 / 森林副本）；</li>
+<li>任务奖励：金币数量、经验值、道具列表（对应道具 SO 数组）、装备 SO、解锁内容（新关卡 / 新技能）；</li>
+<li>接取与提交条件：接取 NPC（名称 / 预制体）、提交 NPC、前置任务 SO（需完成某任务才能接取）、特殊条件（如 “血量高于 50% 时接取”）。</li>
+</ul>
+<h6 id="不适合的部分">不适合的部分
+</h6><p>这些数据是每个玩家 / 角色的专属状态，具有唯一性和临时性：</p>
+<ul>
+<li>任务进度：是否已接取、当前完成数量（如已消灭 3 只野猪）、是否达成完成条件、是否已提交；</li>
+<li>玩家专属标记：接取任务的角色 ID、任务接取时间（日常任务重置用）、是否放弃过该任务。</li>
+</ul>
+<h4 id="核心代码">核心代码
+</h4><p>在SO构建时，必须继承ScriptableObject类，且必须手动标注[CreateAssetMenu]特性。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System.Collections</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine.UI</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">[CreateAssetMenu(fileName = &#34;NewTaskDate&#34;, menuName = &#34;Task/TaskDate&#34;)]</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">TaskDate</span> <span class="p">:</span> <span class="n">ScriptableObject</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [Header(&#34;基础信息&#34;)]</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="kt">string</span> <span class="n">taskId</span><span class="p">;</span> <span class="c1">// 任务唯一ID</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="kt">string</span> <span class="n">taskTitle</span><span class="p">;</span> <span class="c1">// 任务标题</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="kt">string</span> <span class="n">taskLittleTitle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="kt">string</span> <span class="n">taskName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="kt">string</span> <span class="n">positionTxte</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="kt">string</span> <span class="n">describeText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="n">Sprite</span><span class="p">[]</span> <span class="n">images</span><span class="p">;</span><span class="c1">//奖励</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="n">TaskType</span> <span class="n">taskType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="n">TaskDate</span><span class="p">[]</span> <span class="n">nextTask</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="kt">bool</span> <span class="n">isSecess</span> <span class="p">=</span><span class="kc">false</span><span class="p">;</span><span class="c1">//不建议将胜利条件写在SO中</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">enum</span> <span class="n">TaskType</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">MainStoryline</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">BranchStoryline</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">enum</span> <span class="n">Task</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CollectItem</span><span class="p">,</span>   
+</span></span><span class="line"><span class="cl">        <span class="n">KillEnemy</span><span class="p">,</span>     
+</span></span><span class="line"><span class="cl">        <span class="n">TriggerTarget</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">Timing</span>         
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>保存脚本后，我们就可以在面板中手动创建SO或者在脚本中动态创建。</p>
+<p>注：因为我只制作了任务列表的内容，并未添加具体任务类型，所以索性将任务完成的判断条件扔到SO中，在正常游戏开发中不建议这么设计。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 水元素长弓
+    </section>
+    
+    <section class="powerby">
+        
+            不嘻嘻 <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.33.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/letere-git.github-io/ts/main.b4654cd74006fe7475d7723cd7373672b5ea2035ab23404eb9ff511cb27b581c.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+
+<div id="aplayer"></div>
+
+<script>
+    const home = "https:\/\/14kesu.github.io\/letere-git.github-io\/"
+    console.log(home);
+    const ap = new APlayer({
+        lrcType: 3,
+        container: document.getElementById('aplayer'),
+        fixed: true,
+        audio: [{
+        name: '电击曼波',
+        artist: '毒药是汤底',
+        url: home + 'music/电击曼波-毒药是汤底/song.mp3',
+        cover: home +  'music/电击曼波-毒药是汤底/cover.jpg',
+        lrc: home + 'music/电击曼波-毒药是汤底/lyric.lrc'
+        }]
+    });
+    
+
+    
+
+    window.onbeforeunload = () => {
+        
+        const playInfo = {
+            index: ap.list.index,
+            currentTime: ap.audio.currentTime,
+            paused: ap.paused
+        };
+        localStorage.setItem("playInfo", JSON.stringify(playInfo));
+    };
+
+    
+
+    window.onload = () => {
+        
+        const playInfo = JSON.parse(localStorage.getItem("playInfo"));
+        if (!playInfo) {
+            return;
+        }
+        
+        ap.list.switch(playInfo.index);
+        
+        setTimeout(() => {
+            
+            ap.seek(playInfo.currentTime);
+            
+            if (!playInfo.paused) {
+                ap.play()
+            }
+        }, 500);
+    };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container"
+        ]
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass)
+            }
+            
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            
+        }
+    }
+</script>
+<script>
+    document.addEventListener('pjax:complete', () => {
+        
+        window.Stack.init();
+    })
+</script>
+
+
+    
+    <script src=https://14kesu.github.io/letere-git.github-io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        
+        topbar.hide();
+    })
+</script>
+<script>
+    
+
+
+
+
+const live2d_path = 'https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.6/dist/';
+
+const cssPath = "https://14kesu.github.io/letere-git.github-io/waifu/waifu.css"
+const waifuTipsPath = "https://14kesu.github.io/letere-git.github-io/waifu/waifu-tips.json"
+
+
+
+
+function loadExternalResource(url, type) {
+  return new Promise((resolve, reject) => {
+    let tag;
+
+    if (type === 'css') {
+      tag = document.createElement('link');
+      tag.rel = 'stylesheet';
+      tag.href = url;
+    }
+    else if (type === 'js') {
+      tag = document.createElement('script');
+      tag.type = 'module';
+      tag.src = url;
+    }
+    if (tag) {
+      tag.onload = () => resolve(url);
+      tag.onerror = () => reject(url);
+      document.head.appendChild(tag);
+    }
+  });
+}
+
+(async () => {
+  
+  
+  
+
+  
+  
+  const OriginalImage = window.Image;
+  window.Image = function(...args) {
+    const img = new OriginalImage(...args);
+    img.crossOrigin = "anonymous";
+    return img;
+  };
+  window.Image.prototype = OriginalImage.prototype;
+  
+  
+  await Promise.all([
+    loadExternalResource(cssPath, 'css'),
+    loadExternalResource(live2d_path + 'waifu-tips.js', 'js')
+  ]);
+  
+  
+  initWidget({
+    waifuPath: waifuTipsPath,
+    
+    cubism2Path: live2d_path + 'live2d.min.js',
+    cubism5Path: 'https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js',
+    tools: ['hitokoto', 'asteroids', 'switch-model', 'switch-texture', 'photo', 'info', 'quit'],
+    logLevel: 'warn',
+    drag: false,
+  });
+})();
+
+console.log(`\n%cLive2D%cWidget%c\n`, 'padding: 8px; background: #cd3e45; font-weight: bold; font-size: large; color: white;', 'padding: 8px; background: #ff5450; font-size: large; color: #eee;', '');
+
+
+
+</script>
+
+
+    </body>
+</html>

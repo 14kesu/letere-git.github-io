@@ -7,7 +7,162 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>水元素长弓</copyright>
-        <lastBuildDate>Thu, 01 Jan 2026 19:39:11 +0800</lastBuildDate><atom:link href="https://14kesu.github.io/letere-git.github-io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 03 Jan 2026 21:21:31 +0800</lastBuildDate><atom:link href="https://14kesu.github.io/letere-git.github-io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>基于unity开发的简易任务列表</title>
+        <link>https://14kesu.github.io/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/</link>
+        <pubDate>Sat, 03 Jan 2026 21:21:31 +0800</pubDate>
+        
+        <guid>https://14kesu.github.io/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/</guid>
+        <description>&lt;img src="https://14kesu.github.io/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/cover.png" alt="Featured image of post 基于unity开发的简易任务列表" /&gt;&lt;h1 id=&#34;基于unity开发的简易任务列表&#34;&gt;基于unity开发的简易任务列表
+&lt;/h1&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;这是我在系统性学完c#基础与核心之后，完全由自己构思，编写的作品。其中的很多内容是较为劣质低效的，而且有很多不需要的步骤。同时因为是对自己基础的一次检验，有许多不必要的语法和方式被故意使用。所以不建议当作正常的学习参考。&lt;/p&gt;
+&lt;h2 id=&#34;前期构建&#34;&gt;前期构建
+&lt;/h2&gt;&lt;h3 id=&#34;scriptableobjectso&#34;&gt;ScriptableObject（SO）
+&lt;/h3&gt;&lt;p&gt;先简单说一下SO是什么和SO的使用场景&lt;/p&gt;
+&lt;p&gt;ScriptableObject 是 Unity 特有的可序列化资产，数据存储在项目面板（Assets 文件夹）中，独立于场景对象，支持可视化编辑、多脚本共享引用，且非运行时实例化（内存占用低），这些特性决定了它的适用边界。&lt;/p&gt;
+&lt;h4 id=&#34;当你需要在多个脚本跨场景跨对象中共享通用数据且数据无需永久保存游戏重启后恢复默认值时so-是首选&#34;&gt;当你需要在多个脚本（跨场景、跨对象）中共享通用数据，且数据无需永久保存（游戏重启后恢复默认值）时，SO 是首选。
+&lt;/h4&gt;&lt;p&gt;典型用途：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;游戏全局配置：玩家初始血量 / 蓝量、移动速度、重力参数、音效音量默认值、关卡解锁规则；&lt;/li&gt;
+&lt;li&gt;全局状态标识：当前游戏难度（简单 / 中等 / 困难）、是否开启音效 / 震动、当前关卡编号；&lt;/li&gt;
+&lt;li&gt;通用常量集合：层掩码（LayerMask）、标签（Tag）、UI 显示层级、技能冷却时间常量等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;为什么不用其他方案：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;替代单例：避免单例的生命周期混乱、难以调试、不易扩展的问题，SO 可直接在 Inspector 中修改参数，无需编译代码；&lt;/li&gt;
+&lt;li&gt;替代普通类：普通类无法可视化编辑，修改参数需改代码重新编译，SO 可直观调整数值，实时预览效果；&lt;/li&gt;
+&lt;li&gt;替代 PlayerPrefs：PlayerPrefs 用于本地持久化存储，不适合核心配置（易被篡改），SO 仅存储默认配置，更安全高效。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;当项目中有大量同类对象道具敌人技能等且每个对象有固定属性集合时用-so-做模板配置可实现-一处定义多处复用大幅提升开发效率&#34;&gt;当项目中有大量同类对象（道具、敌人、技能等），且每个对象有固定属性集合时，用 SO 做模板配置，可实现 “一处定义、多处复用”，大幅提升开发效率。
+&lt;/h4&gt;&lt;p&gt;典型用途：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;道具配置：每个道具对应一个 SO，存储道具名称、图标、描述、价格、效果（回血 / 加攻击）、使用次数、预制体引用；&lt;/li&gt;
+&lt;li&gt;敌人模板：小兵 / 精英 / BOSS 的 SO，存储血量、攻击、防御、移动速度、攻击范围、掉落道具列表、预制体；&lt;/li&gt;
+&lt;li&gt;技能模板：每个技能对应一个 SO，存储技能名称、冷却时间、消耗蓝量、伤害值、特效预制体、释放动画、命中判定规则；&lt;/li&gt;
+&lt;li&gt;关卡模板：每个关卡的 SO，存储敌人刷新点、刷新数量、通关条件（消灭所有敌人 / 到达终点）、背景音乐、关卡奖励。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;so-支持自定义-editor-脚本可打造可视化高易用性的编辑界面解决复杂配置的编辑痛点提升团队协作效率&#34;&gt;SO 支持自定义 Editor 脚本，可打造可视化、高易用性的编辑界面，解决复杂配置的编辑痛点，提升团队协作效率。
+&lt;/h4&gt;&lt;p&gt;典型用途：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自定义复杂配置界面：比如技能的多段伤害、特效触发时机、条件判定（如 “血量低于 30% 时伤害翻倍”），通过自定义 Editor 将杂乱的参数整理为折叠面板、下拉选择、预览窗口，避免默认 Inspector 的混乱；
+批量数据管理：创建 “总表 SO”（如《道具总表》），引用所有道具 SO，方便编辑器下批量查找、筛选、导出（如导出 Excel 配置表）；&lt;/li&gt;
+&lt;li&gt;工具配置载体：将编辑器工具的参数（如批量烘焙光照的参数、资源打包的路径 / 规则、场景批量导出的配置）存储在 SO 中，方便保存和复用工具配置，无需每次打开工具重新设置。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;场景中的游戏对象与场景强绑定删除场景则对象消失多场景共用需重复复制而-so-独立于场景可有效降低场景耦合&#34;&gt;场景中的游戏对象与场景强绑定（删除场景则对象消失，多场景共用需重复复制），而 SO 独立于场景，可有效降低场景耦合。
+&lt;/h4&gt;&lt;p&gt;典型用途：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;跨场景共用数据：如背景音乐列表、UI 文本配置（游戏标题、按钮文字）、通用材质库，无需在每个场景中创建对应的管理对象，只需在脚本中引用同一个 SO 即可；
+版本控制友好：SO 作为单独的文件存储，相比场景文件（.unity），其修改冲突更容易解决（场景文件包含大量对象信息，冲突后难以合并）；&lt;/li&gt;
+&lt;li&gt;资源解耦：将对象的 “数据” 与 “逻辑 / 视图” 分离，比如敌人的 “属性数据” 存在 SO 中，“移动 / 攻击逻辑” 存在脚本中，“模型 / 动画” 存在预制体中，便于单独修改数据或逻辑，互不影响。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;在游戏运行时需要在多个脚本间实时共享动态修改的数据且方便编辑器调试时实时查看--修改数值so-是理想载体&#34;&gt;在游戏运行时，需要在多个脚本间实时共享动态修改的数据，且方便编辑器调试时实时查看 / 修改数值，SO 是理想载体。
+&lt;/h4&gt;&lt;p&gt;典型用途：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实时状态共享：当前玩家金币数量、已收集道具列表、任务完成进度，多个脚本（玩家控制器、商店 UI、任务面板）可直接读取 / 修改 SO 中的数据，无需通过消息传递（如 EventSystem）间接通信；&lt;/li&gt;
+&lt;li&gt;调试便捷性：在编辑器运行模式下，可直接在 Inspector 中修改 SO 的参数（如临时调高玩家血量、修改技能伤害），实时看到游戏效果，无需停止运行修改代码，大幅提升调试效率。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;so是否适用于任务系统&#34;&gt;SO是否适用于任务系统
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;任务信息中的固定不变 / 可复用的静态数据，是 SO 的核心适用场景，这部分数据完全可以存储在 SO 中。&lt;/li&gt;
+&lt;li&gt;任务信息的「动态运行时状态」：不适合直接存入 SO。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h6 id=&#34;适合的部分&#34;&gt;适合的部分
+&lt;/h6&gt;&lt;p&gt;这些数据是任务的「模板属性」，一旦定义后基本无需频繁修改，或修改后需全局生效：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;基础标识与描述：任务 ID、任务名称（如 “消灭 10 只野猪”）、任务描述文本、任务类型（主线 / 支线 / 日常 / 限时）、接取等级要求；&lt;/li&gt;
+&lt;li&gt;任务目标：目标类型（击杀 / 收集 / 护送 / 探索）、目标对象（野猪 SO / 草药 SO/NPC 预制体）、目标数量（10 只 / 5 个）、目标场景（新手村 / 森林副本）；&lt;/li&gt;
+&lt;li&gt;任务奖励：金币数量、经验值、道具列表（对应道具 SO 数组）、装备 SO、解锁内容（新关卡 / 新技能）；&lt;/li&gt;
+&lt;li&gt;接取与提交条件：接取 NPC（名称 / 预制体）、提交 NPC、前置任务 SO（需完成某任务才能接取）、特殊条件（如 “血量高于 50% 时接取”）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h6 id=&#34;不适合的部分&#34;&gt;不适合的部分
+&lt;/h6&gt;&lt;p&gt;这些数据是每个玩家 / 角色的专属状态，具有唯一性和临时性：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;任务进度：是否已接取、当前完成数量（如已消灭 3 只野猪）、是否达成完成条件、是否已提交；&lt;/li&gt;
+&lt;li&gt;玩家专属标记：接取任务的角色 ID、任务接取时间（日常任务重置用）、是否放弃过该任务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;核心代码&#34;&gt;核心代码
+&lt;/h4&gt;&lt;p&gt;在SO构建时，必须继承ScriptableObject类，且必须手动标注[CreateAssetMenu]特性。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c#&#34; data-lang=&#34;c#&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;System.Collections&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;System.Collections.Generic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;UnityEngine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;UnityEngine.UI&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;[CreateAssetMenu(fileName = &amp;#34;NewTaskDate&amp;#34;, menuName = &amp;#34;Task/TaskDate&amp;#34;)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;TaskDate&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ScriptableObject&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [Header(&amp;#34;基础信息&amp;#34;)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [SerializeField]&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;taskId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 任务唯一ID&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [SerializeField]&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;taskTitle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 任务标题&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [SerializeField]&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;taskLittleTitle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [SerializeField]&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;taskName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [SerializeField]&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;positionTxte&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [SerializeField]&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;describeText&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [SerializeField]&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Sprite&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;images&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;//奖励&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [SerializeField]&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TaskType&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;taskType&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [SerializeField]&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TaskDate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nextTask&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;na&#34;&gt;    [SerializeField]&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;isSecess&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;//不建议将胜利条件写在SO中&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TaskType&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;MainStoryline&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;BranchStoryline&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Task&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;CollectItem&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;   
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;KillEnemy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;     
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;TriggerTarget&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;Timing&lt;/span&gt;         
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;保存脚本后，我们就可以在面板中手动创建SO或者在脚本中动态创建。&lt;/p&gt;
+&lt;p&gt;注：因为我只制作了任务列表的内容，并未添加具体任务类型，所以索性将任务完成的判断条件扔到SO中，在正常游戏开发中不建议这么设计。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Markdown语法详解</title>
         <link>https://14kesu.github.io/letere-git.github-io/p/markdown%E8%AF%AD%E6%B3%95%E8%AF%A6%E8%A7%A3/</link>
         <pubDate>Thu, 01 Jan 2026 19:39:11 +0800</pubDate>
