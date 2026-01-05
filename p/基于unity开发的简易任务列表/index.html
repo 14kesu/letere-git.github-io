@@ -301,6 +301,7 @@
             <li><a href="#核心代码">核心代码</a></li>
           </ol>
         </li>
+        <li><a href="#任务列表ui构建">任务列表UI构建</a></li>
       </ol>
     </li>
   </ol>
@@ -478,6 +479,7 @@
 </span><span class="lnt">33
 </span><span class="lnt">34
 </span><span class="lnt">35
+</span><span class="lnt">36
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System.Collections</span><span class="p">;</span>
@@ -499,7 +501,8 @@
 </span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="n">Sprite</span><span class="p">[]</span> <span class="n">images</span><span class="p">;</span><span class="c1">//奖励</span>
 </span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="n">TaskType</span> <span class="n">taskType</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="n">TaskDate</span><span class="p">[]</span> <span class="n">nextTask</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="kt">bool</span> <span class="n">isSecess</span> <span class="p">=</span><span class="kc">false</span><span class="p">;</span><span class="c1">//不建议将胜利条件写在SO中</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="kt">bool</span> <span class="n">isSecess</span> <span class="p">=</span><span class="kc">false</span><span class="p">;</span><span class="c1">//不建议将胜利条件写在SO中</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">enum</span> <span class="n">TaskType</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
@@ -519,6 +522,11 @@
 </div>
 </div><p>保存脚本后，我们就可以在面板中手动创建SO或者在脚本中动态创建。</p>
 <p>注：因为我只制作了任务列表的内容，并未添加具体任务类型，所以索性将任务完成的判断条件扔到SO中，在正常游戏开发中不建议这么设计。</p>
+<p>稍微介绍一下 CreateAsset Menu中的参数，fileName的内容时创建SO的默认名字，menuName时右键创建的路径。</p>
+<h3 id="任务列表ui构建">任务列表UI构建
+</h3><p>我们已经可以将任务信息储存到了SO中，此时需要在unity中创建一个UI界面来表示我们的任务信息，这个UI界面必须要包括任务列表与任务细节。</p>
+<p>其中任务列表中应该先分出任务类型，如主线任务，支线任务。然后在分出具体的任务。而这个具体的任务，应该有任务名字，任务地点。</p>
+<p>至于任务细节，也应该有任务的名字，地点等，同时还需要详细的描述以及任务奖励的Image。</p>
 
 </section>
 
