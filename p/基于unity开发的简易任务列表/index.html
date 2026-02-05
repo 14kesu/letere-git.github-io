@@ -301,7 +301,16 @@
             <li><a href="#核心代码">核心代码</a></li>
           </ol>
         </li>
-        <li><a href="#任务列表ui构建">任务列表UI构建</a></li>
+        <li><a href="#任务列表ui构建">任务列表UI构建</a>
+          <ol>
+            <li><a href="#列表框的构建">列表框的构建</a></li>
+            <li><a href="#一级列表">一级列表</a></li>
+            <li><a href="#二级列表">二级列表</a></li>
+            <li><a href="#taskdescribe">TaskDescribe</a></li>
+          </ol>
+        </li>
+        <li><a href="#使用脚本将so与ui联系起来">使用脚本将SO与UI联系起来</a></li>
+        <li><a href="#列表状态的刷新">列表状态的刷新</a></li>
       </ol>
     </li>
   </ol>
@@ -527,7 +536,690 @@
 </h3><p>我们已经可以将任务信息储存到了SO中，此时需要在unity中创建一个UI界面来表示我们的任务信息，这个UI界面必须要包括任务列表与任务细节。</p>
 <p>其中任务列表中应该先分出任务类型，如主线任务，支线任务。然后在分出具体的任务。而这个具体的任务，应该有任务名字，任务地点。</p>
 <p>至于任务细节，也应该有任务的名字，地点等，同时还需要详细的描述以及任务奖励的Image。</p>
-
+<h4 id="列表框的构建">列表框的构建
+</h4><p>列表的构建选取了UI系统中的Scroll View，但是由于Scroll View是横向和纵向的，而任务列表中是纵向的，所以要删除横向的Scrollbar Horizontal，同时给Viewport下的Content新增Vertical Layout Group组件，此时Content的子物体会以列表的形式自动排序，但是排序方式可能会略显奇怪，不是我们需要的精密排列。可以调整Vertical Layout Group中的Spacing的值或者Content Size Fitter的选项来达到想要的效果。</p>
+<h4 id="一级列表">一级列表
+</h4><p>一级列表代表了任务系统中的主线任务，支线任务这种任务类型的分类。</p>
+<p>当不存在支线任务或主线任务是，我们不许要将其一级列表展示出来，而且一级列表之间的复用性很高，所以直接创建一个通用的一级列表预制体，在需要的时候直接实例化即可。</p>
+<p>一级列表的功能应该是点击展开二级列表，再次点击收起二级列表，所以我们使用UI组件中的Toggle组件。相较于Botton的点击触发效果，Toggle的勾选与未勾选两种状态可以很好的的区分收起和展开的功能。同时为了美观，要删去Toggle自带的文字，将勾选框也改为列表的样式。</p>
+<p>在Toggle下的Background下再创建Text等组件，用于展现基本信息，根据实际情况修改即可。</p>
+<p>由于一级列表下存在二级列表，所以我们要仿照列表框中Content的方式，再一级列表下添加Content Size Fitter组件和Vertical Layout Group组件，用以排序二级列表。</p>
+<p>相同的操作可以做出多个不同任务类型的预制体，如主线预制体，支线预制体。</p>
+<h4 id="二级列表">二级列表
+</h4><p>二级列表一般表示大概任务内容，譬如任务名字，任务地点等等。与一级列表不同的是它在点击后的作用只有显示任务的详细内容。所以我们直接使用Botton而不是Toggle，因为Toggle的两种状态可能出现需要多次点击才会修改内容的情况。</p>
+<h4 id="taskdescribe">TaskDescribe
+</h4><p>任务详细内容UI根据自己喜好拼出即可。</p>
+<h3 id="使用脚本将so与ui联系起来">使用脚本将SO与UI联系起来
+</h3><p>我们的首要问题是将SO中的初始任务给分配到UI中。</p>
+<p>观察到我们SO中有写了任务完成后应该解锁的下一个任务的数组</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">    <span class="p">......</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span> <span class="n">TaskDate</span><span class="p">[]</span> <span class="n">nextTask</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">......</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们直接创建UIManager脚本，在TaskManager中创建一个数组来随时接受已解锁的任务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">UIManager</span> <span class="n">_instance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">UIManager</span> <span class="n">Instance</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">get</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">_instance</span> <span class="p">==</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_instance</span> <span class="p">=</span> <span class="n">FindObjectOfType</span><span class="p">&lt;</span><span class="n">UIManager</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">_instance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">      [SerializeField]</span> <span class="kd">public</span> <span class="n">TaskDate</span><span class="p">[]</span> <span class="n">allDates</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">......</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们会在遍历这个allDates数组的时候实例化一级列表和二级列表的预制体，同时要将一级列表放在前面创建的Scroll View下的content下，所以要提前引入所有一级的类型，二级列表预制体，以及content。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">    <span class="p">......</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">GameObject</span> <span class="n">MainLineMenu</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">GameObject</span> <span class="n">content</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">GameObject</span> <span class="n">seconedMenu</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">GameObject</span> <span class="n">otherMenu</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">......</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一个储存当前任务的List</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">    <span class="p">......</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">GameObject</span><span class="p">&gt;</span> <span class="n">FirstMenuGB</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">......</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们在写入这些变量后就可以着手写遍历与实例化列表了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">GameObject</span> <span class="n">newFirstMenu</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">mainNumber</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">branchNumber</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">InstantiateMenu</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">menu</span><span class="p">,</span><span class="kt">int</span> <span class="n">i</span> <span class="p">,</span><span class="k">ref</span> <span class="kt">int</span> <span class="n">number</span> <span class="p">,</span><span class="n">TaskDate</span> <span class="n">taskDate</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">number</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newFirstMenu</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">menu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newFirstMenu</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">content</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">FirstMenuGB</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">newFirstMenu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">GameObject</span> <span class="n">newSeconedMenu</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">seconedMenu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newSeconedMenu</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">newFirstMenu</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">GameObject</span> <span class="n">newSeconedMenu</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">seconedMenu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newSeconedMenu</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">newFirstMenu</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">number</span><span class="p">++;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">number</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">CreatMune</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">allDates</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">switch</span> <span class="p">(</span><span class="n">allDates</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">taskType</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="n">TaskDate</span><span class="p">.</span><span class="n">TaskType</span><span class="p">.</span><span class="n">MainStoryline</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">InstantiateMenu</span><span class="p">(</span><span class="n">MainLineMenu</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="k">ref</span> <span class="n">mainNumber</span><span class="p">,</span> <span class="n">allDates</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="n">TaskDate</span><span class="p">.</span><span class="n">TaskType</span><span class="p">.</span><span class="n">BranchStoryline</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">InstantiateMenu</span><span class="p">(</span><span class="n">otherMenu</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="k">ref</span> <span class="n">branchNumber</span><span class="p">,</span> <span class="n">allDates</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;已刷新列表&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样我们的脚本就基本具有了实例化其所持有的所有任务了。</p>
+<h3 id="列表状态的刷新">列表状态的刷新
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">TMP_Text</span> <span class="n">nameText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">TMP_Text</span> <span class="n">describeText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">GameObject</span> <span class="n">imageHolder</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">UpdateAllMenu</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="n">FirstMenuGB</span><span class="p">.</span><span class="n">Count</span> <span class="p">-</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span><span class="p">--)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="n">FirstMenuGB</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">!=</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Destroy</span><span class="p">(</span><span class="n">FirstMenuGB</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">FirstMenuGB</span><span class="p">.</span><span class="n">RemoveAt</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mainNumber</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">branchNumber</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">UpdatesTaskDescribe</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CreatMune</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">void</span> <span class="n">UpdatesTaskDescribe</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="n">imageHolder</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">childCount</span> <span class="p">-</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span><span class="p">--)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Transform</span> <span class="n">childImage</span> <span class="p">=</span> <span class="n">imageHolder</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Destroy</span><span class="p">(</span><span class="n">childImage</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">nameText</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">describeText</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>新建一个ItemEntity脚本，在这个脚本中我们将处理具体脚本的详细信息，也就是二级列表（任务本体）与任务详细描述。</p>
+<p>首先新建所需要的一些变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">TaskDate</span> <span class="n">currentTaskData</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">TMP_Text</span> <span class="n">TaskName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">TMP_Text</span> <span class="n">PositionName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">TMP_Text</span> <span class="n">taskTitle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">TMP_Text</span> <span class="n">taskLittleTitle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">private</span> <span class="n">TMP_Text</span> <span class="n">describeText</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后就是将UIManager中示例化的时候给预制体新增ItemEntity脚本并且将当前的SO赋值给ItemEntity中的currentTaskDaTa。
+修改UIManager 中的InstantiateMenu方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">InstantiateMenu</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">menu</span><span class="p">,</span><span class="kt">int</span> <span class="n">i</span> <span class="p">,</span><span class="k">ref</span> <span class="kt">int</span> <span class="n">number</span> <span class="p">,</span><span class="n">TaskDate</span> <span class="n">taskDate</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">number</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newFirstMenu</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">menu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newFirstMenu</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">content</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">FirstMenuGB</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">newFirstMenu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">GameObject</span> <span class="n">newSeconedMenu</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">seconedMenu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newSeconedMenu</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">newFirstMenu</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ItemEntity</span> <span class="n">itemEntity</span> <span class="p">=</span> <span class="n">newSeconedMenu</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">ItemEntity</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">itemEntity</span><span class="p">.</span><span class="n">currentTaskData</span> <span class="p">=</span> <span class="n">allDates</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">GameObject</span> <span class="n">newSeconedMenu</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">seconedMenu</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newSeconedMenu</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">newFirstMenu</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ItemEntity</span> <span class="n">itemEntity</span> <span class="p">=</span> <span class="n">newSeconedMenu</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">ItemEntity</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">itemEntity</span><span class="p">.</span><span class="n">currentTaskData</span> <span class="p">=</span> <span class="n">allDates</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">number</span><span class="p">++;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">number</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>赋值之后回到ItemEntity中，之后就可以得到的SO的信息放到每个变量中，以及达到选中当前任务显示此任务信息的功能</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">   <span class="kd">public</span> <span class="k">void</span> <span class="n">UpdateTaskDate</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="k">if</span> <span class="p">(</span><span class="n">currentTaskData</span> <span class="p">!=</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">       <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="n">TaskName</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">taskName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">           <span class="n">PositionName</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">positionTxte</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">           <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;更新&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">       <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">private</span> <span class="k">void</span> <span class="n">Update</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="k">if</span> <span class="p">(</span><span class="n">TaskName</span><span class="p">.</span><span class="n">text</span> <span class="p">!=</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">taskName</span><span class="p">&amp;&amp;</span><span class="n">PositionName</span><span class="p">.</span><span class="n">text</span> <span class="p">!=</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">positionTxte</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">       <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="n">UpdateTaskDate</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">       <span class="p">}</span>
+</span></span><span class="line"><span class="cl">       <span class="k">if</span><span class="p">(</span><span class="n">taskHolder</span> <span class="p">==</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">       <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="n">UpdateTaskDescribe</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">       <span class="p">}</span>
+</span></span><span class="line"><span class="cl">       <span class="n">GetNewTask</span><span class="p">();</span>   
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">private</span> <span class="k">void</span> <span class="n">UpdateTaskDescribe</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="n">taskHolder</span> <span class="p">=</span> <span class="n">GetComponentInParent</span><span class="p">&lt;</span><span class="n">TaskHolder</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">       <span class="n">taskHolder</span><span class="p">.</span><span class="n">taskTitle</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">taskTitle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">       <span class="n">taskHolder</span><span class="p">.</span><span class="n">taskLittleTitle</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">taskLittleTitle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="k">void</span> <span class="n">SelectTask</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="n">taskHolder</span><span class="p">.</span><span class="n">describeText</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">describeText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">       <span class="n">taskHolder</span><span class="p">.</span><span class="n">taskName</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">taskName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">       <span class="n">UpdateImage</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">private</span> <span class="k">void</span> <span class="n">UpdateImage</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="n">imageHolder</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">childCount</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span> <span class="n">i</span><span class="p">&gt;=</span><span class="m">0</span><span class="p">;</span><span class="n">i</span><span class="p">--)</span>
+</span></span><span class="line"><span class="cl">       <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="n">Transform</span> <span class="n">childImage</span> <span class="p">=</span> <span class="n">imageHolder</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">           <span class="n">Destroy</span><span class="p">(</span><span class="n">childImage</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">       <span class="p">}</span>
+</span></span><span class="line"><span class="cl">       
+</span></span><span class="line"><span class="cl">       <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="n">currentTaskData</span><span class="p">.</span><span class="n">images</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">       <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="n">GameObject</span> <span class="n">newImagePrefab</span> <span class="p">=</span>  <span class="n">Instantiate</span><span class="p">(</span><span class="n">imagePrefab</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">           <span class="n">newImagePrefab</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">imageHolder</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">           <span class="n">Image</span> <span class="n">image</span> <span class="p">=</span> <span class="n">newImagePrefab</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Image</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">           <span class="n">image</span><span class="p">.</span><span class="n">sprite</span> <span class="p">=</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">       <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">private</span> <span class="k">void</span> <span class="n">GetNewTask</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="k">if</span><span class="p">(</span><span class="n">currentTaskData</span><span class="p">.</span><span class="n">isSecess</span> <span class="p">==</span> <span class="kc">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">       <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">UIManager</span><span class="p">.</span><span class="n">_instance</span><span class="p">.</span><span class="n">allDates</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">           <span class="p">{</span>
+</span></span><span class="line"><span class="cl">               <span class="k">if</span><span class="p">(</span><span class="n">currentTaskData</span><span class="p">.</span><span class="n">taskId</span> <span class="p">==</span> <span class="n">UIManager</span><span class="p">.</span><span class="n">_instance</span><span class="p">.</span><span class="n">allDates</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">taskId</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">               <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                   <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">nextTask</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">                   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">UIManager</span><span class="p">.</span><span class="n">_instance</span><span class="p">.</span><span class="n">allDates</span> <span class="p">=</span> <span class="n">ScriptArrayTool</span><span class="p">.</span><span class="n">AddScript</span><span class="p">(</span><span class="n">UIManager</span><span class="p">.</span><span class="n">_instance</span><span class="p">.</span><span class="n">allDates</span><span class="p">,</span> <span class="n">currentTaskData</span><span class="p">.</span><span class="n">nextTask</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">                   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">UIManager</span><span class="p">.</span><span class="n">_instance</span><span class="p">.</span><span class="n">allDates</span> <span class="p">=</span> <span class="n">ScriptArrayTool</span><span class="p">.</span><span class="n">RemoveScriptByCondition</span><span class="p">(</span><span class="n">UIManager</span><span class="p">.</span><span class="n">_instance</span><span class="p">.</span><span class="n">allDates</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">s</span><span class="p">=&gt;</span><span class="n">s</span><span class="p">!=</span><span class="kc">null</span><span class="p">&amp;&amp;</span> <span class="n">s</span><span class="p">.</span><span class="n">taskId</span> <span class="p">==</span>  <span class="n">currentTaskData</span><span class="p">.</span><span class="n">taskId</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">               <span class="p">}</span>
+</span></span><span class="line"><span class="cl">           <span class="p">}</span>
+</span></span><span class="line"><span class="cl">           <span class="n">UIManager</span><span class="p">.</span><span class="n">_instance</span><span class="p">.</span><span class="n">UpdateAllMenu</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">           
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>外附一个关于数组的功能类</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">   <span class="kd">public</span> <span class="kd">static</span> <span class="k">class</span> <span class="nc">ScriptArrayTool</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// 给脚本数组添加单个脚本实例</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;typeparam name=&#34;T&#34;&gt;脚本类型（自定义普通类/MonoBehaviour类）&lt;/typeparam&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;param name=&#34;originalArray&#34;&gt;原脚本数组&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;param name=&#34;newScript&#34;&gt;新脚本实例&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;returns&gt;添加后的新脚本数组&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="kd">public</span> <span class="kd">static</span> <span class="n">T</span><span class="p">[]</span> <span class="n">AddScript</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">T</span><span class="p">[]</span> <span class="n">originalArray</span><span class="p">,</span> <span class="n">T</span> <span class="n">newScript</span><span class="p">)</span> <span class="k">where</span> <span class="n">T</span> <span class="p">:</span> <span class="k">class</span>
+</span></span><span class="line"><span class="cl">       <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="k">if</span> <span class="p">(</span><span class="n">originalArray</span> <span class="p">==</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">           <span class="p">{</span>
+</span></span><span class="line"><span class="cl">               <span class="k">return</span> <span class="k">new</span> <span class="n">T</span><span class="p">[]</span> <span class="p">{</span> <span class="n">newScript</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">           <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">           <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">scriptList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">originalArray</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">           <span class="k">if</span> <span class="p">(</span><span class="n">newScript</span> <span class="p">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="c1">// 避免添加null实例</span>
+</span></span><span class="line"><span class="cl">           <span class="p">{</span>
+</span></span><span class="line"><span class="cl">               <span class="n">scriptList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">newScript</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">           <span class="p">}</span>
+</span></span><span class="line"><span class="cl">           <span class="k">return</span> <span class="n">scriptList</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">       <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// 按自定义条件移除脚本数组中的元素</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;typeparam name=&#34;T&#34;&gt;脚本类型&lt;/typeparam&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;param name=&#34;originalArray&#34;&gt;原脚本数组&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;param name=&#34;condition&#34;&gt;移除条件（Lambda表达式）&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;returns&gt;移除后的新脚本数组&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="kd">public</span> <span class="kd">static</span> <span class="n">T</span><span class="p">[]</span> <span class="n">RemoveScriptByCondition</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">T</span><span class="p">[]</span> <span class="n">originalArray</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Predicate</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">condition</span><span class="p">)</span> <span class="k">where</span> <span class="n">T</span> <span class="p">:</span> <span class="k">class</span>
+</span></span><span class="line"><span class="cl">       <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="k">if</span> <span class="p">(</span><span class="n">originalArray</span> <span class="p">==</span> <span class="kc">null</span> <span class="p">||</span> <span class="n">originalArray</span><span class="p">.</span><span class="n">Length</span> <span class="p">==</span> <span class="m">0</span> <span class="p">||</span> <span class="n">condition</span> <span class="p">==</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">           <span class="p">{</span>
+</span></span><span class="line"><span class="cl">               <span class="k">return</span> <span class="n">originalArray</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">           <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">           <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">scriptList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">originalArray</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">           <span class="n">scriptList</span><span class="p">.</span><span class="n">RemoveAll</span><span class="p">(</span><span class="n">condition</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">           <span class="k">return</span> <span class="n">scriptList</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">       <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// 按引用移除脚本数组中的单个脚本实例</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;typeparam name=&#34;T&#34;&gt;脚本类型&lt;/typeparam&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;param name=&#34;originalArray&#34;&gt;原脚本数组&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;param name=&#34;targetScript&#34;&gt;目标脚本实例&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="cs">/// &lt;returns&gt;移除后的新脚本数组&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl">       <span class="kd">public</span> <span class="kd">static</span> <span class="n">T</span><span class="p">[]</span> <span class="n">RemoveScriptByReference</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">T</span><span class="p">[]</span> <span class="n">originalArray</span><span class="p">,</span> <span class="n">T</span> <span class="n">targetScript</span><span class="p">)</span> <span class="k">where</span> <span class="n">T</span> <span class="p">:</span> <span class="k">class</span>
+</span></span><span class="line"><span class="cl">       <span class="p">{</span>
+</span></span><span class="line"><span class="cl">           <span class="k">if</span> <span class="p">(</span><span class="n">originalArray</span> <span class="p">==</span> <span class="kc">null</span> <span class="p">||</span> <span class="n">originalArray</span><span class="p">.</span><span class="n">Length</span> <span class="p">==</span> <span class="m">0</span> <span class="p">||</span> <span class="n">targetScript</span> <span class="p">==</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">           <span class="p">{</span>
+</span></span><span class="line"><span class="cl">               <span class="k">return</span> <span class="n">originalArray</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">           <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">           <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">scriptList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;(</span><span class="n">originalArray</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">           <span class="n">scriptList</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">targetScript</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">           <span class="k">return</span> <span class="n">scriptList</span><span class="p">.</span><span class="n">ToArray</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">       <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以及一个TaskHolder脚本和TaskManager脚本来方便扩展</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">TaskHolder</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span>  <span class="n">TMP_Text</span> <span class="n">taskTitle</span><span class="p">;</span> <span class="c1">// 任务标题</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span>  <span class="n">TMP_Text</span> <span class="n">taskLittleTitle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span>  <span class="n">TMP_Text</span> <span class="n">taskName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span>  <span class="n">TMP_Text</span> <span class="n">describeText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="kd">public</span>  <span class="n">Sprite</span><span class="p">[]</span> <span class="n">images</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">TaskDate</span> <span class="n">taskDate</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">GameObject</span> <span class="n">taskName</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="n">Find</span><span class="p">(</span><span class="s">&#34;Name Text&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">GameObject</span> <span class="n">describeText</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="n">Find</span><span class="p">(</span><span class="s">&#34;DescribeText&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">taskName</span> <span class="p">=</span> <span class="n">taskName</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">TMP_Text</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">describeText</span> <span class="p">=</span> <span class="n">describeText</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">TMP_Text</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">TaskManager</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">TaskDate</span><span class="p">[]</span> <span class="n">nowTaskDates</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
 </section>
 
 
