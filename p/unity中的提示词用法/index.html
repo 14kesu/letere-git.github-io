@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Unity AI 提示词实战：5种主流写法（附可直接复制模板） 在Unity开发中，合理运用AI生成代码可显著提升开发效率，但实际应用中常出现代码风格混乱、不符合项目规范、逻辑存在漏洞、需大量返工等问题。\n除基础的Zero-shot（零样本）和Few-shot（少样本）写法外，本文整理了Unity开发中5种实用且常用的AI提示词写法，每种写法均包含核心思想、适用场景、实战示例、核心优势及相关注意事项，文末附上可直接复制的通用模板，便于实际应用。\n1. Role-prompt 角色设定提示词（人设法） 核心思想 不提供任何示例代码，先为AI设定具体、专业的身份及明确的行为准则，使AI以资深Unity开发者的视角生成代码。\n适用场景 复杂系统架构设计（状态机、对象池、事件系统等）\n对代码质量、可维护性要求较高的核心模块开发\n团队协作中需统一专业代码写法的场景\n实战示例 1 2 3 4 5 6 7 8 9 你是拥有10年经验的资深Unity手游客户端开发工程师，精通C#、UGUI、Addressables、DOTween。 写代码必须严格遵守以下规范： 1. 面向对象设计，低耦合高内聚 2. 所有可配置参数公开并添加[Header]和[Tooltip]特性 3. 关键逻辑添加清晰注释，避免冗余内容 4. 优先使用Unity官方推荐的最佳实践 5. 不使用过时的API（如弃用的GUI系统） 现在帮我设计一个可扩展的玩家状态机架构，包含待机、移动、攻击、死亡四种基础状态。 核心优势 无需准备示例代码，上手便捷\nAI可自动采用专业Unity代码写法，规避新手常见错误\n生成代码结构合理，可扩展性与可维护性较强\n注意事项 身份设定需具体，避免过于宽泛（如避免仅设定为“程序员”，应明确为“Unity手游客户端开发工程师”）\n设定身份的同时需明确代码规范，明确告知AI禁止的写法（如“不能使用全局静态变量”）\n可根据实际需求，添加“优先使用XX插件”“遵循XX团队规范”等个性化要求\n2. 结构化约束提示词（规则约束法） 核心思想 不依赖示例代码，通过逐条列出硬性规则，明确代码的格式、写法、功能边界及输出要求，确保代码标准化。\n适用场景 需严格统一代码格式与命名规范的场景\n功能明确、不允许AI自由发挥的工具类脚本开发\n团队多人协作，需实现代码标准化输出的场景\n实战示例 1 2 3 4 5 6 7 8 9 10 严格按照以下要求写Unity C#脚本： 1. 脚本名：EnemyPatrol 2. 必须继承自MonoBehaviour 3. 公开可调节参数：巡逻速度、巡逻点数组、检测玩家距离 4. 私有变量使用驼峰命名法，前缀加下划线（如_enemyRb） 5. 函数拆分清晰，每个函数仅实现单一功能 6. 添加必要的空值判断，避免空引用异常 7. 仅实现巡逻和检测玩家功能，不包含攻击逻辑 写一个Unity 3D敌人巡逻AI脚本。 核心优势 无需准备Few-shot示例，节省大量Token\n">
 <title>Unity中的提示词用法</title>
 
 <link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/unity%E4%B8%AD%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%94%A8%E6%B3%95/'>
 
 <link rel="stylesheet" href="/letere-git.github-io/scss/style.min.92e7c2d2e73a6e795d6d2e40cd5b906f03cf228e9bc8b3f0f9c3deaf0aea3954.css"><meta property='og:title' content="Unity中的提示词用法">
-<meta property='og:description' content="">
+<meta property='og:description' content="Unity AI 提示词实战：5种主流写法（附可直接复制模板） 在Unity开发中，合理运用AI生成代码可显著提升开发效率，但实际应用中常出现代码风格混乱、不符合项目规范、逻辑存在漏洞、需大量返工等问题。\n除基础的Zero-shot（零样本）和Few-shot（少样本）写法外，本文整理了Unity开发中5种实用且常用的AI提示词写法，每种写法均包含核心思想、适用场景、实战示例、核心优势及相关注意事项，文末附上可直接复制的通用模板，便于实际应用。\n1. Role-prompt 角色设定提示词（人设法） 核心思想 不提供任何示例代码，先为AI设定具体、专业的身份及明确的行为准则，使AI以资深Unity开发者的视角生成代码。\n适用场景 复杂系统架构设计（状态机、对象池、事件系统等）\n对代码质量、可维护性要求较高的核心模块开发\n团队协作中需统一专业代码写法的场景\n实战示例 1 2 3 4 5 6 7 8 9 你是拥有10年经验的资深Unity手游客户端开发工程师，精通C#、UGUI、Addressables、DOTween。 写代码必须严格遵守以下规范： 1. 面向对象设计，低耦合高内聚 2. 所有可配置参数公开并添加[Header]和[Tooltip]特性 3. 关键逻辑添加清晰注释，避免冗余内容 4. 优先使用Unity官方推荐的最佳实践 5. 不使用过时的API（如弃用的GUI系统） 现在帮我设计一个可扩展的玩家状态机架构，包含待机、移动、攻击、死亡四种基础状态。 核心优势 无需准备示例代码，上手便捷\nAI可自动采用专业Unity代码写法，规避新手常见错误\n生成代码结构合理，可扩展性与可维护性较强\n注意事项 身份设定需具体，避免过于宽泛（如避免仅设定为“程序员”，应明确为“Unity手游客户端开发工程师”）\n设定身份的同时需明确代码规范，明确告知AI禁止的写法（如“不能使用全局静态变量”）\n可根据实际需求，添加“优先使用XX插件”“遵循XX团队规范”等个性化要求\n2. 结构化约束提示词（规则约束法） 核心思想 不依赖示例代码，通过逐条列出硬性规则，明确代码的格式、写法、功能边界及输出要求，确保代码标准化。\n适用场景 需严格统一代码格式与命名规范的场景\n功能明确、不允许AI自由发挥的工具类脚本开发\n团队多人协作，需实现代码标准化输出的场景\n实战示例 1 2 3 4 5 6 7 8 9 10 严格按照以下要求写Unity C#脚本： 1. 脚本名：EnemyPatrol 2. 必须继承自MonoBehaviour 3. 公开可调节参数：巡逻速度、巡逻点数组、检测玩家距离 4. 私有变量使用驼峰命名法，前缀加下划线（如_enemyRb） 5. 函数拆分清晰，每个函数仅实现单一功能 6. 添加必要的空值判断，避免空引用异常 7. 仅实现巡逻和检测玩家功能，不包含攻击逻辑 写一个Unity 3D敌人巡逻AI脚本。 核心优势 无需准备Few-shot示例，节省大量Token\n">
 <meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/unity%E4%B8%AD%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%94%A8%E6%B3%95/'>
 <meta property='og:site_name' content='水元素长弓'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-05-15T22:10:42&#43;08:00'/><meta property='article:modified_time' content='2026-05-15T22:10:42&#43;08:00'/>
 <meta name="twitter:title" content="Unity中的提示词用法">
-<meta name="twitter:description" content="">
+<meta name="twitter:description" content="Unity AI 提示词实战：5种主流写法（附可直接复制模板） 在Unity开发中，合理运用AI生成代码可显著提升开发效率，但实际应用中常出现代码风格混乱、不符合项目规范、逻辑存在漏洞、需大量返工等问题。\n除基础的Zero-shot（零样本）和Few-shot（少样本）写法外，本文整理了Unity开发中5种实用且常用的AI提示词写法，每种写法均包含核心思想、适用场景、实战示例、核心优势及相关注意事项，文末附上可直接复制的通用模板，便于实际应用。\n1. Role-prompt 角色设定提示词（人设法） 核心思想 不提供任何示例代码，先为AI设定具体、专业的身份及明确的行为准则，使AI以资深Unity开发者的视角生成代码。\n适用场景 复杂系统架构设计（状态机、对象池、事件系统等）\n对代码质量、可维护性要求较高的核心模块开发\n团队协作中需统一专业代码写法的场景\n实战示例 1 2 3 4 5 6 7 8 9 你是拥有10年经验的资深Unity手游客户端开发工程师，精通C#、UGUI、Addressables、DOTween。 写代码必须严格遵守以下规范： 1. 面向对象设计，低耦合高内聚 2. 所有可配置参数公开并添加[Header]和[Tooltip]特性 3. 关键逻辑添加清晰注释，避免冗余内容 4. 优先使用Unity官方推荐的最佳实践 5. 不使用过时的API（如弃用的GUI系统） 现在帮我设计一个可扩展的玩家状态机架构，包含待机、移动、攻击、死亡四种基础状态。 核心优势 无需准备示例代码，上手便捷\nAI可自动采用专业Unity代码写法，规避新手常见错误\n生成代码结构合理，可扩展性与可维护性较强\n注意事项 身份设定需具体，避免过于宽泛（如避免仅设定为“程序员”，应明确为“Unity手游客户端开发工程师”）\n设定身份的同时需明确代码规范，明确告知AI禁止的写法（如“不能使用全局静态变量”）\n可根据实际需求，添加“优先使用XX插件”“遵循XX团队规范”等个性化要求\n2. 结构化约束提示词（规则约束法） 核心思想 不依赖示例代码，通过逐条列出硬性规则，明确代码的格式、写法、功能边界及输出要求，确保代码标准化。\n适用场景 需严格统一代码格式与命名规范的场景\n功能明确、不允许AI自由发挥的工具类脚本开发\n团队多人协作，需实现代码标准化输出的场景\n实战示例 1 2 3 4 5 6 7 8 9 10 严格按照以下要求写Unity C#脚本： 1. 脚本名：EnemyPatrol 2. 必须继承自MonoBehaviour 3. 公开可调节参数：巡逻速度、巡逻点数组、检测玩家距离 4. 私有变量使用驼峰命名法，前缀加下划线（如_enemyRb） 5. 函数拆分清晰，每个函数仅实现单一功能 6. 添加必要的空值判断，避免空引用异常 7. 仅实现巡逻和检测玩家功能，不包含攻击逻辑 写一个Unity 3D敌人巡逻AI脚本。 核心优势 无需准备Few-shot示例，节省大量Token\n">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -264,7 +264,93 @@
     </ol>
 </aside>
 
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#1-role-prompt-角色设定提示词人设法">1. Role-prompt 角色设定提示词（人设法）</a>
+      <ol>
+        <li><a href="#核心思想">核心思想</a></li>
+        <li><a href="#适用场景">适用场景</a></li>
+        <li><a href="#实战示例">实战示例</a></li>
+        <li><a href="#核心优势">核心优势</a></li>
+        <li><a href="#注意事项">注意事项</a></li>
+      </ol>
+    </li>
+    <li><a href="#2-结构化约束提示词规则约束法">2. 结构化约束提示词（规则约束法）</a>
+      <ol>
+        <li><a href="#核心思想-1">核心思想</a></li>
+        <li><a href="#适用场景-1">适用场景</a></li>
+        <li><a href="#实战示例-1">实战示例</a></li>
+        <li><a href="#核心优势-1">核心优势</a></li>
+        <li><a href="#注意事项-1">注意事项</a></li>
+      </ol>
+    </li>
+    <li><a href="#3-cot-思维链提示词chain-of-thought">3. CoT 思维链提示词（Chain of Thought）</a>
+      <ol>
+        <li><a href="#核心思想-2">核心思想</a></li>
+        <li><a href="#适用场景-2">适用场景</a></li>
+        <li><a href="#实战示例-2">实战示例</a></li>
+        <li><a href="#核心优势-2">核心优势</a></li>
+        <li><a href="#注意事项-2">注意事项</a></li>
+      </ol>
+    </li>
+    <li><a href="#4-模板仿写提示词one-shot--单样本">4. 模板仿写提示词（One-shot / 单样本）</a>
+      <ol>
+        <li><a href="#核心思想-3">核心思想</a></li>
+        <li><a href="#适用场景-3">适用场景</a></li>
+        <li><a href="#实战示例-3">实战示例</a></li>
+        <li><a href="#核心优势-3">核心优势</a></li>
+        <li><a href="#注意事项-3">注意事项</a></li>
+      </ol>
+    </li>
+    <li><a href="#5-分层任务提示词拆解任务法">5. 分层任务提示词（拆解任务法）</a>
+      <ol>
+        <li><a href="#核心思想-4">核心思想</a></li>
+        <li><a href="#适用场景-4">适用场景</a></li>
+        <li><a href="#实战示例-4">实战示例</a></li>
+        <li><a href="#核心优势-4">核心优势</a></li>
+        <li><a href="#注意事项-4">注意事项</a></li>
+      </ol>
+    </li>
+    <li><a href="#汇总unity-ai-提示词六大流派对比">汇总：Unity AI 提示词六大流派对比</a></li>
+    <li><a href="#附录可直接复制的通用提示词模板">附录：可直接复制的通用提示词模板</a>
+      <ol>
+        <li><a href="#1-角色设定模板">1. 角色设定模板</a></li>
+        <li><a href="#2-结构化约束模板">2. 结构化约束模板</a></li>
+        <li><a href="#3-思维链模板">3. 思维链模板</a></li>
+        <li><a href="#4-单样本仿写模板">4. 单样本仿写模板</a></li>
+        <li><a href="#5-分层任务模板">5. 分层任务模板</a></li>
+      </ol>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
             <main class="main full-width">
     <article class="main-article">
@@ -313,7 +399,639 @@
     <section class="article-content">
     
     
-    
+    <h1 id="unity-ai-提示词实战5种主流写法附可直接复制模板">Unity AI 提示词实战：5种主流写法（附可直接复制模板）
+</h1><p>在Unity开发中，合理运用AI生成代码可显著提升开发效率，但实际应用中常出现代码风格混乱、不符合项目规范、逻辑存在漏洞、需大量返工等问题。</p>
+<p>除基础的Zero-shot（零样本）和Few-shot（少样本）写法外，本文整理了Unity开发中5种实用且常用的AI提示词写法，每种写法均包含核心思想、适用场景、实战示例、核心优势及相关注意事项，文末附上可直接复制的通用模板，便于实际应用。</p>
+<hr>
+<h2 id="1-role-prompt-角色设定提示词人设法">1. Role-prompt 角色设定提示词（人设法）
+</h2><h3 id="核心思想">核心思想
+</h3><p>不提供任何示例代码，先为AI设定具体、专业的身份及明确的行为准则，使AI以资深Unity开发者的视角生成代码。</p>
+<h3 id="适用场景">适用场景
+</h3><ul>
+<li>
+<p>复杂系统架构设计（状态机、对象池、事件系统等）</p>
+</li>
+<li>
+<p>对代码质量、可维护性要求较高的核心模块开发</p>
+</li>
+<li>
+<p>团队协作中需统一专业代码写法的场景</p>
+</li>
+</ul>
+<h3 id="实战示例">实战示例
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">你是拥有10年经验的资深Unity手游客户端开发工程师，精通C#、UGUI、Addressables、DOTween。
+</span></span><span class="line"><span class="cl">写代码必须严格遵守以下规范：
+</span></span><span class="line"><span class="cl">1. 面向对象设计，低耦合高内聚
+</span></span><span class="line"><span class="cl">2. 所有可配置参数公开并添加[Header]和[Tooltip]特性
+</span></span><span class="line"><span class="cl">3. 关键逻辑添加清晰注释，避免冗余内容
+</span></span><span class="line"><span class="cl">4. 优先使用Unity官方推荐的最佳实践
+</span></span><span class="line"><span class="cl">5. 不使用过时的API（如弃用的GUI系统）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">现在帮我设计一个可扩展的玩家状态机架构，包含待机、移动、攻击、死亡四种基础状态。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="核心优势">核心优势
+</h3><ul>
+<li>
+<p>无需准备示例代码，上手便捷</p>
+</li>
+<li>
+<p>AI可自动采用专业Unity代码写法，规避新手常见错误</p>
+</li>
+<li>
+<p>生成代码结构合理，可扩展性与可维护性较强</p>
+</li>
+</ul>
+<h3 id="注意事项">注意事项
+</h3><ul>
+<li>
+<p>身份设定需具体，避免过于宽泛（如避免仅设定为“程序员”，应明确为“Unity手游客户端开发工程师”）</p>
+</li>
+<li>
+<p>设定身份的同时需明确代码规范，明确告知AI禁止的写法（如“不能使用全局静态变量”）</p>
+</li>
+<li>
+<p>可根据实际需求，添加“优先使用XX插件”“遵循XX团队规范”等个性化要求</p>
+</li>
+</ul>
+<hr>
+<h2 id="2-结构化约束提示词规则约束法">2. 结构化约束提示词（规则约束法）
+</h2><h3 id="核心思想-1">核心思想
+</h3><p>不依赖示例代码，通过逐条列出硬性规则，明确代码的格式、写法、功能边界及输出要求，确保代码标准化。</p>
+<h3 id="适用场景-1">适用场景
+</h3><ul>
+<li>
+<p>需严格统一代码格式与命名规范的场景</p>
+</li>
+<li>
+<p>功能明确、不允许AI自由发挥的工具类脚本开发</p>
+</li>
+<li>
+<p>团队多人协作，需实现代码标准化输出的场景</p>
+</li>
+</ul>
+<h3 id="实战示例-1">实战示例
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">严格按照以下要求写Unity C#脚本：
+</span></span><span class="line"><span class="cl">1. 脚本名：EnemyPatrol
+</span></span><span class="line"><span class="cl">2. 必须继承自MonoBehaviour
+</span></span><span class="line"><span class="cl">3. 公开可调节参数：巡逻速度、巡逻点数组、检测玩家距离
+</span></span><span class="line"><span class="cl">4. 私有变量使用驼峰命名法，前缀加下划线（如_enemyRb）
+</span></span><span class="line"><span class="cl">5. 函数拆分清晰，每个函数仅实现单一功能
+</span></span><span class="line"><span class="cl">6. 添加必要的空值判断，避免空引用异常
+</span></span><span class="line"><span class="cl">7. 仅实现巡逻和检测玩家功能，不包含攻击逻辑
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">写一个Unity 3D敌人巡逻AI脚本。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="核心优势-1">核心优势
+</h3><ul>
+<li>
+<p>无需准备Few-shot示例，节省大量Token</p>
+</li>
+<li>
+<p>代码输出高度标准化，无需后期调整格式</p>
+</li>
+<li>
+<p>可有效限制AI自由发挥，避免生成无关代码</p>
+</li>
+</ul>
+<h3 id="注意事项-1">注意事项
+</h3><ul>
+<li>
+<p>规则数量控制在10条以内，避免规则过多导致AI混乱或遗漏</p>
+</li>
+<li>
+<p>规则表述需具体明确，避免模糊化描述（如避免“写得规范一些”等表述）</p>
+</li>
+<li>
+<p>可明确禁止特定写法（如“不使用协程”“不使用单例”）</p>
+</li>
+</ul>
+<hr>
+<h2 id="3-cot-思维链提示词chain-of-thought">3. CoT 思维链提示词（Chain of Thought）
+</h2><h3 id="核心思想-2">核心思想
+</h3><p>强制AI先输出思考过程与实现步骤，再生成最终代码，将隐性逻辑显性化，减少代码逻辑漏洞与错误。</p>
+<h3 id="适用场景-2">适用场景
+</h3><ul>
+<li>
+<p>复杂游戏逻辑开发（战斗计算、掉落规则、关卡生成等）</p>
+</li>
+<li>
+<p>算法相关功能开发（寻路、碰撞检测、AI行为树等）</p>
+</li>
+<li>
+<p>边界条件复杂、易出现逻辑错误的场景</p>
+</li>
+</ul>
+<h3 id="实战示例-2">实战示例
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">请先逐步分析实现逻辑，列出详细的实现步骤，再编写最终的C#代码。
+</span></span><span class="line"><span class="cl">需求：实现一个Unity 2D平台游戏的玩家跳跃功能。
+</span></span><span class="line"><span class="cl">思考步骤要求：
+</span></span><span class="line"><span class="cl">1. 分析跳跃功能所需组件（刚体、碰撞器等）
+</span></span><span class="line"><span class="cl">2. 列出跳跃完整流程（按下跳跃键→检测是否在地面→施加向上的力）
+</span></span><span class="line"><span class="cl">3. 说明地面检测的实现方式
+</span></span><span class="line"><span class="cl">4. 说明多段跳的处理方式
+</span></span><span class="line"><span class="cl">5. 说明跳跃过程中移动的处理方式
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">按照以上步骤思考，然后写出完整的代码。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="核心优势-2">核心优势
+</h3><ul>
+<li>
+<p>大幅减少复杂逻辑的错误与漏洞</p>
+</li>
+<li>
+<p>可清晰查看AI思考过程，便于排查问题</p>
+</li>
+<li>
+<p>生成代码逻辑严谨，边界条件处理完善</p>
+</li>
+</ul>
+<h3 id="注意事项-2">注意事项
+</h3><ul>
+<li>
+<p>明确指定AI的思考步骤与方向，避免AI自由思考导致逻辑偏差</p>
+</li>
+<li>
+<p>可要求AI先列出可能遇到的问题及对应解决方案</p>
+</li>
+<li>
+<p>对于极复杂的逻辑，可要求AI分阶段输出思考过程与代码</p>
+</li>
+</ul>
+<hr>
+<h2 id="4-模板仿写提示词one-shot--单样本">4. 模板仿写提示词（One-shot / 单样本）
+</h2><h3 id="核心思想-3">核心思想
+</h3><p>提供1个标准样板代码，让AI严格模仿样板的结构、命名、风格及注释格式，生成新的代码。该方法是Unity开发中应用广泛、性价比较高的提示词写法。</p>
+<h3 id="适用场景-3">适用场景
+</h3><ul>
+<li>
+<p>项目已有成熟基类、管理器、UI框架的场景</p>
+</li>
+<li>
+<p>需新增与现有代码风格完全一致的脚本开发</p>
+</li>
+<li>
+<p>团队协作中需统一代码风格的场景</p>
+</li>
+</ul>
+<h3 id="实战示例-3">实战示例
+</h3><p>首先提供项目中已有的标准样板代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="c1">// UI面板基类</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">UIBase</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [Header(&#34;基础设置&#34;)]</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">string</span> <span class="n">panelName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">bool</span> <span class="n">isShowOnStart</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">isShowOnStart</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Show</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Hide</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Show</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gameObject</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OnShow</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Hide</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gameObject</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OnHide</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">OnShow</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">OnHide</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后编写提示词：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">完全仿照上述UIBase基类的写法、结构、命名规范、注释格式及代码风格。
+</span></span><span class="line"><span class="cl">新建一个背包UI面板类UIBag，继承自UIBase。
+</span></span><span class="line"><span class="cl">需实现的功能：
+</span></span><span class="line"><span class="cl">1. 显示背包格子列表
+</span></span><span class="line"><span class="cl">2. 刷新背包数据
+</span></span><span class="line"><span class="cl">3. 点击格子显示物品详情
+</span></span><span class="line"><span class="cl">严格保持与样板代码一致的缩进、命名及注释风格。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="核心优势-3">核心优势
+</h3><ul>
+<li>
+<p>仅需1个样板代码，相比Few-shot更节省Token</p>
+</li>
+<li>
+<p>生成代码与项目现有风格完全统一</p>
+</li>
+<li>
+<p>无需后期调整代码格式与风格</p>
+</li>
+</ul>
+<h3 id="注意事项-3">注意事项
+</h3><ul>
+<li>
+<p>样板代码需规范、无漏洞，避免AI模仿错误写法</p>
+</li>
+<li>
+<p>优先选择项目中最标准、最规范的代码作为样板</p>
+</li>
+<li>
+<p>明确要求AI“严格模仿”，禁止AI对样板结构进行优化或修改</p>
+</li>
+</ul>
+<hr>
+<h2 id="5-分层任务提示词拆解任务法">5. 分层任务提示词（拆解任务法）
+</h2><h3 id="核心思想-4">核心思想
+</h3><p>将复杂的大型功能拆解为多个独立小模块，让AI分模块、分步骤生成代码，避免一次性生成完整系统导致的代码混乱。</p>
+<h3 id="适用场景-4">适用场景
+</h3><ul>
+<li>
+<p>大型系统开发（背包系统、技能系统、存档系统、战斗系统等）</p>
+</li>
+<li>
+<p>代码量较大、结构复杂的功能开发</p>
+</li>
+<li>
+<p>需逐步调试、验证功能正确性的场景</p>
+</li>
+</ul>
+<h3 id="实战示例-4">实战示例
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">开发一个Unity 2D游戏的背包系统，分三个部分逐步生成代码：
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">第一部分：背包数据结构
+</span></span><span class="line"><span class="cl">- 定义物品数据类ItemData，包含id、名称、描述、图标、数量、类型
+</span></span><span class="line"><span class="cl">- 定义背包数据类InventoryData，包含物品列表、背包容量
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">第二部分：背包管理器
+</span></span><span class="line"><span class="cl">- 实现单例模式
+</span></span><span class="line"><span class="cl">- 实现添加物品、移除物品、查询物品、保存/加载背包数据的功能
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">第三部分：背包UI展示
+</span></span><span class="line"><span class="cl">- 实现背包格子UI
+</span></span><span class="line"><span class="cl">- 实现背包面板UI的刷新逻辑
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">请先编写第一部分的代码，确认无误后再编写后续部分。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="核心优势-4">核心优势
+</h3><ul>
+<li>
+<p>代码结构分层清晰，便于维护与调试</p>
+</li>
+<li>
+<p>避免AI生成冗长、难以阅读和修改的代码</p>
+</li>
+<li>
+<p>可逐步验证每个模块的正确性，及时调整开发需求</p>
+</li>
+</ul>
+<h3 id="注意事项-4">注意事项
+</h3><ul>
+<li>
+<p>模块拆分不宜过细，避免增加对话轮次、浪费Token</p>
+</li>
+<li>
+<p>模块拆分也不宜过粗，单个模块代码量建议控制在200行以内</p>
+</li>
+<li>
+<p>可先让AI输出整体架构设计，确认后再分模块生成代码</p>
+</li>
+</ul>
+<hr>
+<h2 id="汇总unity-ai-提示词六大流派对比">汇总：Unity AI 提示词六大流派对比
+</h2><p>除上述5种写法外，结合基础的Zero-shot和Few-shot，共六种主流提示词写法，具体对比如下：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>流派</th>
+          <th>核心思想</th>
+          <th>适用场景</th>
+          <th>优点</th>
+          <th>缺点</th>
+          <th>Token 消耗</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Zero-shot 零样本</td>
+          <td>直接下达指令，不提供任何示例</td>
+          <td>简单通用功能、快速原型开发</td>
+          <td>效率高、操作便捷</td>
+          <td>代码风格随机、质量不稳定</td>
+          <td>最低</td>
+      </tr>
+      <tr>
+          <td>Few-shot 少样本</td>
+          <td>提供2~3个示例，让AI模仿生成</td>
+          <td>需严格统一风格的复杂场景</td>
+          <td>输出稳定、符合预期要求</td>
+          <td>准备示例繁琐、消耗Token较多</td>
+          <td>高</td>
+      </tr>
+      <tr>
+          <td>Role 角色设定</td>
+          <td>为AI设定专业身份及行为准则</td>
+          <td>复杂系统架构、高质量代码需求</td>
+          <td>代码专业、无需准备示例</td>
+          <td>对身份描述的专业性要求较高</td>
+          <td>低</td>
+      </tr>
+      <tr>
+          <td>结构化约束</td>
+          <td>逐条列出硬性规则，规范输出</td>
+          <td>标准化工具类、团队协作场景</td>
+          <td>输出标准化、节省Token</td>
+          <td>规则过多易导致AI混乱</td>
+          <td>低</td>
+      </tr>
+      <tr>
+          <td>CoT 思维链</td>
+          <td>先思考步骤，再编写代码</td>
+          <td>复杂逻辑、算法、边界条件多的场景</td>
+          <td>逻辑严谨、错误率低</td>
+          <td>思考过程消耗Token</td>
+          <td>中</td>
+      </tr>
+      <tr>
+          <td>One-shot 单样本</td>
+          <td>提供1个样板，让AI模仿生成</td>
+          <td>项目已有成熟框架、新增同类脚本</td>
+          <td>风格统一、节省Token、性价比高</td>
+          <td>需具备标准样板代码</td>
+          <td>中</td>
+      </tr>
+  </tbody>
+</table></div>
+<hr>
+<h2 id="附录可直接复制的通用提示词模板">附录：可直接复制的通用提示词模板
+</h2><h3 id="1-角色设定模板">1. 角色设定模板
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">你是拥有[X]年经验的资深Unity[领域]开发工程师，精通[技术栈]。
+</span></span><span class="line"><span class="cl">写代码必须严格遵守以下规范：
+</span></span><span class="line"><span class="cl">1. [规范1]
+</span></span><span class="line"><span class="cl">2. [规范2]
+</span></span><span class="line"><span class="cl">3. [规范3]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">现在帮我[具体需求]。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-结构化约束模板">2. 结构化约束模板
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">严格按照以下要求写Unity C#脚本：
+</span></span><span class="line"><span class="cl">1. 脚本名：[脚本名]
+</span></span><span class="line"><span class="cl">2. 必须继承自[父类]
+</span></span><span class="line"><span class="cl">3. 公开参数：[参数列表]
+</span></span><span class="line"><span class="cl">4. 命名规范：[命名要求]
+</span></span><span class="line"><span class="cl">5. 功能要求：[具体功能]
+</span></span><span class="line"><span class="cl">6. 禁止：[禁止的写法]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">写一个[功能描述]脚本。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-思维链模板">3. 思维链模板
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">请先逐步分析实现逻辑，列出详细的实现步骤，再编写最终的C#代码。
+</span></span><span class="line"><span class="cl">需求：[具体需求]
+</span></span><span class="line"><span class="cl">思考步骤要求：
+</span></span><span class="line"><span class="cl">1. [步骤1]
+</span></span><span class="line"><span class="cl">2. [步骤2]
+</span></span><span class="line"><span class="cl">3. [步骤3]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">按照以上步骤思考，然后写出完整的代码。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4-单样本仿写模板">4. 单样本仿写模板
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">完全仿照下面这个样板代码的写法、结构、命名规范、注释格式、代码风格。
+</span></span><span class="line"><span class="cl">[样板代码]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">新建一个[新脚本名]，继承自[父类]。
+</span></span><span class="line"><span class="cl">需要实现的功能：
+</span></span><span class="line"><span class="cl">1. [功能1]
+</span></span><span class="line"><span class="cl">2. [功能2]
+</span></span><span class="line"><span class="cl">3. [功能3]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">严格保持和样板代码一致的风格，不要修改样板的结构。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="5-分层任务模板">5. 分层任务模板
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">我们要开发一个[系统名称]，分[X]个部分逐步生成代码：
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">第1部分：[模块1名称]
+</span></span><span class="line"><span class="cl">- [功能点1]
+</span></span><span class="line"><span class="cl">- [功能点2]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">第2部分：[模块2名称]
+</span></span><span class="line"><span class="cl">- [功能点1]
+</span></span><span class="line"><span class="cl">- [功能点2]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">第3部分：[模块3名称]
+</span></span><span class="line"><span class="cl">- [功能点1]
+</span></span><span class="line"><span class="cl">- [功能点2]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">请先写第1部分的代码。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="总结">总结
+</h2><p>不同提示词写法适用于不同场景，需根据实际需求选择：</p>
+<ul>
+<li>
+<p>快速开发简单功能，可采用Zero-shot</p>
+</li>
+<li>
+<p>项目已有标准样板，可采用One-shot</p>
+</li>
+<li>
+<p>开发复杂系统架构，可采用角色设定写法</p>
+</li>
+<li>
+<p>需实现代码标准化，可采用结构化约束写法</p>
+</li>
+<li>
+<p>开发复杂逻辑、避免错误，可采用思维链写法</p>
+</li>
+<li>
+<p>开发大型系统，可采用分层任务写法</p>
+</li>
+</ul>
+<p>选择合适的提示词写法，可显著提升AI生成代码的质量，减少返工，提升开发效率。</p>
+
 </section>
 
 
