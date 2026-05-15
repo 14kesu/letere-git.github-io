@@ -2,16 +2,16 @@
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="前期调试 部署 我会通过阿里云百炼平台提供的免费试用额度来进行学习： 首先要通过代码吊桶阿里云百炼平台大模型，主要动作\n在阿里云中创建好自己的apikey 在电脑中安装好openai库 复制官网示例代码并执行（可在代码中替换需要调用的模型） 使用环境变量保护APIKEY 代码中api如果是明文显示在代码中的，是有很大安全隐患的。我们可以通过环境变量来隐藏明文APIKEY\n我们可以通过openai库来记录APIKEY或者langchain库。\n在Windows中进行配置 打开高级系统设置，在系统属性，高级，环境变量中的用户变量下新建变量，变量名为OPENAI_API_KEY和DASHSCOPE_API_KEY,变量值就是自己的APIKEY的值。在配置好之后呢需要重启电脑，打开自己复制来的官网示例代码，删掉或者注释掉APIKEY一行，运行代码观察是否可以在无APIKEY的情况下运行。\n在mac系统中配置 打开终端软件，输入命令\n1 open .zshrc 在新窗口的空白部分输入\n1 2 export OPENAI_API_KEY=&#34;修改为你自己的APIKEY&#34; export DASHSCOPE_API_KEY=&#34;修改为你自己的APIKEY&#34; 保存，重启编译器或者重启电脑。将apikey代码行删掉观察能否运行。\nollama简介 为避免阿里云免费到期或者免费活动停止，可以通过ollama在本地部署一个模型供代码调用。\nollama：是一款旨在简化大型语言模型本地不是和运行过程的开源软件。\n在ollama官网中可以下载大部分模型，对外提供接口，如命令行和Restful Api接口等。\nollama的部署 Windows系统 在官方网站点击Download按钮下载安装。\n安装完成后，通过命令\n1 ollama run 模型名称 即可运行对应的模型，并在命令行内做交互。\n由于个人电脑的性能不高，所以我们一般选择蒸馏模型（简单理解为瘦身版），可以在网上查找，对比自己的显卡类型来调整参数量。\nmac系统 同样在官方文件下载&hellip;&hellip;\n代码调用ollama的本地模型 只要在阿里云给自己的示例代码中稍加改动\n将base_url改为：http://localhost:11434/v1 将model改为对应本地模型名称，如：qwen3：4b 之后再调试运行即可。\nopenai库的基础使用 01 什么是OpenAI openai库是openAI官方推出的Python SDK，核心作用是让开发者能简单，高效地调用OpenAI的各类API，无需手动处理HTTP请求，身份验证等底层细节。\n其发布较早且易于使用，现如今很多模型服务商都兼容OpenAI SDK的使用。\n对OpenAI库的使用分为三个流程，分别为\n获取客户端对象 调用模型 处理结果 获取客户端对象 1 2 3 4 5 6 7 from openai import OpenAI client:OpenAI = OpenAI{ api_key=&#34;&#34; base_url=&#34;&#34; } 主要是用如上两个参数：\n">
-<title>大模型RAG与Agent智能体</title>
+<title>大模型RAG与Agent智能体（1）</title>
 
-<link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8Brag%E4%B8%8Eagent%E6%99%BA%E8%83%BD%E4%BD%93/'>
+<link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8Brag%E4%B8%8Eagent%E6%99%BA%E8%83%BD%E4%BD%931/'>
 
-<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.92e7c2d2e73a6e795d6d2e40cd5b906f03cf228e9bc8b3f0f9c3deaf0aea3954.css"><meta property='og:title' content="大模型RAG与Agent智能体">
+<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.92e7c2d2e73a6e795d6d2e40cd5b906f03cf228e9bc8b3f0f9c3deaf0aea3954.css"><meta property='og:title' content="大模型RAG与Agent智能体（1）">
 <meta property='og:description' content="前期调试 部署 我会通过阿里云百炼平台提供的免费试用额度来进行学习： 首先要通过代码吊桶阿里云百炼平台大模型，主要动作\n在阿里云中创建好自己的apikey 在电脑中安装好openai库 复制官网示例代码并执行（可在代码中替换需要调用的模型） 使用环境变量保护APIKEY 代码中api如果是明文显示在代码中的，是有很大安全隐患的。我们可以通过环境变量来隐藏明文APIKEY\n我们可以通过openai库来记录APIKEY或者langchain库。\n在Windows中进行配置 打开高级系统设置，在系统属性，高级，环境变量中的用户变量下新建变量，变量名为OPENAI_API_KEY和DASHSCOPE_API_KEY,变量值就是自己的APIKEY的值。在配置好之后呢需要重启电脑，打开自己复制来的官网示例代码，删掉或者注释掉APIKEY一行，运行代码观察是否可以在无APIKEY的情况下运行。\n在mac系统中配置 打开终端软件，输入命令\n1 open .zshrc 在新窗口的空白部分输入\n1 2 export OPENAI_API_KEY=&#34;修改为你自己的APIKEY&#34; export DASHSCOPE_API_KEY=&#34;修改为你自己的APIKEY&#34; 保存，重启编译器或者重启电脑。将apikey代码行删掉观察能否运行。\nollama简介 为避免阿里云免费到期或者免费活动停止，可以通过ollama在本地部署一个模型供代码调用。\nollama：是一款旨在简化大型语言模型本地不是和运行过程的开源软件。\n在ollama官网中可以下载大部分模型，对外提供接口，如命令行和Restful Api接口等。\nollama的部署 Windows系统 在官方网站点击Download按钮下载安装。\n安装完成后，通过命令\n1 ollama run 模型名称 即可运行对应的模型，并在命令行内做交互。\n由于个人电脑的性能不高，所以我们一般选择蒸馏模型（简单理解为瘦身版），可以在网上查找，对比自己的显卡类型来调整参数量。\nmac系统 同样在官方文件下载&hellip;&hellip;\n代码调用ollama的本地模型 只要在阿里云给自己的示例代码中稍加改动\n将base_url改为：http://localhost:11434/v1 将model改为对应本地模型名称，如：qwen3：4b 之后再调试运行即可。\nopenai库的基础使用 01 什么是OpenAI openai库是openAI官方推出的Python SDK，核心作用是让开发者能简单，高效地调用OpenAI的各类API，无需手动处理HTTP请求，身份验证等底层细节。\n其发布较早且易于使用，现如今很多模型服务商都兼容OpenAI SDK的使用。\n对OpenAI库的使用分为三个流程，分别为\n获取客户端对象 调用模型 处理结果 获取客户端对象 1 2 3 4 5 6 7 from openai import OpenAI client:OpenAI = OpenAI{ api_key=&#34;&#34; base_url=&#34;&#34; } 主要是用如上两个参数：\n">
-<meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8Brag%E4%B8%8Eagent%E6%99%BA%E8%83%BD%E4%BD%93/'>
+<meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8Brag%E4%B8%8Eagent%E6%99%BA%E8%83%BD%E4%BD%931/'>
 <meta property='og:site_name' content='水元素长弓'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-04-23T17:16:56&#43;08:00'/><meta property='article:modified_time' content='2026-04-23T17:16:56&#43;08:00'/>
-<meta name="twitter:title" content="大模型RAG与Agent智能体">
+<meta name="twitter:title" content="大模型RAG与Agent智能体（1）">
 <meta name="twitter:description" content="前期调试 部署 我会通过阿里云百炼平台提供的免费试用额度来进行学习： 首先要通过代码吊桶阿里云百炼平台大模型，主要动作\n在阿里云中创建好自己的apikey 在电脑中安装好openai库 复制官网示例代码并执行（可在代码中替换需要调用的模型） 使用环境变量保护APIKEY 代码中api如果是明文显示在代码中的，是有很大安全隐患的。我们可以通过环境变量来隐藏明文APIKEY\n我们可以通过openai库来记录APIKEY或者langchain库。\n在Windows中进行配置 打开高级系统设置，在系统属性，高级，环境变量中的用户变量下新建变量，变量名为OPENAI_API_KEY和DASHSCOPE_API_KEY,变量值就是自己的APIKEY的值。在配置好之后呢需要重启电脑，打开自己复制来的官网示例代码，删掉或者注释掉APIKEY一行，运行代码观察是否可以在无APIKEY的情况下运行。\n在mac系统中配置 打开终端软件，输入命令\n1 open .zshrc 在新窗口的空白部分输入\n1 2 export OPENAI_API_KEY=&#34;修改为你自己的APIKEY&#34; export DASHSCOPE_API_KEY=&#34;修改为你自己的APIKEY&#34; 保存，重启编译器或者重启电脑。将apikey代码行删掉观察能否运行。\nollama简介 为避免阿里云免费到期或者免费活动停止，可以通过ollama在本地部署一个模型供代码调用。\nollama：是一款旨在简化大型语言模型本地不是和运行过程的开源软件。\n在ollama官网中可以下载大部分模型，对外提供接口，如命令行和Restful Api接口等。\nollama的部署 Windows系统 在官方网站点击Download按钮下载安装。\n安装完成后，通过命令\n1 ollama run 模型名称 即可运行对应的模型，并在命令行内做交互。\n由于个人电脑的性能不高，所以我们一般选择蒸馏模型（简单理解为瘦身版），可以在网上查找，对比自己的显卡类型来调整参数量。\nmac系统 同样在官方文件下载&hellip;&hellip;\n代码调用ollama的本地模型 只要在阿里云给自己的示例代码中稍加改动\n将base_url改为：http://localhost:11434/v1 将model改为对应本地模型名称，如：qwen3：4b 之后再调试运行即可。\nopenai库的基础使用 01 什么是OpenAI openai库是openAI官方推出的Python SDK，核心作用是让开发者能简单，高效地调用OpenAI的各类API，无需手动处理HTTP请求，身份验证等底层细节。\n其发布较早且易于使用，现如今很多模型服务商都兼容OpenAI SDK的使用。\n对OpenAI库的使用分为三个流程，分别为\n获取客户端对象 调用模型 处理结果 获取客户端对象 1 2 3 4 5 6 7 from openai import OpenAI client:OpenAI = OpenAI{ api_key=&#34;&#34; base_url=&#34;&#34; } 主要是用如上两个参数：\n">
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -320,6 +320,16 @@
         </li>
       </ol>
     </li>
+    <li><a href="#02">02</a>
+      <ol>
+        <li><a href="#openai库的流式输出">openai库的流式输出</a></li>
+      </ol>
+    </li>
+    <li><a href="#03">03</a>
+      <ol>
+        <li><a href="#openai库附带历史消息调用模型">openai库附带历史消息调用模型</a></li>
+      </ol>
+    </li>
   </ol>
 </nav>
         </div>
@@ -339,7 +349,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8Brag%E4%B8%8Eagent%E6%99%BA%E8%83%BD%E4%BD%93/">大模型RAG与Agent智能体</a>
+            <a href="/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8Brag%E4%B8%8Eagent%E6%99%BA%E8%83%BD%E4%BD%931/">大模型RAG与Agent智能体（1）</a>
         </h2>
     
         
@@ -637,7 +647,133 @@
 </span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
+</div><h2 id="02">02
+</h2><h3 id="openai库的流式输出">openai库的流式输出
+</h3><p>可以设定结果输出为Stream（流式输出），以获取更好的使用体验。
+开启流式输出主要就两步</p>
+<ol>
+<li>在client.chat.completions.create()调用模型的时候设定参数：stream=True。</li>
+<li>for循环response对象，并在循环内输出内容。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span>  <span class="n">OpenAI</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 1.获取client对象，openai类对象</span>
+</span></span><span class="line"><span class="cl"><span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_url</span><span class="o">=</span><span class="s2">&#34;https://dashscope.aliyuncs.com/compatible-mode/v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 2.调用模型</span>
+</span></span><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen3-max&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span><span class="s2">&#34;system&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;你是一个Python专家，并且话非常多&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;assistant&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;好的，我是Python编程专家，并且话不多，你要问什么？&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;输出1-10的数字，使用python代码&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stream</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># 开启流式输出功能</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 3.输出结果</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">chunk</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">delta</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">delta</span><span class="o">.</span><span class="n">content</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">end</span><span class="o">=</span><span class="s2">&#34; &#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">flush</span><span class="o">=</span><span class="kc">True</span> <span class="c1"># 立刻刷新缓冲区</span>
+</span></span><span class="line"><span class="cl">              <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
+</div><h2 id="03">03
+</h2><h3 id="openai库附带历史消息调用模型">openai库附带历史消息调用模型
+</h3><p>调用模型传入的参数messages，其要求是list对象，即表明其支持非常多的消息在内。</p>
+<p>我们可以基于此，将历史消息填入，让模型知晓对话的上下文，更好的回答。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span>  <span class="n">OpenAI</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 1.获取client对象，openai类对象</span>
+</span></span><span class="line"><span class="cl"><span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_url</span><span class="o">=</span><span class="s2">&#34;https://dashscope.aliyuncs.com/compatible-mode/v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 2.调用模型</span>
+</span></span><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen3-max&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span><span class="s2">&#34;system&#34;</span><span class="p">,</span><span class="s2">&#34;content&#34;</span><span class="p">:</span><span class="s2">&#34;你是一个ai助理，且回答很简洁&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;assistant&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;好的，我是ai助理，并且话不多，你要问什么？&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;小明有两条宠物狗&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;assistant&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;好的&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;小红有三只宠物猫&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;assistant&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;好的&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;总共有几个宠物&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stream</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># 开启流式输出功能</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 3.输出结果</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">chunk</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">delta</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">delta</span><span class="o">.</span><span class="n">content</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">end</span><span class="o">=</span><span class="s2">&#34; &#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">flush</span><span class="o">=</span><span class="kc">True</span> <span class="c1"># 立刻刷新缓冲区</span>
+</span></span><span class="line"><span class="cl">              <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ps ：当前的历史消息是一次性的，如果是生产系统可以将消息保存到文件，数据库等持久化工具内，需要的时候提取使用</p>
+<p>后续学习LangChain库，会学习短期记忆和长期记忆的使用方法。</p>
+
 </section>
 
 
