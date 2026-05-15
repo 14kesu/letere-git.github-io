@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="大模型prompt工程指南 提示工程（Prompt Engineering），也称为 In-Context Prompting，是指在不更新模型权重的情况下如何与大模型互以引导其行为以获得所需结果的方法。\n在人工智能领域，Prompt指的是用户给大型语言模型发出的指令。\n例如，“「讲个笑话」”、“「用Python编个贪吃蛇游戏」”、“「写封情书」”等。\n虽然看似简单，但实际上，Prompt的设计对于模型的结果影响很大。\n因此如何设计prompt，进而与模型更好的交互，是研究人员必备的必不可少的技能（提示工程）。\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="大模型prompt工程指南 提示工程（Prompt Engineering），也称为 In-Context Prompting，是指在不更新模型权重的情况下如何与大模型互以引导其行为以获得所需结果的方法。\n在人工智能领域，Prompt指的是用户给大型语言模型发出的指令。\n例如，“「讲个笑话」”、“「用Python编个贪吃蛇游戏」”、“「写封情书」”等。\n虽然看似简单，但实际上，Prompt的设计对于模型的结果影响很大。\n因此如何设计prompt，进而与模型更好的交互，是研究人员必备的必不可少的技能（提示工程）。\n技巧 详细的描述 让ai扮演某个角色 使用分隔符标注输入的不同部分（强调重点等） 指定任务的步骤 提供例子 使用参考文本（降低模型的幻觉） 如：\n根据下文中三重引号引起来的文章来回答问题。\n如果在文章中找不到答案，请写“我找不到答案”，\n不要自己造答案。\n&ldquo;&rdquo;&quot;&lt;在此插入文档&gt;&quot;&quot;&quot;&quot;&lt;在此插入文档&gt;&quot;&quot;&quot;&quot; 问题： &lt;在此插入问题&gt;\n提示词工程就是更好的向模型提问的技巧。大模型本身是一种很简单的结构，即：用户输入，模型输出。\n用更详细、更清晰、有逻辑、有参考的提问，获得期望中的回答效果 不管是 RAG 还是 Agent 智能体亦或是其它围绕模型的各类复杂的开发工作，本质上都可以简单总结为在提示词上下功夫。 Zero-shot思想 Zero-shot学习是指在训练阶段不存在与阶段完全相同的类别，但是模型可以是同训练过的知识来推广到测试集中的新类别上。\n这种能力称为”零样本“学习，因为模型在训练是从未见过的测试集中的新类别，在模型训练和提示词优化中均有体现。\n在模型训练中： 已知马（四脚兽）、虎（有条纹）、熊猫（黑白色）的特征，但未训练过斑马的数据（不认识） 告知模型：斑马是四脚兽、有黑白色的条纹 模型可以在已知数据中进行推理，从而识别斑马。 在提示词优化中： Zero-shot 思想用于基于已训练的能力，不提供任何示例，仅通过语言去描述任务的要求、目标和约束，让模型直接生成结果。\n简单来说就是 “用语言定义任务，解放（信任）模型的预训练知识”\n比如：请判断 &quot;&quot; 包围的用户评论中的情感倾向，输出 正面 或 负面。\n&ldquo;这款代餐鸡胸肉饱腹感很强，吃起来也不柴，很推荐！&rdquo;\nFew-shot思想 Few-shot 学习（Few-shot Learning）是指少样本学习，当模型在学习了一定类别的大量数据后，对于新的类别，只需要少量的样本就能快速学习，对应的有 one-shot learning，单样本学习，也算样本少到为一的情况下的一种 few-shot learning。\n在模型训练中（相似度判断方法）： 基于少量企鹅样本并结合相识度判断，推论未知图片内含 “企鹅”\n在提示词优化中： Few-shot 主要用于基于少量示例，让模型参考示例回答。\n简单来说就是 “用示例定义任务，在模型的预训练知识的基础上，提升模型回答的对齐精度（比如参考示例的格式）”\n比如：请抽取产品名称和核心卖点 2 个字段，格式为 Json，我提供 2 个示例。\n">
 <title>提示词工程</title>
 
 <link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/'>
 
 <link rel="stylesheet" href="/letere-git.github-io/scss/style.min.92e7c2d2e73a6e795d6d2e40cd5b906f03cf228e9bc8b3f0f9c3deaf0aea3954.css"><meta property='og:title' content="提示词工程">
-<meta property='og:description' content="大模型prompt工程指南 提示工程（Prompt Engineering），也称为 In-Context Prompting，是指在不更新模型权重的情况下如何与大模型互以引导其行为以获得所需结果的方法。\n在人工智能领域，Prompt指的是用户给大型语言模型发出的指令。\n例如，“「讲个笑话」”、“「用Python编个贪吃蛇游戏」”、“「写封情书」”等。\n虽然看似简单，但实际上，Prompt的设计对于模型的结果影响很大。\n因此如何设计prompt，进而与模型更好的交互，是研究人员必备的必不可少的技能（提示工程）。\n">
+<meta property='og:description' content="大模型prompt工程指南 提示工程（Prompt Engineering），也称为 In-Context Prompting，是指在不更新模型权重的情况下如何与大模型互以引导其行为以获得所需结果的方法。\n在人工智能领域，Prompt指的是用户给大型语言模型发出的指令。\n例如，“「讲个笑话」”、“「用Python编个贪吃蛇游戏」”、“「写封情书」”等。\n虽然看似简单，但实际上，Prompt的设计对于模型的结果影响很大。\n因此如何设计prompt，进而与模型更好的交互，是研究人员必备的必不可少的技能（提示工程）。\n技巧 详细的描述 让ai扮演某个角色 使用分隔符标注输入的不同部分（强调重点等） 指定任务的步骤 提供例子 使用参考文本（降低模型的幻觉） 如：\n根据下文中三重引号引起来的文章来回答问题。\n如果在文章中找不到答案，请写“我找不到答案”，\n不要自己造答案。\n&ldquo;&rdquo;&quot;&lt;在此插入文档&gt;&quot;&quot;&quot;&quot;&lt;在此插入文档&gt;&quot;&quot;&quot;&quot; 问题： &lt;在此插入问题&gt;\n提示词工程就是更好的向模型提问的技巧。大模型本身是一种很简单的结构，即：用户输入，模型输出。\n用更详细、更清晰、有逻辑、有参考的提问，获得期望中的回答效果 不管是 RAG 还是 Agent 智能体亦或是其它围绕模型的各类复杂的开发工作，本质上都可以简单总结为在提示词上下功夫。 Zero-shot思想 Zero-shot学习是指在训练阶段不存在与阶段完全相同的类别，但是模型可以是同训练过的知识来推广到测试集中的新类别上。\n这种能力称为”零样本“学习，因为模型在训练是从未见过的测试集中的新类别，在模型训练和提示词优化中均有体现。\n在模型训练中： 已知马（四脚兽）、虎（有条纹）、熊猫（黑白色）的特征，但未训练过斑马的数据（不认识） 告知模型：斑马是四脚兽、有黑白色的条纹 模型可以在已知数据中进行推理，从而识别斑马。 在提示词优化中： Zero-shot 思想用于基于已训练的能力，不提供任何示例，仅通过语言去描述任务的要求、目标和约束，让模型直接生成结果。\n简单来说就是 “用语言定义任务，解放（信任）模型的预训练知识”\n比如：请判断 &quot;&quot; 包围的用户评论中的情感倾向，输出 正面 或 负面。\n&ldquo;这款代餐鸡胸肉饱腹感很强，吃起来也不柴，很推荐！&rdquo;\nFew-shot思想 Few-shot 学习（Few-shot Learning）是指少样本学习，当模型在学习了一定类别的大量数据后，对于新的类别，只需要少量的样本就能快速学习，对应的有 one-shot learning，单样本学习，也算样本少到为一的情况下的一种 few-shot learning。\n在模型训练中（相似度判断方法）： 基于少量企鹅样本并结合相识度判断，推论未知图片内含 “企鹅”\n在提示词优化中： Few-shot 主要用于基于少量示例，让模型参考示例回答。\n简单来说就是 “用示例定义任务，在模型的预训练知识的基础上，提升模型回答的对齐精度（比如参考示例的格式）”\n比如：请抽取产品名称和核心卖点 2 个字段，格式为 Json，我提供 2 个示例。\n">
 <meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/'>
 <meta property='og:site_name' content='水元素长弓'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-05-15T20:36:39&#43;08:00'/><meta property='article:modified_time' content='2026-05-15T20:36:39&#43;08:00'/>
 <meta name="twitter:title" content="提示词工程">
-<meta name="twitter:description" content="大模型prompt工程指南 提示工程（Prompt Engineering），也称为 In-Context Prompting，是指在不更新模型权重的情况下如何与大模型互以引导其行为以获得所需结果的方法。\n在人工智能领域，Prompt指的是用户给大型语言模型发出的指令。\n例如，“「讲个笑话」”、“「用Python编个贪吃蛇游戏」”、“「写封情书」”等。\n虽然看似简单，但实际上，Prompt的设计对于模型的结果影响很大。\n因此如何设计prompt，进而与模型更好的交互，是研究人员必备的必不可少的技能（提示工程）。\n">
+<meta name="twitter:description" content="大模型prompt工程指南 提示工程（Prompt Engineering），也称为 In-Context Prompting，是指在不更新模型权重的情况下如何与大模型互以引导其行为以获得所需结果的方法。\n在人工智能领域，Prompt指的是用户给大型语言模型发出的指令。\n例如，“「讲个笑话」”、“「用Python编个贪吃蛇游戏」”、“「写封情书」”等。\n虽然看似简单，但实际上，Prompt的设计对于模型的结果影响很大。\n因此如何设计prompt，进而与模型更好的交互，是研究人员必备的必不可少的技能（提示工程）。\n技巧 详细的描述 让ai扮演某个角色 使用分隔符标注输入的不同部分（强调重点等） 指定任务的步骤 提供例子 使用参考文本（降低模型的幻觉） 如：\n根据下文中三重引号引起来的文章来回答问题。\n如果在文章中找不到答案，请写“我找不到答案”，\n不要自己造答案。\n&ldquo;&rdquo;&quot;&lt;在此插入文档&gt;&quot;&quot;&quot;&quot;&lt;在此插入文档&gt;&quot;&quot;&quot;&quot; 问题： &lt;在此插入问题&gt;\n提示词工程就是更好的向模型提问的技巧。大模型本身是一种很简单的结构，即：用户输入，模型输出。\n用更详细、更清晰、有逻辑、有参考的提问，获得期望中的回答效果 不管是 RAG 还是 Agent 智能体亦或是其它围绕模型的各类复杂的开发工作，本质上都可以简单总结为在提示词上下功夫。 Zero-shot思想 Zero-shot学习是指在训练阶段不存在与阶段完全相同的类别，但是模型可以是同训练过的知识来推广到测试集中的新类别上。\n这种能力称为”零样本“学习，因为模型在训练是从未见过的测试集中的新类别，在模型训练和提示词优化中均有体现。\n在模型训练中： 已知马（四脚兽）、虎（有条纹）、熊猫（黑白色）的特征，但未训练过斑马的数据（不认识） 告知模型：斑马是四脚兽、有黑白色的条纹 模型可以在已知数据中进行推理，从而识别斑马。 在提示词优化中： Zero-shot 思想用于基于已训练的能力，不提供任何示例，仅通过语言去描述任务的要求、目标和约束，让模型直接生成结果。\n简单来说就是 “用语言定义任务，解放（信任）模型的预训练知识”\n比如：请判断 &quot;&quot; 包围的用户评论中的情感倾向，输出 正面 或 负面。\n&ldquo;这款代餐鸡胸肉饱腹感很强，吃起来也不柴，很推荐！&rdquo;\nFew-shot思想 Few-shot 学习（Few-shot Learning）是指少样本学习，当模型在学习了一定类别的大量数据后，对于新的类别，只需要少量的样本就能快速学习，对应的有 one-shot learning，单样本学习，也算样本少到为一的情况下的一种 few-shot learning。\n在模型训练中（相似度判断方法）： 基于少量企鹅样本并结合相识度判断，推论未知图片内含 “企鹅”\n在提示词优化中： Few-shot 主要用于基于少量示例，让模型参考示例回答。\n简单来说就是 “用示例定义任务，在模型的预训练知识的基础上，提升模型回答的对齐精度（比如参考示例的格式）”\n比如：请抽取产品名称和核心卖点 2 个字段，格式为 Json，我提供 2 个示例。\n">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -264,7 +264,62 @@
     </ol>
 </aside>
 
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#技巧">技巧</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#在模型训练中">在模型训练中：</a></li>
+    <li><a href="#在提示词优化中">在提示词优化中：</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#在模型训练中相似度判断方法">在模型训练中（相似度判断方法）：</a></li>
+    <li><a href="#在提示词优化中-1">在提示词优化中：</a></li>
+    <li><a href="#实例案例">实例案例</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#主要使用-python-内置的-json-库">主要使用 Python 内置的 json 库</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#prompt">prompt</a></li>
+    <li><a href="#示例">示例</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#prompt设计">Prompt设计</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
             <main class="main full-width">
     <article class="main-article">
@@ -319,7 +374,799 @@
 <p>例如，“「讲个笑话」”、“「用Python编个贪吃蛇游戏」”、“「写封情书」”等。</p>
 <p>虽然看似简单，但实际上，Prompt的设计对于模型的结果影响很大。</p>
 <p>因此如何设计prompt，进而与模型更好的交互，是研究人员必备的必不可少的技能（提示工程）。</p>
-
+<h2 id="技巧">技巧
+</h2><ul>
+<li>详细的描述</li>
+<li>让ai扮演某个角色</li>
+<li>使用分隔符标注输入的不同部分（强调重点等）</li>
+<li>指定任务的步骤</li>
+<li>提供例子</li>
+<li>使用参考文本（降低模型的幻觉）</li>
+</ul>
+<p>如：</p>
+<p>根据下文中三重引号引起来的文章来回答问题。<br>
+如果在文章中找不到答案，请写“我找不到答案”，<br>
+不要自己造答案。</p>
+<p>&ldquo;&rdquo;&quot;&lt;在此插入文档&gt;&quot;&quot;&quot;&quot;&lt;在此插入文档&gt;&quot;&quot;&quot;&quot;
+问题：
+&lt;在此插入问题&gt;</p>
+<p>提示词工程就是更好的向模型提问的技巧。大模型本身是一种很简单的结构，即：用户输入，模型输出。</p>
+<ul>
+<li>用更详细、更清晰、有逻辑、有参考的提问，获得期望中的回答效果</li>
+<li>不管是 RAG 还是 Agent 智能体亦或是其它围绕模型的各类复杂的开发工作，本质上都可以简单总结为在提示词上下功夫。</li>
+</ul>
+<h1 id="zero-shot思想">Zero-shot思想
+</h1><p>Zero-shot学习是指在训练阶段不存在与阶段完全相同的类别，但是模型可以是同训练过的知识来推广到测试集中的新类别上。</p>
+<p>这种能力称为”零样本“学习，因为模型在训练是从未见过的测试集中的新类别，在模型训练和提示词优化中均有体现。</p>
+<h2 id="在模型训练中">在模型训练中：
+</h2><ol>
+<li>已知马（四脚兽）、虎（有条纹）、熊猫（黑白色）的特征，但未训练过斑马的数据（不认识）</li>
+<li>告知模型：斑马是四脚兽、有黑白色的条纹</li>
+<li>模型可以在已知数据中进行推理，从而识别斑马。</li>
+</ol>
+<h2 id="在提示词优化中">在提示词优化中：
+</h2><p>Zero-shot 思想用于基于已训练的能力，不提供任何示例，仅通过语言去描述任务的要求、目标和约束，让模型直接生成结果。</p>
+<p><strong>简单来说就是 “用语言定义任务，解放（信任）模型的预训练知识”</strong></p>
+<p>比如：请判断 &quot;&quot; 包围的用户评论中的情感倾向，输出 正面 或 负面。<br>
+&ldquo;这款代餐鸡胸肉饱腹感很强，吃起来也不柴，很推荐！&rdquo;</p>
+<h1 id="few-shot思想">Few-shot思想
+</h1><p>Few-shot 学习（Few-shot Learning）是指少样本学习，当模型在学习了一定类别的大量数据后，对于新的类别，只需要少量的样本就能快速学习，对应的有 one-shot learning，单样本学习，也算样本少到为一的情况下的一种 few-shot learning。</p>
+<h2 id="在模型训练中相似度判断方法">在模型训练中（相似度判断方法）：
+</h2><p>基于少量企鹅样本并结合相识度判断，推论未知图片内含 “企鹅”</p>
+<h2 id="在提示词优化中-1">在提示词优化中：
+</h2><p>Few-shot 主要用于基于少量示例，让模型参考示例回答。</p>
+<p>简单来说就是 “用示例定义任务，在模型的预训练知识的基础上，提升模型回答的对齐精度（比如参考示例的格式）”</p>
+<p>比如：请抽取产品名称和核心卖点 2 个字段，格式为 Json，我提供 2 个示例。</p>
+<ul>
+<li>示例 1：MacBookPro 高效节能，性能强大，适合牛马工作使用
+<ul>
+<li>输出: {&ldquo;产品名称&rdquo;: &ldquo;MacBookPro&rdquo;, &ldquo;产品卖点&rdquo;: &ldquo;高效节能，性能强大&rdquo;}</li>
+</ul>
+</li>
+<li>示例 2：联想笔记本拥有 RTX4060 独立显卡，畅玩游戏，丝滑流畅
+<ul>
+<li>输出: {&ldquo;产品名称&rdquo;: &ldquo;联想笔记本&rdquo;, &ldquo;产品卖点&rdquo;: &ldquo;畅玩游戏，丝滑流畅&rdquo;}
+请处理：华为 MatepadPro，高清大屏，长效续航，你的好帮手。</li>
+</ul>
+</li>
+</ul>
+<h2 id="实例案例">实例案例
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. 获取client对象，OpenAI类对象</span>
+</span></span><span class="line"><span class="cl"><span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_url</span><span class="o">=</span><span class="s2">&#34;https://dashscope.aliyuncs.com/compatible-mode/v1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">examples_data</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># 示例数据</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;新闻报道&#39;</span><span class="p">:</span> <span class="s1">&#39;今日，股市经历了一轮震荡，受到宏观经济数据和全球贸易紧张局势的影响。投资者密切关注美联储可能的政策调整，以适应市场的不确定性。&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;财务报告&#39;</span><span class="p">:</span> <span class="s1">&#39;本公司年度财务报告显示，去年公司实现了稳步增长的盈利，同时资产负债表呈现强劲的状况。经济环境的稳定和管理层的有效战略执行为公司的健康&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;公司公告&#39;</span><span class="p">:</span> <span class="s1">&#39;本公司高兴地宣布成功完成最新一轮并购交易，收购了一家在人工智能领域领先的公司。这一战略举措将有助于扩大我们的业务领域，提高市场竞争力&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;分析师报告&#39;</span><span class="p">:</span> <span class="s1">&#39;最新的行业分析报告指出，科技公司的创新将成为未来增长的主要推动力。云计算、人工智能和数字化转型被认为是引领行业发展的关键因素，投资&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">examples_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;新闻报道&#39;</span><span class="p">,</span> <span class="s1">&#39;财务报道&#39;</span><span class="p">,</span> <span class="s1">&#39;公司公告&#39;</span><span class="p">,</span> <span class="s1">&#39;分析师报告&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 提问数据</span>
+</span></span><span class="line"><span class="cl"><span class="n">questions</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;今日，央行发布公告宣布降低利率，以刺激经济增长。这一降息举措将影响贷款利率，并在未来几个季度内对金融市场产生影响。&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;ABC公司今日发布公告称，已成功完成对XYZ公司股权的收购交易。本次交易是ABC公司在扩大业务范围、加强市场竞争力方面的重要举措。据悉，此次收购将进一步&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;公司资产负债表显示，公司偿债能力强劲，现金流充足，为未来投资和扩张提供了坚实的财务基础。&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;最新的分析报告指出，可再生能源行业预计将在未来几年经历持续增长，投资者应该关注这一领域的投资机会&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;小明喜欢小新哟&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">[
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;system&#34;, &#34;content&#34;: &#34;你是金融专家，将文本分类为[&#39;新闻报道&#39;, &#39;财务报道&#39;, &#39;公司公告&#39;, &#39;分析师报告&#39;]，不清楚的分类为&#39;不清楚&#39;&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;user&#34;, &#34;content&#34;: &#34;今日，央行发布公告宣布降............&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;assistant&#34;, &#34;content&#34;: &#34;新闻报道&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;user&#34;, &#34;content&#34;: &#34;ABC公司今日发布公告称，已成功完成对XYZ公司股..................&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;assistant&#34;, &#34;content&#34;: &#34;财务报告&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;user&#34;, &#34;content&#34;: &#34;公司资产负债表显示，公司偿债能力强劲，现金流充足..................&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;assistant&#34;, &#34;content&#34;: &#34;公司公告&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;user&#34;, &#34;content&#34;: &#34;最新的分析报告指出，可再生能源...............&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;assistant&#34;, &#34;content&#34;: &#34;分析师报告&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;user&#34;, &#34;content&#34;: &#34;要提问的问题&#34;}
+</span></span></span><span class="line"><span class="cl"><span class="s2">]
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;system&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;你是金融专家，将文本分类为[&#39;新闻报道&#39;, &#39;财务报道&#39;, &#39;公司公告&#39;, &#39;分析师报告&#39;]，不清楚的分类为&#39;不清楚类别&#39;&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">examples_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;assistant&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="n">key</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 向模型提问</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen3-max&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">messages</span><span class="o">=</span><span class="n">messages</span> <span class="o">+</span> <span class="p">[{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&#34;按照示例，回答这段文本的分类类别: </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">}]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="json数据格式">Json数据格式
+</h1><p>JSON（JavaScript Object Notation）是一种轻量级的数据交换格式，易于人阅读和编写，同时也易于机器解析和生成。</p>
+<p>Json 是带有格式的字符串，主要用于数据交换，即程序和程序之间的信息互传，使用 Json 会更加方便，如下示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Text" data-lang="Text"><span class="line"><span class="cl">1 周杰伦11岁是个男孩
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">2 蔡依临12岁是个女孩
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">3 小明16岁是一个男孩子  
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Text文本，非结构化，抓取信息不方便</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-CSV" data-lang="CSV"><span class="line"><span class="cl"><span class="s">1 周杰伦</span><span class="p">,</span><span class="s">11</span><span class="p">,</span><span class="s">男</span><span class="p">
+</span></span></span><span class="line"><span class="cl"><span class="p">
+</span></span></span><span class="line"><span class="cl"><span class="s">2 蔡依临</span><span class="p">,</span><span class="s">12</span><span class="p">,</span><span class="s">女</span><span class="p">
+</span></span></span><span class="line"><span class="cl"><span class="p">
+</span></span></span><span class="line"><span class="cl"><span class="s">3 小明</span><span class="p">,</span><span class="s">16</span><span class="p">,</span><span class="s">男</span><span class="p">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>CSV（固定分隔符）文本，结构化，抽取信息方便，数据不含schema，有一定风险。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Json" data-lang="Json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;周杰伦&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;age&#34;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;gender&#34;</span><span class="p">:</span> <span class="s2">&#34;男&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;蔡依临&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;age&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;gender&#34;</span><span class="p">:</span> <span class="s2">&#34;女&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;小明&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;age&#34;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;gender&#34;</span><span class="p">:</span> <span class="s2">&#34;男&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Json格式文本，结构化，抽取信息方便，每条数据都包含Schema，但空间占用大。</p>
+<p>Json有两种结构，Json对象和Json数组</p>
+<p>Json对象</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Json" data-lang="Json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;key&#34;</span><span class="p">:</span><span class="err">value，</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key&#34;</span><span class="p">:</span><span class="err">value</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Jaon数组</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Json" data-lang="Json"><span class="line"><span class="cl"><span class="p">[{},{},{},</span><span class="err">...</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>实例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Json" data-lang="Json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="err">[</span>
+</span></span><span class="line"><span class="cl">    <span class="err">{</span><span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;周杰伦&#34;</span><span class="p">,</span> <span class="nt">&#34;age&#34;</span><span class="p">:</span> <span class="mi">11</span><span class="p">}</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;蔡依临&#34;</span><span class="p">,</span> <span class="nt">&#34;age&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">}</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;小明&#34;</span><span class="p">,</span> <span class="nt">&#34;age&#34;</span><span class="p">:</span> <span class="mi">16</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">]</span>
+</span></span><span class="line"><span class="cl"><span class="err">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="python-中使用-json">Python 中使用 Json
+</h1><p>Python 中使用 Json 主要完成：</p>
+<ul>
+<li>将 Python 字典、列表转换为 Json 字符串</li>
+<li>读取 Json 字符串，转换为 Python 字典或列表</li>
+</ul>
+<h2 id="主要使用-python-内置的-json-库">主要使用 Python 内置的 json 库
+</h2><ul>
+<li>json.dumps(字典或列表, ensure_ascii=False)：将字典或列表转换为 Json 字符串
+<ul>
+<li>ensure_ascii参数确保中文能正常显示</li>
+<li>返回值：Json 字符串</li>
+</ul>
+</li>
+<li>json.loads(json字符串)：将 Json 字符串转换为 Python 字典或列表
+<ul>
+<li>返回值：Python 字典 或 Python 列表</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">d</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;周杰伦&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;age&#34;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;gender&#34;</span><span class="p">:</span> <span class="s2">&#34;男&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">s</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">l</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;周杰伦&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;age&#34;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;gender&#34;</span><span class="p">:</span> <span class="s2">&#34;男&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;蔡依临&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;age&#34;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;gender&#34;</span><span class="p">:</span> <span class="s2">&#34;女&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;小明&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;age&#34;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;gender&#34;</span><span class="p">:</span> <span class="s2">&#34;男&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">json_str</span> <span class="o">=</span> <span class="s1">&#39;{&#34;name&#34;: &#34;周杰伦&#34;, &#34;age&#34;: 11, &#34;gender&#34;: &#34;男&#34;}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">json_array_str</span> <span class="o">=</span> <span class="s1">&#39;[{&#34;name&#34;: &#34;周杰伦&#34;, &#34;age&#34;: 11, &#34;gender&#34;: &#34;男&#34;}, {&#34;name&#34;: &#34;蔡依临&#34;, &#34;age&#34;: 12, &#34;gender&#34;: &#34;女&#34;}, {&#34;name&#34;: &#34;小明&#34;, &#34;age&#34;: 16, &#34;gender&#34;: &#34;男&#34;}]&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">res_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">res_dict</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">res_list</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_array_str</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res_list</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">res_list</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="提示词优化案例金融信息文本抽取">提示词优化案例——金融信息文本抽取
+</h1><h2 id="prompt">prompt
+</h2><p>在该任务的 prompt 设计中，我们主要考虑 2 点：</p>
+<ul>
+<li>需要向模型解释什么叫作「信息抽取任务」</li>
+<li>需要让模型按照我们指定的格式（json）输出
+为了让模型知道什么叫做「信息抽取」，我们借用 FewShot 的方式，先给模型展示几个正确的例子：</li>
+</ul>
+<p>User: &lsquo;2023-01-10，股市震荡。股票古哥 - D [EOOE] 美股今日开盘价 100 美元，一度飙升至 105 美元，随后回落至 98 美元，最终以 102 美元收盘，成交量达到 520000。&rsquo;。提取上述句子中 “金融” (&rsquo; 日期 &lsquo;, &rsquo; 股票名称 &lsquo;, &rsquo; 开盘价 &lsquo;, &rsquo; 收盘价 &lsquo;, &rsquo; 成交量 &lsquo;) 类型的实体，并按照 JSON 格式输出，上述句子中没有的信息用 [&rsquo; 原文中未提及 &lsquo;] 来表示，多个值之间用 &lsquo;,&rsquo; 分隔。</p>
+<p>Bot: {&lsquo;日期&rsquo;: [&lsquo;2023-01-10&rsquo;], &lsquo;股票名称&rsquo;: [&lsquo;古哥-D[EOOE]美股&rsquo;], &lsquo;开盘价&rsquo;: [&lsquo;100美元&rsquo;], &lsquo;收盘价&rsquo;: [&lsquo;102美元&rsquo;], &lsquo;成交量&rsquo;: [&lsquo;520000&rsquo;]} &hellip;</p>
+<p>其中，User 代表我们输入给模型的句子，Bot 代表模型的回复内容。</p>
+<p>注意：上述例子中 Bot 的部分也是由人工输入的，其目的是希望看到在看到类似 User 中的句子时，模型应当做出类似 Bot 的回答。</p>
+<h2 id="示例">示例
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">json</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_url</span><span class="o">=</span><span class="s2">&#34;https://dashscope.aliyuncs.com/compatible-mode/v1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># base_url=&#34;http://localhost:11434/v1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">schema</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;日期&#39;</span><span class="p">,</span> <span class="s1">&#39;股票名称&#39;</span><span class="p">,</span> <span class="s1">&#39;开盘价&#39;</span><span class="p">,</span> <span class="s1">&#39;收盘价&#39;</span><span class="p">,</span> <span class="s1">&#39;成交量&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">examples_data</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># 示例数据</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;2023-01-10，股市震荡。股票强大科技A股今日开盘价100人民币，一度飙升至105人民币，随后回落至98人民币，最终以102人民币收盘，成交量达到520000。&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;answers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;日期&#34;</span><span class="p">:</span> <span class="s2">&#34;2023-01-10&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;股票名称&#34;</span><span class="p">:</span> <span class="s2">&#34;强大科技A股&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;开盘价&#34;</span><span class="p">:</span> <span class="s2">&#34;100人民币&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;收盘价&#34;</span><span class="p">:</span> <span class="s2">&#34;102人民币&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;成交量&#34;</span><span class="p">:</span> <span class="s2">&#34;520000&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;2024-05-16，股市利好。股票英伟达美股今日开盘价105美元，一度飙升至109美元，随后回落至100美元，最终以116美元收盘，成交量达到3560000。&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;answers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;日期&#34;</span><span class="p">:</span> <span class="s2">&#34;2024-05-16&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;股票名称&#34;</span><span class="p">:</span> <span class="s2">&#34;英伟达美股&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;开盘价&#34;</span><span class="p">:</span> <span class="s2">&#34;105美元&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;收盘价&#34;</span><span class="p">:</span> <span class="s2">&#34;116美元&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;成交量&#34;</span><span class="p">:</span> <span class="s2">&#34;3560000&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">questions</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># 提问问题</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;2025-06-16，股市利好。股票传智教育A股今日开盘价66人民币，一度飙升至70人民币，随后回落至65人民币，最终以68人民币收盘，成交量达到123000。&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;2025-06-06，股市利好。股票黑马程序员A股今日开盘价200人民币，一度飙升至211人民币，随后回落至201人民币，最终以206人民币收盘。&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">[
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;system&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">     &#34;content&#34;: f&#34;你帮我完成信息抽取，我给你句子，你抽取</span><span class="si">{schema}</span><span class="s2">信息，按JSON字符串输出，如果某些信息不存在，用&#39;原文未提及&#39;表示，请参考如下示例：&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;user&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">     &#34;content&#34;: &#34;2023-01-10，股市震荡。股票强大科技A股今日开盘价100人民币，一度飙升至105人民币，随后回落至98人民币，最终以102人民币收盘，成交量达到520000。&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;assistant&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">     &#34;content&#34;: &#39;{&#34;日期&#34;:&#34;2023-01-10&#34;,&#34;股票名称&#34;:&#34;强大科技A股&#34;,&#34;开盘价&#34;:&#34;100人民币&#34;,&#34;收盘价&#34;:&#34;102人民币&#34;,&#34;成交量&#34;:&#34;520000&#34;}&#39;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;user&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">     &#34;content&#34;: &#34;2024-05-16，股市利好。股票英伟达美股今日开盘价105美元，一度飙升至109美元，随后回落至100美元，最终以116美元收盘，成交量达到3560000。&#34;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;assistant&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">     &#34;content&#34;: &#39;{&#34;日期&#34;:&#34;2024-05-16&#34;,&#34;股票名称&#34;:&#34;英伟达美股&#34;,&#34;开盘价&#34;:&#34;105美元&#34;,&#34;收盘价&#34;:&#34;116美元&#34;,&#34;成交量&#34;:&#34;3560000&#34;}&#39;},
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    {&#34;role&#34;: &#34;user&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">     &#34;content&#34;: f&#34;按照上述示例，现在抽取这个句子的信息：</span><span class="si">{要抽取的句子文本}</span><span class="s2">&#34;}
+</span></span></span><span class="line"><span class="cl"><span class="s2">]
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;system&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&#34;你帮我完成信息抽取，我给你句子，你抽取</span><span class="si">{</span><span class="n">schema</span><span class="si">}</span><span class="s2">信息，按JSON字符串输出，如果某些信息不存在，用&#39;原文未提及&#39;表示，请参考如下示例：&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">examples_data</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="n">example</span><span class="p">[</span><span class="s2">&#34;content&#34;</span><span class="p">]}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;assistant&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">example</span><span class="p">[</span><span class="s2">&#34;answers&#34;</span><span class="p">],</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen3-max&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">messages</span><span class="o">=</span><span class="n">messages</span> <span class="o">+</span> <span class="p">[{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&#34;按照上述的示例，现在抽取这个句子的信息：</span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">}]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="llm信息文本匹配任务介绍">LLM信息文本匹配任务介绍
+</h1><p>首先我们构造几个短文本对</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1. (&#39;股票市场今日大涨，投资者乐观。&#39;, &#39;持续上涨的市场让投资者感到满意。&#39;),
+</span></span><span class="line"><span class="cl">2. (&#39;油价大幅下跌，能源公司面临挑战。&#39;, &#39;未来智能城市的建设趋势愈发明显。&#39;),
+</span></span><span class="line"><span class="cl">3. (&#39;利率上升，影响房地产市场。&#39;, &#39;高利率对房地产有一定冲击。&#39;),
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们期望模型能够帮我们识别出成对的句子中，2 句话是否是有关联的</p>
+<p>。我们期望模型输出的结果为：</p>
+<pre><code>       ['是', '不是', '是']
+</code></pre>
+<h2 id="prompt设计">Prompt设计
+</h2><p>在该任务的 prompt 设计中，我们主要考虑 2 点：</p>
+<ul>
+<li>需要向模型解释什么叫作「文本匹配任务」</li>
+<li>需要让模型按照我们指定的格式输出</li>
+</ul>
+<p>为了让模型知道什么叫做「文本匹配任务」，我们借用 FewShot 的方式，先给模型展示几个正确的例子：</p>
+<p>User:</p>
+<ul>
+<li>句子一：公司 ABC 发布了季度财报，显示盈利增长。</li>
+<li>句子二：财报披露，公司 ABC 利润上升</li>
+<li>Bot: 是</li>
+</ul>
+<p>User:</p>
+<ul>
+<li>句子一：黄金价格下跌，投资者抛售。</li>
+<li>句子二：外汇市场交易额创下新高</li>
+<li>Bot: 不是 &hellip;</li>
+</ul>
+<p>其中，User 代表我们输入给模型的句子，Bot 代表模型的回复内容。</p>
+<p>注意：上述例子中 Bot 的部分也是由人工输入的，其目的是希望看到在看到类似 User 中的句子时，模型应当做出类似 Bot 的回答。</p>
+<p>示例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_url</span><span class="o">=</span><span class="s2">&#34;https://dashscope.aliyuncs.com/compatible-mode/v1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># base_url=&#34;http://localhost:11434/v1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">examples_data</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;是&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;公司ABC发布了季度财报，显示盈利增长。&#34;</span><span class="p">,</span> <span class="s2">&#34;财报披露，公司ABC利润上升。&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;公司ITCAST发布了年度财报，显示盈利大幅度增长。&#34;</span><span class="p">,</span> <span class="s2">&#34;财报披露，公司ITCAST更赚钱了。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;不是&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;黄金价格下跌，投资者抛售。&#34;</span><span class="p">,</span> <span class="s2">&#34;外汇市场交易额创下新高。&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;央行降息，刺激经济增长。&#34;</span><span class="p">,</span> <span class="s2">&#34;新能源技术的创新。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">questions</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;利率上升，影响房地产市场。&#34;</span><span class="p">,</span> <span class="s2">&#34;高利率对房地产有一定的冲击。&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;油价大幅度下跌，能源公司面临挑战。&#34;</span><span class="p">,</span> <span class="s2">&#34;未来智能城市的建设趋势越加明显。&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;股票市场今日大涨，投资者乐观。&#34;</span><span class="p">,</span> <span class="s2">&#34;持续上涨的市场让投资者感到满意。&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">{
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;role&#34;: &#34;system&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;content&#34;: f&#34;你帮我完成文本匹配，我给你2个句子，被[]包围，你判断它们是否匹配，回答是或不是，请参考如下示例：&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">},
+</span></span></span><span class="line"><span class="cl"><span class="s2">{
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;role&#34;: &#34;user&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;content&#34;: &#34;句子1：[公司ABC发布了季度财报，显示盈利增长。]句子2：[财报披露，公司ABC利润上升。]&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">},
+</span></span></span><span class="line"><span class="cl"><span class="s2">{
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;role&#34;: &#34;assistant&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;content&#34;: &#34;是&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">},
+</span></span></span><span class="line"><span class="cl"><span class="s2">{
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;role&#34;: &#34;user&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;content&#34;: &#34;句子1：[公司ITCAST发布了年度财报，显示盈利大幅度增长。]句子2：[财报披露，公司ITCAST更赚钱了。]&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">},
+</span></span></span><span class="line"><span class="cl"><span class="s2">{
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;role&#34;: &#34;assistant&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;content&#34;: &#34;是&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">},
+</span></span></span><span class="line"><span class="cl"><span class="s2">{
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;role&#34;: &#34;user&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;content&#34;: &#34;句子1：[黄金价格下跌，投资者抛售。]句子2：[外汇市场交易额创下新高。]&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">},
+</span></span></span><span class="line"><span class="cl"><span class="s2">{
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;role&#34;: &#34;assistant&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;content&#34;: &#34;不是&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">},
+</span></span></span><span class="line"><span class="cl"><span class="s2">{
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;role&#34;: &#34;user&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;content&#34;: &#34;句子1：[央行降息，刺激经济增长。]句子2：[新能源技术的创新。]&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">},
+</span></span></span><span class="line"><span class="cl"><span class="s2">{
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;role&#34;: &#34;assistant&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;content&#34;: &#34;不是&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">},
+</span></span></span><span class="line"><span class="cl"><span class="s2">{
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;role&#34;: &#34;user&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;content&#34;: f&#34;按照上述示例，回答这2个句子的情况。句子1：[...]，句子2：[...]&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">}
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;system&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&#34;你帮我完成文本匹配，我给你2个句子，被[]包围，你判断它们是否匹配，回答是或不是，请参考如下示例：&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">examples_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&#34;句子1: [</span><span class="si">{</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">], 句子2: [</span><span class="si">{</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">]&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;assistant&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="n">key</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen3-max&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">messages</span><span class="o">=</span><span class="n">messages</span> <span class="o">+</span> <span class="p">[{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&#34;句子1: [</span><span class="si">{</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">], 句子2: [</span><span class="si">{</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">]&#34;</span><span class="p">}]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
 </section>
 
 
