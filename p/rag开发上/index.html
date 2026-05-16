@@ -10,9 +10,10 @@
 <meta property='og:description' content="LangChain LangChain简介 LangChain 由 Harrison Chase 创建于2022年10月，它是围绕LLMs（大语言模型）建立的一个框架。\nLangChain自身并不开发LLMs，它的核心理念是为各种LLMs实现通用的接口，把LLMs相关的组件“链接”在一起，简化LLMs应用的开发难度，方便开发者快速地开发复杂的LLMs应用。\n我们将其划分为六类\nPrompts （提示词工程） Models （调用模型） History （管理会话记录历史） Indexes （管理分析各类文档） Chains （构建功能的执行链条） Agent （构建智能体） 基本围绕了大模型所有的要求，实际上是一个Python的第三方库，提供了各种功能的Api\nLangChain安装 1 pip install langchain langchain-community langchain-ollama dashscope chromadb langchain: 核心包 langchain-community: 社区支持包，提供了更多的第三方模型调用（我们用的阿里云千问模型就需要这个包） langchain-ollama: Ollama支持包，支持调用Ollama托管部署的本地模型 dashscope: 阿里云通义千问的Python SDK chromadb: 轻量向量数据库（后续使用） RAG RAG介绍 通用的基础大模型存在一些问题：\nLLM 的知识不是实时的，模型训练好后不具备自动更新知识的能力，会导致部分信息滞后 LLM 领域知识是缺乏的，大模型的知识来源于训练数据，这些数据主要来自公开的互联网和开源数据集，无法覆盖特定领域或高度专业化的内部知识 幻觉问题，LLM 有时会在回答中生成看似合理但实际上是错误的信息 数据安全性 RAG（Retrieval-Augmented Generation）即检索增强生成，为大模型提供了从特定数据源检索到的信息，以此来修正和补充生成的答案。可以总结为一个公式：RAG = 检索技术 + LLM 提示 ">
 <meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/'>
 <meta property='og:site_name' content='水元素长弓'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-05-16T16:35:06&#43;08:00'/><meta property='article:modified_time' content='2026-05-16T16:35:06&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-05-16T16:35:06&#43;08:00'/><meta property='article:modified_time' content='2026-05-16T16:35:06&#43;08:00'/><meta property='og:image' content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/cover.png' />
 <meta name="twitter:title" content="RAG开发——上">
-<meta name="twitter:description" content="LangChain LangChain简介 LangChain 由 Harrison Chase 创建于2022年10月，它是围绕LLMs（大语言模型）建立的一个框架。\nLangChain自身并不开发LLMs，它的核心理念是为各种LLMs实现通用的接口，把LLMs相关的组件“链接”在一起，简化LLMs应用的开发难度，方便开发者快速地开发复杂的LLMs应用。\n我们将其划分为六类\nPrompts （提示词工程） Models （调用模型） History （管理会话记录历史） Indexes （管理分析各类文档） Chains （构建功能的执行链条） Agent （构建智能体） 基本围绕了大模型所有的要求，实际上是一个Python的第三方库，提供了各种功能的Api\nLangChain安装 1 pip install langchain langchain-community langchain-ollama dashscope chromadb langchain: 核心包 langchain-community: 社区支持包，提供了更多的第三方模型调用（我们用的阿里云千问模型就需要这个包） langchain-ollama: Ollama支持包，支持调用Ollama托管部署的本地模型 dashscope: 阿里云通义千问的Python SDK chromadb: 轻量向量数据库（后续使用） RAG RAG介绍 通用的基础大模型存在一些问题：\nLLM 的知识不是实时的，模型训练好后不具备自动更新知识的能力，会导致部分信息滞后 LLM 领域知识是缺乏的，大模型的知识来源于训练数据，这些数据主要来自公开的互联网和开源数据集，无法覆盖特定领域或高度专业化的内部知识 幻觉问题，LLM 有时会在回答中生成看似合理但实际上是错误的信息 数据安全性 RAG（Retrieval-Augmented Generation）即检索增强生成，为大模型提供了从特定数据源检索到的信息，以此来修正和补充生成的答案。可以总结为一个公式：RAG = 检索技术 + LLM 提示 ">
+<meta name="twitter:description" content="LangChain LangChain简介 LangChain 由 Harrison Chase 创建于2022年10月，它是围绕LLMs（大语言模型）建立的一个框架。\nLangChain自身并不开发LLMs，它的核心理念是为各种LLMs实现通用的接口，把LLMs相关的组件“链接”在一起，简化LLMs应用的开发难度，方便开发者快速地开发复杂的LLMs应用。\n我们将其划分为六类\nPrompts （提示词工程） Models （调用模型） History （管理会话记录历史） Indexes （管理分析各类文档） Chains （构建功能的执行链条） Agent （构建智能体） 基本围绕了大模型所有的要求，实际上是一个Python的第三方库，提供了各种功能的Api\nLangChain安装 1 pip install langchain langchain-community langchain-ollama dashscope chromadb langchain: 核心包 langchain-community: 社区支持包，提供了更多的第三方模型调用（我们用的阿里云千问模型就需要这个包） langchain-ollama: Ollama支持包，支持调用Ollama托管部署的本地模型 dashscope: 阿里云通义千问的Python SDK chromadb: 轻量向量数据库（后续使用） RAG RAG介绍 通用的基础大模型存在一些问题：\nLLM 的知识不是实时的，模型训练好后不具备自动更新知识的能力，会导致部分信息滞后 LLM 领域知识是缺乏的，大模型的知识来源于训练数据，这些数据主要来自公开的互联网和开源数据集，无法覆盖特定领域或高度专业化的内部知识 幻觉问题，LLM 有时会在回答中生成看似合理但实际上是错误的信息 数据安全性 RAG（Retrieval-Augmented Generation）即检索增强生成，为大模型提供了从特定数据源检索到的信息，以此来修正和补充生成的答案。可以总结为一个公式：RAG = 检索技术 + LLM 提示 "><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/cover.png' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -319,8 +320,20 @@
 
 
             <main class="main full-width">
-    <article class="main-article">
+    <article class="has-image main-article">
     <header class="article-header">
+        <div class="article-image">
+            <a href="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/">
+                <img src="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/cover_hu_38eb73b6c3e5dbcf.png"
+                        srcset="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/cover_hu_38eb73b6c3e5dbcf.png 800w, /letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/cover_hu_1a16544a592b662c.png 1600w"
+                        width="800" 
+                        height="626" 
+                        loading="lazy"
+                        alt="Featured image of post RAG开发——上" />
+                
+            </a>
+        </div>
+    
 
     <div class="article-details">
     
