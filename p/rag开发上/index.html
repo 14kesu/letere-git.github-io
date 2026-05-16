@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="LangChain LangChain简介 LangChain 由 Harrison Chase 创建于2022年10月，它是围绕LLMs（大语言模型）建立的一个框架。\nLangChain自身并不开发LLMs，它的核心理念是为各种LLMs实现通用的接口，把LLMs相关的组件“链接”在一起，简化LLMs应用的开发难度，方便开发者快速地开发复杂的LLMs应用。\n我们将其划分为六类\nPrompts （提示词工程） Models （调用模型） History （管理会话记录历史） Indexes （管理分析各类文档） Chains （构建功能的执行链条） Agent （构建智能体） 基本围绕了大模型所有的要求，实际上是一个Python的第三方库，提供了各种功能的Api\nLangChain安装 1 pip install langchain langchain-community langchain-ollama dashscope chromadb langchain: 核心包 langchain-community: 社区支持包，提供了更多的第三方模型调用（我们用的阿里云千问模型就需要这个包） langchain-ollama: Ollama支持包，支持调用Ollama托管部署的本地模型 dashscope: 阿里云通义千问的Python SDK chromadb: 轻量向量数据库（后续使用） RAG RAG介绍 通用的基础大模型存在一些问题：\nLLM 的知识不是实时的，模型训练好后不具备自动更新知识的能力，会导致部分信息滞后 LLM 领域知识是缺乏的，大模型的知识来源于训练数据，这些数据主要来自公开的互联网和开源数据集，无法覆盖特定领域或高度专业化的内部知识 幻觉问题，LLM 有时会在回答中生成看似合理但实际上是错误的信息 数据安全性 RAG（Retrieval-Augmented Generation）即检索增强生成，为大模型提供了从特定数据源检索到的信息，以此来修正和补充生成的答案。可以总结为一个公式：RAG = 检索技术 + LLM 提示 ">
+<title>RAG开发——上</title>
+
+<link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/'>
+
+<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.92e7c2d2e73a6e795d6d2e40cd5b906f03cf228e9bc8b3f0f9c3deaf0aea3954.css"><meta property='og:title' content="RAG开发——上">
+<meta property='og:description' content="LangChain LangChain简介 LangChain 由 Harrison Chase 创建于2022年10月，它是围绕LLMs（大语言模型）建立的一个框架。\nLangChain自身并不开发LLMs，它的核心理念是为各种LLMs实现通用的接口，把LLMs相关的组件“链接”在一起，简化LLMs应用的开发难度，方便开发者快速地开发复杂的LLMs应用。\n我们将其划分为六类\nPrompts （提示词工程） Models （调用模型） History （管理会话记录历史） Indexes （管理分析各类文档） Chains （构建功能的执行链条） Agent （构建智能体） 基本围绕了大模型所有的要求，实际上是一个Python的第三方库，提供了各种功能的Api\nLangChain安装 1 pip install langchain langchain-community langchain-ollama dashscope chromadb langchain: 核心包 langchain-community: 社区支持包，提供了更多的第三方模型调用（我们用的阿里云千问模型就需要这个包） langchain-ollama: Ollama支持包，支持调用Ollama托管部署的本地模型 dashscope: 阿里云通义千问的Python SDK chromadb: 轻量向量数据库（后续使用） RAG RAG介绍 通用的基础大模型存在一些问题：\nLLM 的知识不是实时的，模型训练好后不具备自动更新知识的能力，会导致部分信息滞后 LLM 领域知识是缺乏的，大模型的知识来源于训练数据，这些数据主要来自公开的互联网和开源数据集，无法覆盖特定领域或高度专业化的内部知识 幻觉问题，LLM 有时会在回答中生成看似合理但实际上是错误的信息 数据安全性 RAG（Retrieval-Augmented Generation）即检索增强生成，为大模型提供了从特定数据源检索到的信息，以此来修正和补充生成的答案。可以总结为一个公式：RAG = 检索技术 + LLM 提示 ">
+<meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/'>
+<meta property='og:site_name' content='水元素长弓'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-05-16T16:35:06&#43;08:00'/><meta property='article:modified_time' content='2026-05-16T16:35:06&#43;08:00'/>
+<meta name="twitter:title" content="RAG开发——上">
+<meta name="twitter:description" content="LangChain LangChain简介 LangChain 由 Harrison Chase 创建于2022年10月，它是围绕LLMs（大语言模型）建立的一个框架。\nLangChain自身并不开发LLMs，它的核心理念是为各种LLMs实现通用的接口，把LLMs相关的组件“链接”在一起，简化LLMs应用的开发难度，方便开发者快速地开发复杂的LLMs应用。\n我们将其划分为六类\nPrompts （提示词工程） Models （调用模型） History （管理会话记录历史） Indexes （管理分析各类文档） Chains （构建功能的执行链条） Agent （构建智能体） 基本围绕了大模型所有的要求，实际上是一个Python的第三方库，提供了各种功能的Api\nLangChain安装 1 pip install langchain langchain-community langchain-ollama dashscope chromadb langchain: 核心包 langchain-community: 社区支持包，提供了更多的第三方模型调用（我们用的阿里云千问模型就需要这个包） langchain-ollama: Ollama支持包，支持调用Ollama托管部署的本地模型 dashscope: 阿里云通义千问的Python SDK chromadb: 轻量向量数据库（后续使用） RAG RAG介绍 通用的基础大模型存在一些问题：\nLLM 的知识不是实时的，模型训练好后不具备自动更新知识的能力，会导致部分信息滞后 LLM 领域知识是缺乏的，大模型的知识来源于训练数据，这些数据主要来自公开的互联网和开源数据集，无法覆盖特定领域或高度专业化的内部知识 幻觉问题，LLM 有时会在回答中生成看似合理但实际上是错误的信息 数据安全性 RAG（Retrieval-Augmented Generation）即检索增强生成，为大模型提供了从特定数据源检索到的信息，以此来修正和补充生成的答案。可以总结为一个公式：RAG = 检索技术 + LLM 提示 ">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/letere-git.github-io/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/letere-git.github-io/img/avatar_hu_94e8c67ed9d3c4cf.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">😋</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/letere-git.github-io">水元素长弓</a></h1>
+            <h2 class="site-description">嘿嘿嘿嘿嘿</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/448017544?spm_id_from=333.1007.0.0'
+                        target="_blank"
+                        title="BiliBili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/letere-git.github-io/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://14kesu.github.io/letere-git.github-io/" selected>简体中文</option>
+                                
+                                    <option value="https://14kesu.github.io/letere-git.github-io/ja/" >日本語</option>
+                                
+                                    <option value="https://14kesu.github.io/letere-git.github-io/zh-tw/" >正體中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#langchain简介">LangChain简介</a></li>
+    <li><a href="#langchain安装">LangChain安装</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#rag介绍">RAG介绍</a></li>
+    <li><a href="#向量的基础概念">向量的基础概念</a></li>
+    <li><a href="#余弦相似度">余弦相似度</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#langchain组件">Langchain组件</a>
+      <ol>
+        <li><a href="#models大语言模型的使用">Models大语言模型的使用</a></li>
+        <li><a href="#models的流式输出">Models的流式输出</a></li>
+        <li><a href="#models调用聊天大模型">Models调用聊天大模型</a></li>
+        <li><a href="#嵌入模型的使用">嵌入模型的使用</a></li>
+        <li><a href="#通用prompt">通用Prompt</a></li>
+        <li><a href="#formatinvok">Format&amp;invok</a></li>
+        <li><a href="#chatprompttemplate">ChatPromptTemplate</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/">RAG开发——上</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published" datetime='2026-05-16T16:35:06&#43;08:00'>2026-05-16</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="langchain">LangChain
+</h1><h2 id="langchain简介">LangChain简介
+</h2><p>LangChain 由 Harrison Chase 创建于2022年10月，它是围绕LLMs（大语言模型）建立的一个框架。</p>
+<p>LangChain自身并不开发LLMs，它的核心理念是为各种LLMs实现通用的接口，把LLMs相关的组件“链接”在一起，简化LLMs应用的开发难度，方便开发者快速地开发复杂的LLMs应用。</p>
+<p>我们将其划分为六类</p>
+<ul>
+<li>Prompts （提示词工程）</li>
+<li>Models  （调用模型）</li>
+<li>History （管理会话记录历史）</li>
+<li>Indexes （管理分析各类文档）</li>
+<li>Chains  （构建功能的执行链条）</li>
+<li>Agent   （构建智能体）</li>
+</ul>
+<p>基本围绕了大模型所有的要求，实际上是一个Python的第三方库，提供了各种功能的Api</p>
+<h2 id="langchain安装">LangChain安装
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">pip install langchain langchain-community langchain-ollama dashscope chromadb
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>langchain: 核心包</li>
+<li>langchain-community: 社区支持包，提供了更多的第三方模型调用（我们用的阿里云千问模型就需要这个包）</li>
+<li>langchain-ollama: Ollama支持包，支持调用Ollama托管部署的本地模型</li>
+<li>dashscope: 阿里云通义千问的Python SDK</li>
+<li>chromadb: 轻量向量数据库（后续使用）</li>
+</ul>
+<h1 id="rag">RAG
+</h1><h2 id="rag介绍">RAG介绍
+</h2><p>通用的基础大模型存在一些问题：</p>
+<ul>
+<li>LLM 的知识不是实时的，模型训练好后不具备自动更新知识的能力，会导致部分信息滞后</li>
+<li>LLM 领域知识是缺乏的，大模型的知识来源于训练数据，这些数据主要来自公开的互联网和开源数据集，无法覆盖特定领域或高度专业化的内部知识</li>
+<li>幻觉问题，LLM 有时会在回答中生成看似合理但实际上是错误的信息</li>
+<li>数据安全性</li>
+</ul>
+<p><strong>RAG（Retrieval-Augmented Generation）即检索增强生成，为大模型提供了从特定数据源检索到的信息，以此来修正和补充生成的答案。可以总结为一个公式：RAG = 检索技术 + LLM 提示</strong>
+<img src="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/gongzuoliuchengtujie.png"
+	width="1034"
+	height="606"
+	srcset="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/gongzuoliuchengtujie_hu_5bf9d443c5860361.png 480w, /letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/gongzuoliuchengtujie_hu_5a7c71f6f0da14aa.png 1024w"
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="170"
+		data-flex-basis="409px"
+	
+></p>
+<p><img src="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/RAGbiaozhunliucheng.png"
+	width="1244"
+	height="621"
+	srcset="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/RAGbiaozhunliucheng_hu_b4d34d01b9bfcbde.png 480w, /letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/RAGbiaozhunliucheng_hu_20f6c46bbaf7f271.png 1024w"
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="200"
+		data-flex-basis="480px"
+	
+></p>
+<p>注：上图均来自于<a class="link" href="https://www.bilibili.com/video/BV1yjz5BLEoY?spm_id_from=333.788.player.switch&amp;vd_source=2e329da59ff85146ed3eebaef46785f0&amp;p=19"  target="_blank" rel="noopener"
+    >黑马程序员大模型RAG与Agent智能体项目实战教程</a></p>
+<p>简单来说RAG工作分为两条线</p>
+<ul>
+<li>离线流程-R（Retrieval检索）：知识库预处理，通过查询各种的方式寻找文档/私有知识并加载，在分割，向量化之后形成向量数据库。</li>
+<li>在线流程-A（Augmentation增强）G（Generation生成）：用户提问-&gt;检索环节-&gt;Prompt融合-&gt;大模型回答</li>
+<li>同时离线流程中的向量数据库会流向在线流程的检索环节。w</li>
+</ul>
+<p>模型本质上就是用户输入，模型给出输出，用户能做的就是在输入上做功夫。</p>
+<p>RAG 就是在向模型提问之前基于已有的知识库或文档内容做检索，确保向模型提问的内容更精准以及包含足够的信息量用以提供给模型。</p>
+<p>RAG 的核心价值：</p>
+<ul>
+<li>解决知识实效性问题：大模型的训练数据有截止时间，RAG 可以接入最新文档（如公司财报、政策文件），让模型输出 “与时俱进”。</li>
+<li>降低模型幻觉：模型的回答基于检索到的事实性资料，而非纯靠自身记忆，大幅减少编造信息的概率。</li>
+<li>无需重新训练模型：相比微调（Fine-tuning），RAG 只需更新知识库，成本更低、效率更高。</li>
+</ul>
+<h2 id="向量的基础概念">向量的基础概念
+</h2><p>在RAG流程中，向量库是一个重要的节点，参考上述图片于RAG工作流程。</p>
+<p>那么向量具体是什么</p>
+<p>向量化：把一段文字的的语义信息，转换成遗传固定长度的数字列表，让计算机能看懂文字的含义并作相似度计算。</p>
+<p>向量嵌入的过程，我们一般选用合适的文本嵌入模型来完成。</p>
+<p>在向量匹配的过程中，如何识别 2 段文本是否表述相似的含义，主要可以通过如余弦相似度等算法来完成。</p>
+<p>比如（下列案例中向量为示例，仅描述概念，非真实向量）：</p>
+<ul>
+<li>A：“如何快速学打篮球” → [0.2, 0.5, 0.8]</li>
+<li>B：“打篮球怎么学得快” → [0.18, 0.52, 0.79]</li>
+<li>C：“运动后吃什么好呢” → [0.9, 0.1, 0.2]</li>
+</ul>
+<p>通过余弦相似度算法可以计算得到：A 和 B 相似度 0.999789，A 和 C 相似度 0.361446</p>
+<p>由此可通过精确的数学计算，去匹配 2 段文本是否描述同一个意思，提高语义匹配的效率和精度。</p>
+<p>如何更为精准的完成语义匹配，生成向量的维度是一个很重要的指标。</p>
+<p>如Text-embedding-v1模型可以生成1536维的向量（1536个数字序列），这1536个数字表示这段文本在1536个主题方向上的得分强度</p>
+<p>选择合适的向量维度可以让匹配更精确，但是过大的向量维度会加大计算压力。</p>
+<h2 id="余弦相似度">余弦相似度
+</h2><p>向量的数字序列，共同决定了向量在高维空间中的方向和长度。而余弦相似度主要就是撇除长度的影响，得到方向的夹角。夹角越小越相似，即方向相同。</p>
+<h1 id="langchain-1">LangChain
+</h1><h2 id="langchain组件">Langchain组件
+</h2><h3 id="models大语言模型的使用">Models大语言模型的使用
+</h3><p>现在市面上的模型多如牛毛，各种各样的模型不断出现，LangChain 模型组件提供了与各种模型的集成，并为所有模型提供一个精简的统一接口。</p>
+<p>LangChain 目前支持三种类型的模型：LLMs（大语言模型）、Chat Models（聊天模型）、Embeddings Models（嵌入模型）。</p>
+<ul>
+<li>LLMs：是技术范畴的统称，指基于大参数量、海量文本训练的 Transformer 架构模型，核心能力是理解和生成自然语言，主要服务于文本生成场景</li>
+<li>聊天模型：是应用范畴的细分，是专为对话场景优化的 LLMs，核心能力是模拟人类对话的轮次交互，主要服务于聊天场景</li>
+<li>文本嵌入模型：文本嵌入模型接收文本作为输入，得到文本的向量。</li>
+</ul>
+<p>LangChain 支持的三类模型，它们的使用场景不同，输入和输出不同，开发者需要根据项目需要选择相应。</p>
+<p>我所用的阿里云通义千问系列主要来自于：langchain_community 包。</p>
+<p>同时 LangChain 支持对许多模型的调用，以通义千问为例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_community.llms.tongyi</span> <span class="kn">import</span> <span class="n">Tongyi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">=</span> <span class="n">Tongyi</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen-max&#34;</span><span class="p">)</span> <span class="c1"># qwen-max是大语言模型才可以使用，即其他模型不可调用</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">res</span> <span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&#34;你是谁&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>访问Ollama的话改为导入OllamaLLM类即可</p>
+<h3 id="models的流式输出">Models的流式输出
+</h3><p>如果需要流式输出结果，需要将模型的invoke方法改为stream方法即可。</p>
+<ul>
+<li>invoke方法：一次型返回完整结果</li>
+<li>stream方法：逐段返回结果，流式输出</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="c1"># langchain_community</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_community.llms.tongyi</span> <span class="kn">import</span> <span class="n">Tongyi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 不用qwen3-max，因为qwen3-max是聊天模型，qwen-max是大语言模型</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">Tongyi</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen-max&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 调用invoke向模型提问</span>
+</span></span><span class="line"><span class="cl"><span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&#34;你是谁呀能做什么？&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">res</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="models调用聊天大模型">Models调用聊天大模型
+</h3><p>聊天消息包含下面几种类型，使用时需要按照约定传入合适的值：</p>
+<ul>
+<li>AIMessage：就是 AI 输出的消息，可以是针对问题的回答。（对应 OpenAI 库中的assistant角色）</li>
+<li>HumanMessage：人类消息，即用户信息，由人给出的发送给 LLMs 的提示信息，比如 “实现一个快速排序方法”。（对应 OpenAI 库中的user角色）</li>
+<li>SystemMessage：可以用于指定模型具体所处的环境和背景，如角色扮演等。你可以在这里给出具体的指示，比如 “作为一个代码专家”，或者 “返回 json 格式”。（对应 OpenAI 库中的system角色）</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_community.chat_models.tongyi</span> <span class="kn">import</span> <span class="n">ChatTongyi</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span>  <span class="nn">langchain_core.messages</span> <span class="kn">import</span>  <span class="n">HumanMessage</span><span class="p">,</span><span class="n">AIMessage</span><span class="p">,</span><span class="n">SystemMessage</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">=</span> <span class="n">ChatTongyi</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen3-max&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SystemMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&#34;你是一个失意诗人&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&#34;写一首唐诗&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">AIMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&#34;孤灯照壁夜微凉，冷月窥窗影半墙。残菊犹存三径露，断鸿空唳九回肠。&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">&#34;按照你上一次回复写一首唐诗&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">res</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">res</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">content</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&#34;&#34;</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时也可有如下简写方式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">from langchain_community.chat_models.tongyi import ChatTongyi
+</span></span><span class="line"><span class="cl">from  langchain_core.messages import  HumanMessage,AIMessage,SystemMessage
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">model= ChatTongyi(model=&#34;qwen3-max&#34;)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">messages = [
+</span></span><span class="line"><span class="cl">    (&#34;system&#34;, &#34;你是一个边塞诗人。&#34;),
+</span></span><span class="line"><span class="cl">    (&#34;human&#34;, &#34;写一首唐诗&#34;),
+</span></span><span class="line"><span class="cl">    (&#34;ai&#34;, &#34;锄禾日当午，汗滴禾下土，谁知盘中餐，粒粒皆辛苦。&#34;),
+</span></span><span class="line"><span class="cl">    (&#34;human&#34;, &#34;按照你上一个回复的格式，再写一首唐诗。&#34;)
+</span></span><span class="line"><span class="cl">]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">res=model.stream(input=messages)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">for chunk in res:
+</span></span><span class="line"><span class="cl">    print(chunk.content,end=&#34;&#34;,flush=True)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="嵌入模型的使用">嵌入模型的使用
+</h3><p>Embeddings Models(文本嵌入模型)</p>
+<p>Embeddings Models嵌入模型的特点：将字符串作为输入，返回一个浮点数的列表（向量）。
+在NLP中，Embedding的作用就是将数据进行文本向量化。</p>
+<p>阿里云千问模型访问方式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_community.embeddings</span> <span class="kn">import</span> <span class="n">DashScopeEmbeddings</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">初始化嵌入模型对象</span><span class="err">，</span><span class="n">其默认使用模型是</span><span class="p">:</span> <span class="n">text</span><span class="o">-</span><span class="n">embedding</span><span class="o">-</span><span class="n">v1</span>
+</span></span><span class="line"><span class="cl"><span class="n">embed</span> <span class="o">=</span> <span class="n">DashScopeEmbeddings</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">测试</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">embed</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="s2">&#34;我喜欢你&#34;</span><span class="p">))</span><span class="c1"># 单词转换</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">embed</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">([</span><span class="s1">&#39;我喜欢你&#39;</span><span class="p">,</span> <span class="s1">&#39;我稀饭你&#39;</span><span class="p">,</span> <span class="s1">&#39;晚上吃啥&#39;</span><span class="p">]))</span><span class="c1"># 批量转换</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ollama导入的话改为导入OllamaEmbeddings即可</p>
+<h3 id="通用prompt">通用Prompt
+</h3><p>提示词优化在模型应用中非常重要，LangChain 提供了 PromptTemplate 类，用来协助优化提示词。</p>
+<p>PromptTemplate 表示提示词模板，可以构建一个自定义的基础提示词模板，支持变量的注入，最终生成所需的提示词。</p>
+<p>标准写法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">PromptTemplate</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_community.llms.tongyi</span> <span class="kn">import</span> <span class="n">Tongyi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">prompt_template</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;我的邻居姓</span><span class="si">{lastname}</span><span class="s2">, 刚生了</span><span class="si">{gender}</span><span class="s2">, 帮忙起名字, 请简略回答。&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 变量注入, 生成提示词文本</span>
+</span></span><span class="line"><span class="cl"><span class="n">prompt_text</span> <span class="o">=</span> <span class="n">prompt_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lastname</span><span class="o">=</span><span class="s2">&#34;张&#34;</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="s2">&#34;女儿&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">Tongyi</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen-max&#34;</span><span class="p">)</span>      <span class="c1"># 创建模型对象</span>
+</span></span><span class="line"><span class="cl"><span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">prompt_text</span><span class="p">)</span> <span class="c1"># 调用模型获取结果</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>基于Chain链 的写法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">PromptTemplate</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_community.llms.tongyi</span> <span class="kn">import</span> <span class="n">Tongyi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">prompt_template</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;我的邻居姓</span><span class="si">{lastname}</span><span class="s2">, 刚生了</span><span class="si">{gender}</span><span class="s2">, 帮忙起名字, 请简略回答。&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">Tongyi</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen-max&#34;</span><span class="p">)</span>        <span class="c1"># 创建模型对象</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 生成链</span>
+</span></span><span class="line"><span class="cl"><span class="n">chain</span> <span class="o">=</span> <span class="n">prompt_template</span> <span class="o">|</span> <span class="n">model</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 基于链, 调用模型获取结果</span>
+</span></span><span class="line"><span class="cl"><span class="n">res</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;lastname&#34;</span><span class="p">:</span> <span class="s2">&#34;曹&#34;</span><span class="p">,</span> <span class="s2">&#34;gender&#34;</span><span class="p">:</span> <span class="s2">&#34;女儿&#34;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>FewShot写法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">FewShotPromptTemplate</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_community.llms.tongyi</span> <span class="kn">import</span> <span class="n">Tongyi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 示例的模板</span>
+</span></span><span class="line"><span class="cl"><span class="n">example_template</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="s2">&#34;单词: </span><span class="si">{word}</span><span class="s2">, 反义词: </span><span class="si">{antonym}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 示例的动态数据注入 要求是list内部套字典</span>
+</span></span><span class="line"><span class="cl"><span class="n">examples_data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="s2">&#34;word&#34;</span><span class="p">:</span> <span class="s2">&#34;大&#34;</span><span class="p">,</span> <span class="s2">&#34;antonym&#34;</span><span class="p">:</span> <span class="s2">&#34;小&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="s2">&#34;word&#34;</span><span class="p">:</span> <span class="s2">&#34;上&#34;</span><span class="p">,</span> <span class="s2">&#34;antonym&#34;</span><span class="p">:</span> <span class="s2">&#34;下&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">few_shot_template</span> <span class="o">=</span> <span class="n">FewShotPromptTemplate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">example_prompt</span><span class="o">=</span><span class="n">example_template</span><span class="p">,</span>    <span class="c1"># 示例数据的模板</span>
+</span></span><span class="line"><span class="cl">    <span class="n">examples</span><span class="o">=</span><span class="n">examples_data</span><span class="p">,</span>             <span class="c1"># 示例的数据（用来注入动态数据的），list内套字典</span>
+</span></span><span class="line"><span class="cl">    <span class="n">prefix</span><span class="o">=</span><span class="s2">&#34;告知我单词的反义词，我提供如下的示例：&#34;</span><span class="p">,</span>    <span class="c1"># 示例之前的提示词</span>
+</span></span><span class="line"><span class="cl">    <span class="n">suffix</span><span class="o">=</span><span class="s2">&#34;基于前面的示例告知我，</span><span class="si">{input_word}</span><span class="s2">的反义词是？&#34;</span><span class="p">,</span>    <span class="c1"># 示例之后的提示词</span>
+</span></span><span class="line"><span class="cl">    <span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;input_word&#39;</span><span class="p">]</span>     <span class="c1"># 声明在前缀或后缀中所需要注入的变量名</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">prompt_text</span> <span class="o">=</span> <span class="n">few_shot_template</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;input_word&#34;</span><span class="p">:</span> <span class="s2">&#34;左&#34;</span><span class="p">})</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">prompt_text</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">Tongyi</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen-max&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">prompt_text</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="formatinvok">Format&amp;invok
+</h3><p><img src="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/Format&amp;invok.png"
+	width="2328"
+	height="654"
+	srcset="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/Format&amp;invok_hu_8a0c7975e4f1a28f.png 480w, /letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/Format&amp;invok_hu_536deabaa0f8e655.png 1024w"
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="355"
+		data-flex-basis="854px"
+	
+></p>
+<p><img src="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/QB.png"
+	width="1583"
+	height="762"
+	srcset="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/QB_hu_a344a18f28264600.png 480w, /letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/QB_hu_8567b65bfc1ac81.png 1024w"
+	loading="lazy"
+	
+		alt="图片"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="207"
+		data-flex-basis="498px"
+	
+></p>
+<h3 id="chatprompttemplate">ChatPromptTemplate
+</h3><p>PromptTemplate: 通用提示词模板，支持动态注入信息。</p>
+<p>FewShotPromptTemplate: 支持基于模板注入任意数量的示例信息。</p>
+<p>ChatPromptTemplate: 支持注入任意数量的历史会话信息。</p>
+<ul>
+<li>通过from_messages方法，从列表中获取多轮次会话作为聊天的基础模板
+<ul>
+<li>PS: 前面PromptTemplate类用的from_template仅能接入一条消息，而from_messages可以接入一个list的消息</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;system&#34;</span><span class="p">,</span> <span class="s2">&#34;.......&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;ai&#34;</span><span class="p">,</span> <span class="s2">&#34;.......&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">......</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;human&#34;</span><span class="p">,</span> <span class="s2">&#34;.......&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>历史会话信息并不是静态的（固定的），而是随着对话的进行不停地积攒，即动态的。</p>
+<p>所以，历史会话信息需要支持动态注入。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">MessagesPlaceholder</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">chat_template</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;system&#34;</span><span class="p">,</span> <span class="s2">&#34;.......&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;ai&#34;</span><span class="p">,</span> <span class="s2">&#34;.......&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">MessagesPlaceholder</span><span class="p">(</span><span class="s2">&#34;history&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;human&#34;</span><span class="p">,</span> <span class="s2">&#34;.......&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">history_data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;human&#34;</span><span class="p">,</span> <span class="s2">&#34;...&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;ai&#34;</span><span class="p">,</span> <span class="s2">&#34;...&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;human&#34;</span><span class="p">,</span> <span class="s2">&#34;...&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;ai&#34;</span><span class="p">,</span> <span class="s2">&#34;...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">prompt_value</span> <span class="o">=</span> <span class="n">chat_template</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&#34;history&#34;</span><span class="p">:</span> <span class="n">history_data</span><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">ChatPromptTemplate</span><span class="p">,</span><span class="n">MessagesPlaceholder</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_community.chat_models.tongyi</span> <span class="kn">import</span> <span class="n">ChatTongyi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">chat_prompt_template</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;system&#34;</span><span class="p">,</span> <span class="s2">&#34;你是一个边塞诗人，可以作诗。&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">MessagesPlaceholder</span><span class="p">(</span><span class="s2">&#34;history&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;human&#34;</span><span class="p">,</span> <span class="s2">&#34;请再来一首唐诗&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">history_data</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;human&#34;</span><span class="p">,</span> <span class="s2">&#34;你来写一个唐诗&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;ai&#34;</span><span class="p">,</span> <span class="s2">&#34;床前明月光，疑是地上霜，举头望明月，低头思故乡&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;human&#34;</span><span class="p">,</span> <span class="s2">&#34;好诗再来一个&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="s2">&#34;ai&#34;</span><span class="p">,</span> <span class="s2">&#34;锄禾日当午，汗滴禾下锄，谁知盘中餐，粒粒皆辛苦&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># StringPromptValue    to_string()</span>
+</span></span><span class="line"><span class="cl"><span class="n">prompt_text</span> <span class="o">=</span> <span class="n">chat_prompt_template</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">&#34;history&#34;</span><span class="p">:</span> <span class="n">history_data</span><span class="p">})</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">ChatTongyi</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen3-max&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt_text</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 水元素长弓
+    </section>
+    
+    <section class="powerby">
+        
+            不嘻嘻 <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.33.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/letere-git.github-io/ts/main.b4654cd74006fe7475d7723cd7373672b5ea2035ab23404eb9ff511cb27b581c.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+
+<div id="aplayer"></div>
+
+<script>
+    const home = "https:\/\/14kesu.github.io\/letere-git.github-io\/"
+    console.log(home);
+    const ap = new APlayer({
+        lrcType: 3,
+        container: document.getElementById('aplayer'),
+        fixed: true,
+        audio: [{
+        name: '电击曼波',
+        artist: '毒药是汤底',
+        url: home + 'music/电击曼波-毒药是汤底/song.mp3',
+        cover: home +  'music/电击曼波-毒药是汤底/cover.jpg',
+        lrc: home + 'music/电击曼波-毒药是汤底/lyric.lrc'
+        }]
+    });
+    
+
+    
+
+    window.onbeforeunload = () => {
+        
+        const playInfo = {
+            index: ap.list.index,
+            currentTime: ap.audio.currentTime,
+            paused: ap.paused
+        };
+        localStorage.setItem("playInfo", JSON.stringify(playInfo));
+    };
+
+    
+
+    window.onload = () => {
+        
+        const playInfo = JSON.parse(localStorage.getItem("playInfo"));
+        if (!playInfo) {
+            return;
+        }
+        
+        ap.list.switch(playInfo.index);
+        
+        setTimeout(() => {
+            
+            ap.seek(playInfo.currentTime);
+            
+            if (!playInfo.paused) {
+                ap.play()
+            }
+        }, 500);
+    };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container"
+        ]
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass)
+            }
+            
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            
+        }
+    }
+</script>
+<script>
+    document.addEventListener('pjax:complete', () => {
+        
+        window.Stack.init();
+    })
+</script>
+
+
+    
+    <script src=https://14kesu.github.io/letere-git.github-io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        
+        topbar.hide();
+    })
+</script>
+<script>
+    
+
+
+
+
+const live2d_path = 'https://fastly.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.6/dist/';
+
+const cssPath = "https://14kesu.github.io/letere-git.github-io/waifu/waifu.css"
+const waifuTipsPath = "https://14kesu.github.io/letere-git.github-io/waifu/waifu-tips.json"
+
+
+
+
+function loadExternalResource(url, type) {
+  return new Promise((resolve, reject) => {
+    let tag;
+
+    if (type === 'css') {
+      tag = document.createElement('link');
+      tag.rel = 'stylesheet';
+      tag.href = url;
+    }
+    else if (type === 'js') {
+      tag = document.createElement('script');
+      tag.type = 'module';
+      tag.src = url;
+    }
+    if (tag) {
+      tag.onload = () => resolve(url);
+      tag.onerror = () => reject(url);
+      document.head.appendChild(tag);
+    }
+  });
+}
+
+(async () => {
+  
+  
+  
+
+  
+  
+  const OriginalImage = window.Image;
+  window.Image = function(...args) {
+    const img = new OriginalImage(...args);
+    img.crossOrigin = "anonymous";
+    return img;
+  };
+  window.Image.prototype = OriginalImage.prototype;
+  
+  
+  await Promise.all([
+    loadExternalResource(cssPath, 'css'),
+    loadExternalResource(live2d_path + 'waifu-tips.js', 'js')
+  ]);
+  
+  
+  initWidget({
+    waifuPath: waifuTipsPath,
+    
+    cubism2Path: live2d_path + 'live2d.min.js',
+    cubism5Path: 'https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js',
+    tools: ['hitokoto', 'asteroids', 'switch-model', 'switch-texture', 'photo', 'info', 'quit'],
+    logLevel: 'warn',
+    drag: false,
+  });
+})();
+
+console.log(`\n%cLive2D%cWidget%c\n`, 'padding: 8px; background: #cd3e45; font-weight: bold; font-size: large; color: white;', 'padding: 8px; background: #ff5450; font-size: large; color: #eee;', '');
+
+
+
+</script>
+
+
+    </body>
+</html>
