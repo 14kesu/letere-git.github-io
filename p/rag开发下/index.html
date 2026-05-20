@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="RAG开发——下 chain链 「将组件串联，上一个组件的输出作为下一个组件的输入」是 LangChain 链（尤其是 | 管道链）的核心工作原理，这也是链式调用的核心价值：实现数据的自动化流转与组件的协同工作，如下。\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="深入LangChain链式调用、历史记录与会话管理">
 <title>RAG开发——下</title>
 
 <link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8B/'>
 
 <link rel="stylesheet" href="/letere-git.github-io/scss/style.min.92e7c2d2e73a6e795d6d2e40cd5b906f03cf228e9bc8b3f0f9c3deaf0aea3954.css"><meta property='og:title' content="RAG开发——下">
-<meta property='og:description' content="RAG开发——下 chain链 「将组件串联，上一个组件的输出作为下一个组件的输入」是 LangChain 链（尤其是 | 管道链）的核心工作原理，这也是链式调用的核心价值：实现数据的自动化流转与组件的协同工作，如下。\n">
+<meta property='og:description' content="深入LangChain链式调用、历史记录与会话管理">
 <meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8B/'>
 <meta property='og:site_name' content='水元素长弓'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-05-16T19:44:09&#43;08:00'/><meta property='article:modified_time' content='2026-05-16T19:44:09&#43;08:00'/><meta property='og:image' content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8B/cover.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='AI' /><meta property='article:tag' content='RAG' /><meta property='article:tag' content='LangChain' /><meta property='article:published_time' content='2026-05-16T19:44:09&#43;08:00'/><meta property='article:modified_time' content='2026-05-16T19:44:09&#43;08:00'/><meta property='og:image' content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8B/cover.png' />
 <meta name="twitter:title" content="RAG开发——下">
-<meta name="twitter:description" content="RAG开发——下 chain链 「将组件串联，上一个组件的输出作为下一个组件的输入」是 LangChain 链（尤其是 | 管道链）的核心工作原理，这也是链式调用的核心价值：实现数据的自动化流转与组件的协同工作，如下。\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="深入LangChain链式调用、历史记录与会话管理"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8B/cover.png' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -309,12 +309,24 @@
 
     <div class="article-details">
     
+    <header class="article-category">
+        
+            <a href="/letere-git.github-io/categories/ai/" >
+                AI
+            </a>
+        
+    </header>
+    
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
             <a href="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8B/">RAG开发——下</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            深入LangChain链式调用、历史记录与会话管理
+        </h3>
         
     </div>
 
@@ -1006,6 +1018,16 @@
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/letere-git.github-io/tags/ai/">AI</a>
+        
+            <a href="/letere-git.github-io/tags/rag/">RAG</a>
+        
+            <a href="/letere-git.github-io/tags/langchain/">LangChain</a>
+        
+    </section>
+
 
     </footer>
 
@@ -1016,6 +1038,106 @@
     
 
     
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/cover.dda0bf24ce118ef0dc6a481f88751ba6_hu_a01215b963476be0.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post RAG开发——上"
+                        
+                        data-hash="md5-3aC/JM4RjvDcakgfiHUbpg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">RAG开发——上</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/agent%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/letere-git.github-io/cover.png" loading="lazy" data-key="" data-hash="/letere-git.github-io/cover.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Agent入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/cover.86ff5e5993aace7fb0af66c2e7bee5bb_hu_5f80c5137f7e932d.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 提示词工程"
+                        
+                        data-hash="md5-hv9eWZOqzn&#43;wr2bC577luw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">提示词工程</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%8Eopenai%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%8Eopenai%E5%85%A5%E9%97%A8/cover.63a779124ac14cc08c054487bbe67c5a_hu_982c238a02970b94.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 大模型部署与openAI入门"
+                        
+                        data-hash="md5-Y6d5EkrBTMCMBUSHu&#43;Z8Wg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">大模型部署与openAI入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
 
      
     

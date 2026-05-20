@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="前期调试 部署 我会通过阿里云百炼平台提供的免费试用额度来进行学习： 首先要通过代码吊桶阿里云百炼平台大模型，主要动作\n在阿里云中创建好自己的apikey 在电脑中安装好openai库 复制官网示例代码并执行（可在代码中替换需要调用的模型） 使用环境变量保护APIKEY 代码中api如果是明文显示在代码中的，是有很大安全隐患的。我们可以通过环境变量来隐藏明文APIKEY\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="通过阿里云百炼平台部署大模型并调用API">
 <title>大模型部署与openAI入门</title>
 
 <link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%8Eopenai%E5%85%A5%E9%97%A8/'>
 
 <link rel="stylesheet" href="/letere-git.github-io/scss/style.min.92e7c2d2e73a6e795d6d2e40cd5b906f03cf228e9bc8b3f0f9c3deaf0aea3954.css"><meta property='og:title' content="大模型部署与openAI入门">
-<meta property='og:description' content="前期调试 部署 我会通过阿里云百炼平台提供的免费试用额度来进行学习： 首先要通过代码吊桶阿里云百炼平台大模型，主要动作\n在阿里云中创建好自己的apikey 在电脑中安装好openai库 复制官网示例代码并执行（可在代码中替换需要调用的模型） 使用环境变量保护APIKEY 代码中api如果是明文显示在代码中的，是有很大安全隐患的。我们可以通过环境变量来隐藏明文APIKEY\n">
+<meta property='og:description' content="通过阿里云百炼平台部署大模型并调用API">
 <meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%8Eopenai%E5%85%A5%E9%97%A8/'>
 <meta property='og:site_name' content='水元素长弓'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-04-23T17:16:56&#43;08:00'/><meta property='article:modified_time' content='2026-04-23T17:16:56&#43;08:00'/><meta property='og:image' content='https://14kesu.github.io/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%8Eopenai%E5%85%A5%E9%97%A8/cover.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='AI' /><meta property='article:tag' content='部署' /><meta property='article:tag' content='OpenAI' /><meta property='article:published_time' content='2026-04-23T17:16:56&#43;08:00'/><meta property='article:modified_time' content='2026-04-23T17:16:56&#43;08:00'/><meta property='og:image' content='https://14kesu.github.io/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%8Eopenai%E5%85%A5%E9%97%A8/cover.png' />
 <meta name="twitter:title" content="大模型部署与openAI入门">
-<meta name="twitter:description" content="前期调试 部署 我会通过阿里云百炼平台提供的免费试用额度来进行学习： 首先要通过代码吊桶阿里云百炼平台大模型，主要动作\n在阿里云中创建好自己的apikey 在电脑中安装好openai库 复制官网示例代码并执行（可在代码中替换需要调用的模型） 使用环境变量保护APIKEY 代码中api如果是明文显示在代码中的，是有很大安全隐患的。我们可以通过环境变量来隐藏明文APIKEY\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="通过阿里云百炼平台部署大模型并调用API"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://14kesu.github.io/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%8Eopenai%E5%85%A5%E9%97%A8/cover.png' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -340,12 +340,24 @@
 
     <div class="article-details">
     
+    <header class="article-category">
+        
+            <a href="/letere-git.github-io/categories/ai/" >
+                AI
+            </a>
+        
+    </header>
+    
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
             <a href="/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%8Eopenai%E5%85%A5%E9%97%A8/">大模型部署与openAI入门</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            通过阿里云百炼平台部署大模型并调用API
+        </h3>
         
     </div>
 
@@ -773,6 +785,16 @@
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/letere-git.github-io/tags/ai/">AI</a>
+        
+            <a href="/letere-git.github-io/tags/%E9%83%A8%E7%BD%B2/">部署</a>
+        
+            <a href="/letere-git.github-io/tags/openai/">OpenAI</a>
+        
+    </section>
+
 
     </footer>
 
@@ -783,6 +805,106 @@
     
 
     
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/agent%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/letere-git.github-io/cover.png" loading="lazy" data-key="" data-hash="/letere-git.github-io/cover.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Agent入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8B/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8B/cover.d6821a638110f3598b2ae3be31b5392c_hu_7894292d7f333ec4.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post RAG开发——下"
+                        
+                        data-hash="md5-1oIaY4EQ81mLKuO&#43;MbU5LA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">RAG开发——下</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/cover.dda0bf24ce118ef0dc6a481f88751ba6_hu_a01215b963476be0.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post RAG开发——上"
+                        
+                        data-hash="md5-3aC/JM4RjvDcakgfiHUbpg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">RAG开发——上</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/cover.86ff5e5993aace7fb0af66c2e7bee5bb_hu_5f80c5137f7e932d.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 提示词工程"
+                        
+                        data-hash="md5-hv9eWZOqzn&#43;wr2bC577luw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">提示词工程</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
 
      
     

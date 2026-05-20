@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="LangChain LangChain简介 LangChain 由 Harrison Chase 创建于2022年10月，它是围绕LLMs（大语言模型）建立的一个框架。\nLangChain自身并不开发LLMs，它的核心理念是为各种LLMs实现通用的接口，把LLMs相关的组件“链接”在一起，简化LLMs应用的开发难度，方便开发者快速地开发复杂的LLMs应用。\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="LangChain框架入门与RAG开发基础">
 <title>RAG开发——上</title>
 
 <link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/'>
 
 <link rel="stylesheet" href="/letere-git.github-io/scss/style.min.92e7c2d2e73a6e795d6d2e40cd5b906f03cf228e9bc8b3f0f9c3deaf0aea3954.css"><meta property='og:title' content="RAG开发——上">
-<meta property='og:description' content="LangChain LangChain简介 LangChain 由 Harrison Chase 创建于2022年10月，它是围绕LLMs（大语言模型）建立的一个框架。\nLangChain自身并不开发LLMs，它的核心理念是为各种LLMs实现通用的接口，把LLMs相关的组件“链接”在一起，简化LLMs应用的开发难度，方便开发者快速地开发复杂的LLMs应用。\n">
+<meta property='og:description' content="LangChain框架入门与RAG开发基础">
 <meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/'>
 <meta property='og:site_name' content='水元素长弓'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-05-16T16:35:06&#43;08:00'/><meta property='article:modified_time' content='2026-05-16T16:35:06&#43;08:00'/><meta property='og:image' content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/cover.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='AI' /><meta property='article:tag' content='RAG' /><meta property='article:tag' content='LangChain' /><meta property='article:published_time' content='2026-05-16T16:35:06&#43;08:00'/><meta property='article:modified_time' content='2026-05-16T16:35:06&#43;08:00'/><meta property='og:image' content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/cover.png' />
 <meta name="twitter:title" content="RAG开发——上">
-<meta name="twitter:description" content="LangChain LangChain简介 LangChain 由 Harrison Chase 创建于2022年10月，它是围绕LLMs（大语言模型）建立的一个框架。\nLangChain自身并不开发LLMs，它的核心理念是为各种LLMs实现通用的接口，把LLMs相关的组件“链接”在一起，简化LLMs应用的开发难度，方便开发者快速地开发复杂的LLMs应用。\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="LangChain框架入门与RAG开发基础"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/cover.png' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -318,12 +318,24 @@
 
     <div class="article-details">
     
+    <header class="article-category">
+        
+            <a href="/letere-git.github-io/categories/ai/" >
+                AI
+            </a>
+        
+    </header>
+    
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
             <a href="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/">RAG开发——上</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            LangChain框架入门与RAG开发基础
+        </h3>
         
     </div>
 
@@ -950,6 +962,16 @@
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/letere-git.github-io/tags/ai/">AI</a>
+        
+            <a href="/letere-git.github-io/tags/rag/">RAG</a>
+        
+            <a href="/letere-git.github-io/tags/langchain/">LangChain</a>
+        
+    </section>
+
 
     </footer>
 
@@ -960,6 +982,106 @@
     
 
     
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8B/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8B/cover.d6821a638110f3598b2ae3be31b5392c_hu_7894292d7f333ec4.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post RAG开发——下"
+                        
+                        data-hash="md5-1oIaY4EQ81mLKuO&#43;MbU5LA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">RAG开发——下</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/agent%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/letere-git.github-io/cover.png" loading="lazy" data-key="" data-hash="/letere-git.github-io/cover.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Agent入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/cover.86ff5e5993aace7fb0af66c2e7bee5bb_hu_5f80c5137f7e932d.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 提示词工程"
+                        
+                        data-hash="md5-hv9eWZOqzn&#43;wr2bC577luw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">提示词工程</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%8Eopenai%E5%85%A5%E9%97%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%8Eopenai%E5%85%A5%E9%97%A8/cover.63a779124ac14cc08c054487bbe67c5a_hu_982c238a02970b94.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 大模型部署与openAI入门"
+                        
+                        data-hash="md5-Y6d5EkrBTMCMBUSHu&#43;Z8Wg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">大模型部署与openAI入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
 
      
     
