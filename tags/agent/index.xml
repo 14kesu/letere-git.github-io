@@ -7,13 +7,85 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>水元素长弓</copyright>
-        <lastBuildDate>Sat, 16 May 2026 21:19:29 +0800</lastBuildDate><atom:link href="https://14kesu.github.io/letere-git.github-io/tags/agent/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 24 May 2026 20:50:34 +0800</lastBuildDate><atom:link href="https://14kesu.github.io/letere-git.github-io/tags/agent/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Agent术语详解</title>
+        <link>https://14kesu.github.io/letere-git.github-io/p/agent%E6%9C%AF%E8%AF%AD%E8%AF%A6%E8%A7%A3/</link>
+        <pubDate>Sun, 24 May 2026 20:50:34 +0800</pubDate>
+        
+        <guid>https://14kesu.github.io/letere-git.github-io/p/agent%E6%9C%AF%E8%AF%AD%E8%AF%A6%E8%A7%A3/</guid>
+        <description>&lt;h2 id=&#34;大模型部分&#34;&gt;大模型部分
+&lt;/h2&gt;&lt;h3 id=&#34;llm&#34;&gt;LLM：
+&lt;/h3&gt;&lt;p&gt;LLM 全称 Large Language Model，中文译为大语言模型。&lt;/p&gt;
+&lt;p&gt;基于海量文本数据训练，可实现自然语言理解、文本生成、逻辑推理、代码编写、问答创作等功能，常见模型包含GPT、文心一言、通义千问、讯飞星火、豆包等。&lt;/p&gt;
+&lt;h3 id=&#34;prompt&#34;&gt;Prompt
+&lt;/h3&gt;&lt;p&gt;Prompt 中文称作提示词，是用户向大语言模型下达的指令、提问、描述文本。&lt;/p&gt;
+&lt;p&gt;通过设定文字要求，引导LLM按照指定风格、格式、逻辑完成生成、问答、创作、翻译等任务。&lt;/p&gt;
+&lt;h3 id=&#34;context&#34;&gt;Context
+&lt;/h3&gt;&lt;p&gt;Context即上下文，指对话过程中历史问答、输入文本、背景信息等全部内容。&lt;/p&gt;
+&lt;p&gt;LLM依托上下文理解语义、承接对话逻辑，连贯完成多轮交互与长文本任务。&lt;/p&gt;
+&lt;h3 id=&#34;memory&#34;&gt;Memory
+&lt;/h3&gt;&lt;p&gt;Memory意为记忆，是大模型存储对话历史、用户偏好、过往交互数据的模块。&lt;/p&gt;
+&lt;p&gt;用于留存过往信息，实现连续对话、个性化应答与历史内容复用。&lt;/p&gt;
+&lt;h2 id=&#34;智能体部分&#34;&gt;智能体部分
+&lt;/h2&gt;&lt;h3 id=&#34;rag&#34;&gt;RAG
+&lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://14kesu.github.io/letere-git.github-io/p/rag%E5%BC%80%E5%8F%91%E4%B8%8A/?t=1779628775334&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;RAG入门——上&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;RAG（Retrieval-Augmented Generation）即检索增强生成，为大模型提供了从特定数据源检索到的信息，以此来修正和补充生成的答案。可以总结为一个公式：RAG = 检索技术 + LLM 提示&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://14kesu.github.io/letere-git.github-io/p/agent%E6%9C%AF%E8%AF%AD%E8%AF%A6%E8%A7%A3/gongzuoliuchengtujie.png&#34;
+	width=&#34;1034&#34;
+	height=&#34;606&#34;
+	srcset=&#34;https://14kesu.github.io/letere-git.github-io/p/agent%E6%9C%AF%E8%AF%AD%E8%AF%A6%E8%A7%A3/gongzuoliuchengtujie_hu_5bf9d443c5860361.png 480w, https://14kesu.github.io/letere-git.github-io/p/agent%E6%9C%AF%E8%AF%AD%E8%AF%A6%E8%A7%A3/gongzuoliuchengtujie_hu_5a7c71f6f0da14aa.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;170&#34;
+		data-flex-basis=&#34;409px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://14kesu.github.io/letere-git.github-io/p/agent%E6%9C%AF%E8%AF%AD%E8%AF%A6%E8%A7%A3/RAGbiaozhunliucheng.png&#34;
+	width=&#34;1244&#34;
+	height=&#34;621&#34;
+	srcset=&#34;https://14kesu.github.io/letere-git.github-io/p/agent%E6%9C%AF%E8%AF%AD%E8%AF%A6%E8%A7%A3/RAGbiaozhunliucheng_hu_b4d34d01b9bfcbde.png 480w, https://14kesu.github.io/letere-git.github-io/p/agent%E6%9C%AF%E8%AF%AD%E8%AF%A6%E8%A7%A3/RAGbiaozhunliucheng_hu_20f6c46bbaf7f271.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图片&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;200&#34;
+		data-flex-basis=&#34;480px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;注：上图均来自于&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV1yjz5BLEoY?spm_id_from=333.788.player.switch&amp;amp;vd_source=2e329da59ff85146ed3eebaef46785f0&amp;amp;p=19&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;黑马程序员大模型RAG与Agent智能体项目实战教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;简单来说RAG工作分为两条线&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;离线流程-R（Retrieval检索）：知识库预处理，通过查询各种的方式寻找文档/私有知识并加载，在分割，向量化之后形成向量数据库。&lt;/li&gt;
+&lt;li&gt;在线流程-A（Augmentation增强）G（Generation生成）：用户提问-&amp;gt;检索环节-&amp;gt;Prompt融合-&amp;gt;大模型回答&lt;/li&gt;
+&lt;li&gt;同时离线流程中的向量数据库会流向在线流程的检索环节。w&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;模型本质上就是用户输入，模型给出输出，用户能做的就是在输入上做功夫。&lt;/p&gt;
+&lt;p&gt;RAG 就是在向模型提问之前基于已有的知识库或文档内容做检索，确保向模型提问的内容更精准以及包含足够的信息量用以提供给模型。&lt;/p&gt;
+&lt;p&gt;RAG 的核心价值：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;解决知识实效性问题：大模型的训练数据有截止时间，RAG 可以接入最新文档（如公司财报、政策文件），让模型输出 “与时俱进”。&lt;/li&gt;
+&lt;li&gt;降低模型幻觉：模型的回答基于检索到的事实性资料，而非纯靠自身记忆，大幅减少编造信息的概率。&lt;/li&gt;
+&lt;li&gt;无需重新训练模型：相比微调（Fine-tuning），RAG 只需更新知识库，成本更低、效率更高。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;模型上下文搜索协议-mcp&#34;&gt;模型上下文搜索协议 MCP
+&lt;/h3&gt;&lt;p&gt;MCP：model context protocol&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Agent入门</title>
         <link>https://14kesu.github.io/letere-git.github-io/p/agent%E5%85%A5%E9%97%A8/</link>
         <pubDate>Sat, 16 May 2026 21:19:29 +0800</pubDate>
         
         <guid>https://14kesu.github.io/letere-git.github-io/p/agent%E5%85%A5%E9%97%A8/</guid>
-        <description>&lt;img src="https://14kesu.github.io/letere-git.github-io/cover.png" alt="Featured image of post Agent入门" /&gt;&lt;h1 id=&#34;agent入门&#34;&gt;Agent入门
+        <description>&lt;h1 id=&#34;agent入门&#34;&gt;Agent入门
 &lt;/h1&gt;</description>
         </item>
         
