@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="逐层拆解一个 Unity 3D 动作战斗原型，从输入到伤害的每一步代码实现">
 <title>对战斗系统进行一个从基础到完善的拆解</title>
 
 <link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%88%B0%E5%AE%8C%E5%96%84%E7%9A%84%E6%8B%86%E8%A7%A3/'>
 
 <link rel="stylesheet" href="/letere-git.github-io/scss/style.min.87faa1fbeaa0c848cde3d06494824d75580baa0ffd12e4d98e2922ce298fc885.css"><meta property='og:title' content="对战斗系统进行一个从基础到完善的拆解">
-<meta property='og:description' content="">
+<meta property='og:description' content="逐层拆解一个 Unity 3D 动作战斗原型，从输入到伤害的每一步代码实现">
 <meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%88%B0%E5%AE%8C%E5%96%84%E7%9A%84%E6%8B%86%E8%A7%A3/'>
 <meta property='og:site_name' content='水元素长弓'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-05-29T20:43:56&#43;08:00'/><meta property='article:modified_time' content='2026-05-29T20:43:56&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-06-11T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-06-11T00:00:00&#43;00:00'/>
 <meta name="twitter:title" content="对战斗系统进行一个从基础到完善的拆解">
-<meta name="twitter:description" content="">
+<meta name="twitter:description" content="逐层拆解一个 Unity 3D 动作战斗原型，从输入到伤害的每一步代码实现">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -245,7 +245,168 @@
     </ol>
 </aside>
 
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一项目概述">一、项目概述</a></li>
+    <li><a href="#二架构总览">二、架构总览</a>
+      <ol>
+        <li><a href="#设计核心理念">设计核心理念</a></li>
+        <li><a href="#事件系统的角色">事件系统的角色</a></li>
+        <li><a href="#数据流向">数据流向</a></li>
+      </ol>
+    </li>
+    <li><a href="#三输入系统">三、输入系统</a>
+      <ol>
+        <li><a href="#文件">文件</a></li>
+        <li><a href="#按键绑定">按键绑定</a></li>
+        <li><a href="#上下文切换">上下文切换</a></li>
+        <li><a href="#按键到事件链路">按键到事件链路</a></li>
+      </ol>
+    </li>
+    <li><a href="#四动画状态机与事件路由">四、动画状态机与事件路由</a>
+      <ol>
+        <li><a href="#文件-1">文件</a></li>
+        <li><a href="#onanimationtranslation-设计">OnAnimationTranslation 设计</a></li>
+        <li><a href="#onstateexit-分流逻辑最终版">OnStateExit 分流逻辑（最终版）</a></li>
+        <li><a href="#踩过的坑">踩过的坑</a></li>
+      </ol>
+    </li>
+    <li><a href="#五连招系统">五、连招系统</a>
+      <ol>
+        <li><a href="#核心文件">核心文件</a></li>
+        <li><a href="#普攻流程">普攻流程</a></li>
+        <li><a href="#预输入窗口">预输入窗口</a></li>
+        <li><a href="#三层数据驱动">三层数据驱动</a></li>
+        <li><a href="#comboindex-和-atkindex">comboIndex 和 ATKIndex</a></li>
+        <li><a href="#闪a">闪A</a></li>
+      </ol>
+    </li>
+    <li><a href="#六技能系统">六、技能系统</a>
+      <ol>
+        <li><a href="#流程">流程</a></li>
+        <li><a href="#与普攻共用-attacktrigger">与普攻共用 AttackTrigger</a></li>
+      </ol>
+    </li>
+    <li><a href="#七相机系统">七、相机系统</a>
+      <ol>
+        <li><a href="#核心文件-1">核心文件</a></li>
+        <li><a href="#cameraswitcher-设计">CameraSwitcher 设计</a></li>
+        <li><a href="#timeline-方案演进">Timeline 方案演进</a></li>
+        <li><a href="#最终方案">最终方案</a></li>
+        <li><a href="#切人应急复位">切人应急复位</a></li>
+        <li><a href="#震屏兼容">震屏兼容</a></li>
+      </ol>
+    </li>
+    <li><a href="#八角色切换系统">八、角色切换系统</a>
+      <ol>
+        <li><a href="#核心文件-2">核心文件</a></li>
+        <li><a href="#两种切人">两种切人</a></li>
+        <li><a href="#waitattackfinishandexit-协程">WaitAttackFinishAndExit 协程</a></li>
+        <li><a href="#候补列表维护">候补列表维护</a></li>
+        <li><a href="#collider-互忽略">Collider 互忽略</a></li>
+      </ol>
+    </li>
+    <li><a href="#九伤害与霸体系统">九、伤害与霸体系统</a>
+      <ol>
+        <li><a href="#核心文件-3">核心文件</a></li>
+        <li><a href="#完整链路">完整链路</a></li>
+        <li><a href="#霸体耐力槽">霸体=耐力槽</a></li>
+        <li><a href="#震屏与顿帧">震屏与顿帧</a></li>
+      </ol>
+    </li>
+    <li><a href="#十特效系统">十、特效系统</a>
+      <ol>
+        <li><a href="#核心文件-4">核心文件</a></li>
+        <li><a href="#三级字典结构">三级字典结构</a></li>
+        <li><a href="#effectitem-生命周期已修复">EffectItem 生命周期（已修复）</a></li>
+        <li><a href="#修复过的-bug">修复过的 Bug</a></li>
+        <li><a href="#双-api">双 API</a></li>
+        <li><a href="#受击特效点计算">受击特效点计算</a></li>
+      </ol>
+    </li>
+    <li><a href="#十一音效系统">十一、音效系统</a>
+      <ol>
+        <li><a href="#核心文件-5">核心文件</a></li>
+        <li><a href="#两套播放路径">两套播放路径</a></li>
+        <li><a href="#playcombofx-技能支持">PlayComboFX 技能支持</a></li>
+        <li><a href="#池化路径的并发-bug">池化路径的并发 Bug</a></li>
+      </ol>
+    </li>
+    <li><a href="#十二辅助系统">十二、辅助系统</a>
+      <ol>
+        <li><a href="#timermanager计时器对象池">TimerManager（计时器对象池）</a></li>
+        <li><a href="#gameblackboard全局黑板">GameBlackboard（全局黑板）</a></li>
+        <li><a href="#bindableproperty响应式属性">BindableProperty（响应式属性）</a></li>
+        <li><a href="#自动追踪敌人">自动追踪敌人</a></li>
+      </ol>
+    </li>
+    <li><a href="#十三scriptableobject-数据体系">十三、ScriptableObject 数据体系</a>
+      <ol>
+        <li><a href="#完整配置层次">完整配置层次</a></li>
+        <li><a href="#运行时映射关系">运行时映射关系</a></li>
+      </ol>
+    </li>
+    <li><a href="#十四ui-系统">十四、UI 系统</a>
+      <ol>
+        <li><a href="#核心文件-6">核心文件</a></li>
+        <li><a href="#血条绑定">血条绑定</a></li>
+        <li><a href="#qte-倒计时选人-ui">QTE 倒计时选人 UI</a></li>
+      </ol>
+    </li>
+    <li><a href="#十五已知薄弱点">十五、已知薄弱点</a>
+      <ol>
+        <li><a href="#代码层">代码层</a></li>
+        <li><a href="#架构层">架构层</a></li>
+        <li><a href="#功能层">功能层</a></li>
+      </ol>
+    </li>
+    <li><a href="#十六配置清单附录">十六、配置清单（附录）</a>
+      <ol>
+        <li><a href="#必须的-inspector-配置">必须的 Inspector 配置</a></li>
+      </ol>
+    </li>
+    <li><a href="#十七补充细节">十七、补充细节</a>
+      <ol>
+        <li><a href="#根运动root-motion复用">根运动（Root Motion）复用</a></li>
+        <li><a href="#expandclassanimationattag-扩展方法">ExpandClass.AnimationAtTag 扩展方法</a></li>
+        <li><a href="#animatorid-参数哈希">AnimatorID 参数哈希</a></li>
+        <li><a href="#playermovementnullstatecheckstateexit-守卫">PlayerMovementNullState.CheckStateExit 守卫</a></li>
+        <li><a href="#移动状态链">移动状态链</a></li>
+        <li><a href="#vfxmanager-全局粒子速度控制">VFXManager 全局粒子速度控制</a></li>
+        <li><a href="#相机水平居中recentering">相机水平居中（Recentering）</a></li>
+        <li><a href="#相机遮挡避免">相机遮挡避免</a></li>
+        <li><a href="#charactercombobaseattackdetection-三条件">CharacterComboBase.AttackDetection 三条件</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
             <main class="main full-width">
     <article class="main-article">
@@ -259,6 +420,10 @@
             <a href="/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%88%B0%E5%AE%8C%E5%96%84%E7%9A%84%E6%8B%86%E8%A7%A3/">对战斗系统进行一个从基础到完善的拆解</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            逐层拆解一个 Unity 3D 动作战斗原型，从输入到伤害的每一步代码实现
+        </h3>
         
     </div>
 
@@ -278,7 +443,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published" datetime='2026-05-29T20:43:56&#43;08:00'>2026-05-29</time>
+                <time class="article-time--published" datetime='2026-06-11T00:00:00Z'>2026-06-11</time>
             </div>
         
 
@@ -294,7 +459,1527 @@
     <section class="article-content">
     
     
-    
+    <h2 id="一项目概述">一、项目概述
+</h2><p>一个从空白 Unity 工程开始搭建的 3D 动作战斗原型。约 6,800 行 C#，88 个脚本文件，覆盖 13 个模块。所有系统从零设计实现，不使用战斗中间件或现成框架。</p>
+<p><strong>已实现的战斗功能：</strong></p>
+<ul>
+<li>基于连招链的轻攻击（左键）和技能/大招（E/Q 键）</li>
+<li>Shift 闪避→冲刺链路，支持闪避中触发的特殊攻击（闪A）</li>
+<li>双角色切换（Tab 普通切换 / QTE 连携切人）</li>
+<li>霸体/耐力值分支的受击与格挡动画</li>
+<li>自动敌人锁定与攻击判定（SphereCast + 距离角度过滤）</li>
+</ul>
+<p><strong>已实现的辅助系统：</strong></p>
+<ul>
+<li>Cinemachine + Timeline 技能相机（Dolly 路径推近变焦）</li>
+<li>ComboData→ComboContainerData→PlayerComboSOData 三层 ScriptableObject 数据驱动</li>
+<li>事件系统解耦伤害链路</li>
+<li>VFX/SFX 对象池</li>
+<li>Timer 对象池计时器</li>
+<li>CinemachineImpulse 震屏 + Animator.speed 顿帧（实现但调用被注释）</li>
+</ul>
+<hr>
+<h2 id="二架构总览">二、架构总览
+</h2><h3 id="设计核心理念">设计核心理念
+</h3><p>两个相互独立的有限状态机并行运转：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Player (MonoBehaviour)
+</span></span><span class="line"><span class="cl">  ├── movementStateMachine   ← 移动 FSM（待机/行走/奔跑/冲刺/闪避/转身…）
+</span></span><span class="line"><span class="cl">  └── comboStateMachine      ← 连招 FSM（Null/ATKIng/Skill）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>两者通过 <code>OnAnimationTranslation</code>（Unity StateMachineBehaviour）联动，但<strong>互不包含引用</strong>——联动仅通过 Player 层的 <code>OnAnimationTranslateEvent</code> 中转。</p>
+<h3 id="事件系统的角色">事件系统的角色
+</h3><p>所有伤害判定、特效、音效通过 <code>GameEventManager</code>（类型安全的泛型 Action 封装）广播。攻击者只管发事件，不管谁接。敌人 Health 组件监听 <code>&quot;触发伤害&quot;</code> 事件，做伤害、动画、特效、音效四件事。</p>
+<h3 id="数据流向">数据流向
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">输入 → 状态机 → ComboData取值 → CrossFade动画
+</span></span><span class="line"><span class="cl">                    ↓
+</span></span><span class="line"><span class="cl">       动画事件ATK() → 伤害判定 → GameEventManager → 敌人Health → 受击反馈
+</span></span><span class="line"><span class="cl">       动画事件PlayComboFX() → SFX_PoolManager → 音效
+</span></span><span class="line"><span class="cl">       CameraSwitcher + SkillTimelineManager → 相机控制
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="三输入系统">三、输入系统
+</h2><h3 id="文件">文件
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>行数</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>Input/CharacterInput.inputactions</code></td>
+					<td>—</td>
+					<td>Input Action Asset，定义所有输入绑定</td>
+			</tr>
+			<tr>
+					<td><code>Input/CharacterInput.cs</code></td>
+					<td>720</td>
+					<td>自动生成的 C# 包装类，内嵌 JSON 绑定定义</td>
+			</tr>
+			<tr>
+					<td><code>Input/CharacterInputSystem.cs</code></td>
+					<td>127</td>
+					<td>单例，封装 <code>PlayerMove</code>、<code>L_Atk</code>、<code>R_Atk</code>、<code>Run</code> 等属性访问</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="按键绑定">按键绑定
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Player Action Map:
+</span></span><span class="line"><span class="cl">  L_AtK       → &lt;Mouse&gt;/leftButton       轻攻击
+</span></span><span class="line"><span class="cl">  R_Atk       → &lt;Mouse&gt;/rightButton      重攻击（代码未接线）
+</span></span><span class="line"><span class="cl">  Movement    → WASD / 左摇杆            移动
+</span></span><span class="line"><span class="cl">  Run         → &lt;Keyboard&gt;/shift         闪避/冲刺
+</span></span><span class="line"><span class="cl">  Execute     → &lt;Keyboard&gt;/e             技能
+</span></span><span class="line"><span class="cl">  FinishSkill → &lt;Keyboard&gt;/q             终极大招
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">SwitchSkill Action Map:
+</span></span><span class="line"><span class="cl">  L           → &lt;Mouse&gt;/leftButton       QTE选左
+</span></span><span class="line"><span class="cl">  R           → &lt;Mouse&gt;/rightButton      QTE选右
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="上下文切换">上下文切换
+</h3><p>QTE 切人时，<code>TriggerSwitchSkill()</code> 第 142 行禁用 <code>Player</code> Action Map，<code>CharacterCombo.StartSwitchSkill()</code> 第 166 行注册 <code>SwitchSkill</code> Map。左键从攻击变为选人，右键同理。取消或完成切人后恢复 <code>Player</code> 映射。</p>
+<h3 id="按键到事件链路">按键到事件链路
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">按下左键 → Input System → L_AtK.started
+</span></span><span class="line"><span class="cl">  → PlayerComboState.OnAttackInput(InputAction.CallbackContext)
+</span></span><span class="line"><span class="cl">    → 当前角色校验 → CanBaseComboInput(检查canInput + 不在Hit/Parry/Skill)
+</span></span><span class="line"><span class="cl">      → 冲刺/闪避中? → DodgeComboInput
+</span></span><span class="line"><span class="cl">      → 普通状态   → LightComboInput
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="四动画状态机与事件路由">四、动画状态机与事件路由
+</h2><h3 id="文件-1">文件
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>OnAnimationTranslation.cs</code></td>
+					<td>挂在 Animator Controller 每个动画状态上，负责进入/退出时通知 Player</td>
+			</tr>
+			<tr>
+					<td><code>Player.cs</code></td>
+					<td><code>OnAnimationTranslateEvent</code> 根据枚举分发到 movement / combo FSM</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="onanimationtranslation-设计">OnAnimationTranslation 设计
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">enum</span> <span class="n">OnEnterAnimationPlayerState</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Idle</span><span class="p">,</span> <span class="n">Walk</span><span class="p">,</span> <span class="n">Run</span><span class="p">,</span> <span class="n">Sprint</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Dash</span><span class="p">,</span> <span class="n">DashBack</span><span class="p">,</span> <span class="n">TurnBack</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Switch</span><span class="p">,</span> <span class="n">SwitchOut</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ATK</span><span class="p">,</span> <span class="n">Null</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>每个 Animator 动画状态上挂一个 <code>OnAnimationTranslation</code>，Inspector 中选对应的枚举值：</p>
+<ul>
+<li><code>Dash / DashBack</code> → 闪避动画</li>
+<li><code>ATK</code> → 普通攻击动画</li>
+<li><code>Null</code> → 技能动画（进入时不触发任何逻辑，退出时走 default 分支两者都调）</li>
+<li><code>Switch / SwitchOut</code> → 切人进出场</li>
+</ul>
+<h3 id="onstateexit-分流逻辑最终版">OnStateExit 分流逻辑（最终版）
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">switch</span> <span class="p">(</span><span class="n">onEnterAnimationState</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="n">Dash</span> <span class="p">/</span> <span class="n">DashBack</span> <span class="p">/</span> <span class="n">TurnBack</span> <span class="p">/</span> <span class="n">Switch</span> <span class="p">/</span> <span class="n">SwitchOut</span>
+</span></span><span class="line"><span class="cl">         <span class="p">/</span> <span class="n">Idle</span> <span class="p">/</span> <span class="n">Walk</span> <span class="p">/</span> <span class="n">Run</span> <span class="p">/</span> <span class="n">Sprint</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">player</span><span class="p">.</span><span class="n">OnMovementAnimationExitEvent</span><span class="p">();</span>   <span class="c1">// 只调 movement</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="n">ATK</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">player</span><span class="p">.</span><span class="n">OnMovementAnimationExitEvent</span><span class="p">();</span>   <span class="c1">// 调 movement（恢复移动）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">player</span><span class="p">.</span><span class="n">OnComboAnimationExitEvent</span><span class="p">();</span>      <span class="c1">// 调 combo（退出攻击状态）</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="p">:</span>  <span class="c1">// 含 Null（技能动画）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">player</span><span class="p">.</span><span class="n">OnAnimationExitEvent</span><span class="p">();</span>            <span class="c1">// 两者都调（向后兼容）</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="踩过的坑">踩过的坑
+</h3><p>中间版本 ATK 分支只调了 combo 忘了调 movement → 攻击结束卡死在 <code>PlayerMovementNullState</code> 无法移动。修复后发现翻滚退出也同时触发了 combo FSM → 技能被打断。最终版加 <code>default</code> 分支向后兼容 <code>Null</code> 状态的技能动画，<code>Dash</code> 系列只调 movement。</p>
+<hr>
+<h2 id="五连招系统">五、连招系统
+</h2><h3 id="核心文件">核心文件
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>行数</th>
+					<th>职责</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>CharacterComboBase.cs</code></td>
+					<td>330</td>
+					<td>核心连招逻辑：输入处理、动画播放、伤害触发</td>
+			</tr>
+			<tr>
+					<td><code>CharacterCombo.cs</code></td>
+					<td>241</td>
+					<td>角色特殊逻辑：闪A、技能、QTE、敌人检测</td>
+			</tr>
+			<tr>
+					<td><code>ComboContainerData.cs</code></td>
+					<td>194</td>
+					<td>ScriptableObject，多段连招容器</td>
+			</tr>
+			<tr>
+					<td><code>ComboData.cs</code></td>
+					<td>50</td>
+					<td>ScriptableObject，单段攻击数据</td>
+			</tr>
+			<tr>
+					<td><code>PlayerComboSOData.cs</code></td>
+					<td>14</td>
+					<td>角色五类攻击的顶层入口</td>
+			</tr>
+			<tr>
+					<td><code>PlayerComboReusableData.cs</code></td>
+					<td>24</td>
+					<td>运行时状态（comboIndex、canInput、canATK等）</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="普攻流程">普攻流程
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">左键 → LightComboInput()
+</span></span><span class="line"><span class="cl">  ├── currentCombo = comboData.lightCombo     ← 设为轻攻击链
+</span></span><span class="line"><span class="cl">  ├── ResetComboDates()                        ← 恢复第一段（防止闪A残留）
+</span></span><span class="line"><span class="cl">  └── ExecuteBaseCombo()
+</span></span><span class="line"><span class="cl">        ├── hasATKCommand = true               ← 攻击指令排队
+</span></span><span class="line"><span class="cl">        └── canInput = false                   ← 锁输入
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">下一帧 UpdateComboAnimation() 消费指令:
+</span></span><span class="line"><span class="cl">  ├── comboName = currentCombo.GetComboName(comboIndex)
+</span></span><span class="line"><span class="cl">  ├── CrossFade(comboName, 0.111f)            ← 播放动画
+</span></span><span class="line"><span class="cl">  ├── PlayCharacterVoice / PlayWeaponSound     ← 播放音效
+</span></span><span class="line"><span class="cl">  └── comboIndex++, hasATKCommand=false, canATK=false
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="预输入窗口">预输入窗口
+</h3><p>动画事件的 <code>EnablePreInput</code> 在攻击动画<strong>结束前</strong>设 <code>canInput=true</code>。玩家在这个窗口内再按左键 → <code>comboIndex++</code> → 下一段攻击。<code>DisableLinkCombo</code> 在最后一段攻击中关闭 <code>canLink=false</code> → 连招链终止。</p>
+<h3 id="三层数据驱动">三层数据驱动
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ComboData.asset          → 单段攻击的所有参数
+</span></span><span class="line"><span class="cl">  ├── comboName: &#34;ATK_01&#34;
+</span></span><span class="line"><span class="cl">  ├── comboDamage: 15
+</span></span><span class="line"><span class="cl">  ├── hitName[]: &#34;Hit_Front&#34;, &#34;Hit_Back&#34;
+</span></span><span class="line"><span class="cl">  ├── parryName[]: &#34;Parry&#34;
+</span></span><span class="line"><span class="cl">  ├── ATKCount: 2
+</span></span><span class="line"><span class="cl">  └── shakeForceList: [0.3, 0.5]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ComboContainerData.asset → 多段连招链
+</span></span><span class="line"><span class="cl">  └── comboDates[]: [ComboData_01, ComboData_02, ...]
+</span></span><span class="line"><span class="cl">      └── DodgeATKData: 闪A替换第一段
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">PlayerComboSOData        → 角色的五类攻击
+</span></span><span class="line"><span class="cl">  ├── lightCombo
+</span></span><span class="line"><span class="cl">  ├── heavyCombo
+</span></span><span class="line"><span class="cl">  ├── executeCombo
+</span></span><span class="line"><span class="cl">  ├── skillCombo
+</span></span><span class="line"><span class="cl">  ├── finishSkillCombo
+</span></span><span class="line"><span class="cl">  └── switchSkill
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="comboindex-和-atkindex">comboIndex 和 ATKIndex
+</h3><ul>
+<li><code>comboIndex</code>：当前连招段索引（0→1→2→0 循环）</li>
+<li><code>ATKIndex</code>：<strong>段内</strong>伤害判定序号（从 1 开始），用于读取 <code>ShakeForceList</code> 和 <code>PauseFrameTimeList</code>。每次 <code>ATK()</code> 动画事件触发时 <code>UpdateATKIndex()</code> 自增。<code>comboIndex</code> 变化时通过 <code>BindableProperty.OnValueChanged</code> 自动回调 <code>ReSetATKIndex</code> 清零。</li>
+</ul>
+<h3 id="闪a">闪A
+</h3><p>闪避/冲刺中按左键 → <code>PlayerComboState.OnAttackInput</code> 检测 <code>currentMovementState == &quot;Sprinting&quot; || AnimationAtTag(&quot;Dodge&quot;)</code> → <code>DodgeComboInput()</code> → <code>ComboContainerData.SwitchDodgeATK()</code> 把第一段攻击替换为 <code>DodgeATKData</code>。</p>
+<hr>
+<h2 id="六技能系统">六、技能系统
+</h2><h3 id="流程">流程
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">按 E → OnSkill()
+</span></span><span class="line"><span class="cl">  → CanSkillInput()         ← 不在Hit/Parry/Skill/ATK中
+</span></span><span class="line"><span class="cl">  → SkillInput()
+</span></span><span class="line"><span class="cl">    → currentSkill = comboData.skillCombo
+</span></span><span class="line"><span class="cl">    → ExecuteSkill()
+</span></span><span class="line"><span class="cl">      → ReSetATKIndex(0)    ← 手动清零伤害判定序号
+</span></span><span class="line"><span class="cl">      → PlayCharacterVoice(currentSkill) / PlayWeaponSound(currentSkill)
+</span></span><span class="line"><span class="cl">      → CrossFadeInFixedTime(comboName, 0.1f)
+</span></span><span class="line"><span class="cl">    → ChangeState(SkillState)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">SkillState.Enter:
+</span></span><span class="line"><span class="cl">  → movement → playerMovementNullState    ← 禁止移动
+</span></span><span class="line"><span class="cl">  → CameraSwitcher.ActiveStateCamera      ← 激活技能相机
+</span></span><span class="line"><span class="cl">  → SkillTimelineManager.PlaySkillTimeline ← 播放 Timeline 推近变焦
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">动画播完 → OnAnimationExitEvent → ChangeState(NullState) → 恢复
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="与普攻共用-attacktrigger">与普攻共用 AttackTrigger
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">AttackTrigger():
+</span></span><span class="line"><span class="cl">  if   animTag(&#34;ATK&#34;)   → AttackDetection(currentCombo)      → 普通攻击
+</span></span><span class="line"><span class="cl">  elif animTag(&#34;Skill&#34;) → SkillDetection(currentSkill)        → 技能
+</span></span><span class="line"><span class="cl">  else                  → AttackDetection(executeCombo)       → 处决
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>技能和普攻<strong>共用同一个 <code>ATK()</code> 动画事件方法</strong>。Animator 的 Tag 区分当前是什么类型的动画，走不同的检测和数据源。</p>
+<hr>
+<h2 id="七相机系统">七、相机系统
+</h2><h3 id="核心文件-1">核心文件
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>CameraSwitcher.cs</code></td>
+					<td>单例，管理 VCam Priority（激活/关闭）</td>
+			</tr>
+			<tr>
+					<td><code>SkillTimelineManager.cs</code></td>
+					<td>单例，管理 (角色, 技能类型) → PlayableDirector 映射</td>
+			</tr>
+			<tr>
+					<td><code>CameraHitFeel.cs</code></td>
+					<td>震屏、顿帧、慢动作</td>
+			</tr>
+			<tr>
+					<td><code>VCamDollyHelper.cs</code></td>
+					<td>暴露 Dolly 的 PathPosition 给 Animation Track</td>
+			</tr>
+			<tr>
+					<td><code>OnAnimationTranslation.cs</code></td>
+					<td>技能动画退出时通知状态机</td>
+			</tr>
+			<tr>
+					<td><code>PlayerSkillState.cs</code></td>
+					<td>进入/退出技能时调 CameraSwitcher + SkillTimelineManager</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="cameraswitcher-设计">CameraSwitcher 设计
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">stateCameraPool[CharacterNameList][AttackStyle] → CinemachineVirtualCameraBase
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ActiveStateCamera(Skikk)   → Priority = 20
+</span></span><span class="line"><span class="cl">UnActiveStateCamera()      → Priority = 0
+</span></span><span class="line"><span class="cl">UnActiveAllStateCameras()  → 遍历该角色全部VCam → Priority=0（切人时用）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>StateCameraInfo.stateCamera</code> 最终使用基类 <code>CinemachineVirtualCameraBase</code>，支持直接拖入普通 VCam 或 <code>CinemachineStateDrivenCamera</code>。</p>
+<h3 id="timeline-方案演进">Timeline 方案演进
+</h3><p>整个过程走了六种方案，每种都有具体的失败原因：</p>
+<div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>尝试</th>
+					<th>方案</th>
+					<th>失败原因</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td>Cinemachine Track（编辑器）</td>
+					<td><code>Signal Emitter</code> 在 Animator State 上搜不到</td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>Animation Event + Object 参数</td>
+					<td>动画事件的 <code>Object</code> 字段不支持拖场景对象</td>
+			</tr>
+			<tr>
+					<td>3</td>
+					<td>Prefab Mode + Animation Track</td>
+					<td><code>ExposedReferences</code> 在 Prefab 上下文丢失</td>
+			</tr>
+			<tr>
+					<td>4</td>
+					<td>场景多 Director + 动画事件</td>
+					<td>同上，场景对象引用在 <code>.anim</code> 的 AnimationEvent 中不可序列化</td>
+			</tr>
+			<tr>
+					<td>5</td>
+					<td>PlayableDirector 放角色 Prefab + VCam 子物体</td>
+					<td><code>GetGenericBinding</code> 返回 NULL，Prefab 实例化后绑定丢失</td>
+			</tr>
+			<tr>
+					<td>6</td>
+					<td><strong>SkillTimelineManager 运行时自动补绑</strong></td>
+					<td><strong>✅ 最终方案</strong></td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="最终方案">最终方案
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="c1">// SkillTimelineManager.PlaySkillTimeline():</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">track</span> <span class="k">in</span> <span class="n">timeline</span><span class="p">.</span><span class="n">GetOutputTracks</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">track</span> <span class="k">is</span> <span class="n">AnimationTrack</span> <span class="p">&amp;&amp;</span> <span class="n">director</span><span class="p">.</span><span class="n">GetGenericBinding</span><span class="p">(</span><span class="n">track</span><span class="p">)</span> <span class="p">==</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">vcam</span> <span class="p">=</span> <span class="n">playerRoot</span><span class="p">.</span><span class="n">GetComponentInChildren</span><span class="p">&lt;</span><span class="n">CinemachineVirtualCameraBase</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">vcam</span> <span class="p">!=</span> <span class="kc">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">director</span><span class="p">.</span><span class="n">SetGenericBinding</span><span class="p">(</span><span class="n">track</span><span class="p">,</span> <span class="n">vcam</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>VCam 必须是场景中角色实例的子物体，名字无所谓。<code>GetComponentInChildren</code> 自动找到第一个，<code>SetGenericBinding</code> 补绑。<code>CameraSwitcher</code> 管 Priority 激活，Timeline Animation Track 管 <code>PathPosition</code>（Dolly 路径位置，一个 float 曲线）。</p>
+<h3 id="切人应急复位">切人应急复位
+</h3><p><code>SwitchCharacter.ExecuteSwitchCharacter</code> 最前面两行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">SkillTimelineManager</span><span class="p">.</span><span class="n">MainInstance</span><span class="p">.</span><span class="n">StopAllForCharacter</span><span class="p">(</span><span class="err">旧角色</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">CameraSwitcher</span><span class="p">.</span><span class="n">MainInstance</span><span class="p">.</span><span class="n">UnActiveAllStateCameras</span><span class="p">(</span><span class="err">旧角色</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>先停 Timeline 不再写值，再强制 Priority=0 覆盖。</p>
+<h3 id="震屏兼容">震屏兼容
+</h3><p>每个技能 VCam 额外挂 <code>CinemachineImpulseListener</code> 组件，确保切到技能相机后 <code>CameraHitFeel.CameraShake</code> 的脉冲信号仍被接收。</p>
+<hr>
+<h2 id="八角色切换系统">八、角色切换系统
+</h2><h3 id="核心文件-2">核心文件
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>SwitchCharacter.cs</code></td>
+					<td>单例，管理所有角色实例、候补列表、切人演出</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="两种切人">两种切人
+</h3><p><strong>Tab 普通切人：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SwitchInput()
+</span></span><span class="line"><span class="cl">  → 旧角色名移入 waitingCharacterList，新角色移出
+</span></span><span class="line"><span class="cl">  → ExecuteSwitchCharacter(新角色, isSwitchATK=false)
+</span></span><span class="line"><span class="cl">    → 新角色在旧角色侧面 spawn → Play(&#34;SwitchIn&#34;)
+</span></span><span class="line"><span class="cl">    → 旧角色：攻击中? → 等播完 → CrossFade(&#34;SwitchOut&#34;) → 非攻击 → 立即退场
+</span></span><span class="line"><span class="cl">    → switchOutCharacterTime 后 SetActive(false) 旧角色
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>QTE 连携切人：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">连招满足条件 → TriggerSwitchSkill()
+</span></span><span class="line"><span class="cl">  → 禁用 Player Input
+</span></span><span class="line"><span class="cl">  → 激活切人相机 CameraSwitcher.ActiveSwitchCamera(true)
+</span></span><span class="line"><span class="cl">  → 0.3s后 Time.timeScale = 0.06（慢动作）
+</span></span><span class="line"><span class="cl">  → 0.2s后 StartSwitchSkill()
+</span></span><span class="line"><span class="cl">    → 3秒倒计时
+</span></span><span class="line"><span class="cl">    → 弹出 SwitchTimeUI（候补角色头像 + 定时）
+</span></span><span class="line"><span class="cl">    → 注册 SwitchSkill.L/R 输入
+</span></span><span class="line"><span class="cl">  → 玩家选人 → SwitchSkill(角色名)
+</span></span><span class="line"><span class="cl">    → CameraSwitcher.ActiveSwitchCamera(false)
+</span></span><span class="line"><span class="cl">    → 恢复时间 → 恢复输入
+</span></span><span class="line"><span class="cl">    → ExecuteSwitchCharacter(新角色, isSwitchATK=true)
+</span></span><span class="line"><span class="cl">      → 新角色从敌人生成位置登场 → 播切人大招动画
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="waitattackfinishandexit-协程">WaitAttackFinishAndExit 协程
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">IEnumerator</span> <span class="n">WaitAttackFinishAndExit</span><span class="p">(</span><span class="n">SwitchCharacterInfo</span> <span class="n">info</span><span class="p">,</span> <span class="kt">string</span> <span class="n">switchOutAnim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">animator</span><span class="p">.</span><span class="n">AnimationAtTag</span><span class="p">(</span><span class="s">&#34;ATK&#34;</span><span class="p">)</span> <span class="p">||</span> <span class="n">info</span><span class="p">.</span><span class="n">animator</span><span class="p">.</span><span class="n">AnimationAtTag</span><span class="p">(</span><span class="s">&#34;Skill&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">yield</span> <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>           <span class="c1">// 每帧检查，攻击播完再继续</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">info</span><span class="p">.</span><span class="n">animator</span><span class="p">.</span><span class="n">CrossFadeInFixedTime</span><span class="p">(</span><span class="n">switchOutAnim</span><span class="p">,</span> <span class="m">0.1f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StartDeactivateCoroutine</span><span class="p">();</span>      <span class="c1">// 延迟 switchOutCharacterTime 后隐藏</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时做了防护：如果同一角色被切出去后又切回来，<code>ExecuteSwitchCharacter</code> 中检查 <code>waitAttackExitTarget == newCharacterInfo.character</code> → <code>StopCoroutine</code> 取消旧协程，防止把退场动画覆盖到新登场动画上。</p>
+<h3 id="候补列表维护">候补列表维护
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="c1">// newCharacterName 变化时（BindableProperty.OnValueChanged）</span>
+</span></span><span class="line"><span class="cl"><span class="n">OnSetWaitingCharacterList</span><span class="p">(</span><span class="n">newValue</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">waitingCharacterList</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">newValue</span><span class="p">);</span>          <span class="c1">// 新上场的角色移出</span>
+</span></span><span class="line"><span class="cl">  <span class="n">waitingCharacterList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">currentCharacterName</span><span class="p">);</span> <span class="c1">// 旧角色移入（如果不在列表中）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 效果：waitingCharacterList 永远只存&#34;不在场&#34;的角色</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="collider-互忽略">Collider 互忽略
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">IgnoreAllPlayerCollisions</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">  <span class="err">遍历</span> <span class="n">switchCharacterInfos</span> <span class="err">所有两两组合</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GetComponentsInChildren</span><span class="p">&lt;</span><span class="n">Collider</span><span class="p">&gt;()</span> <span class="err">×</span> <span class="m">2</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Physics</span><span class="p">.</span><span class="n">IgnoreCollision</span><span class="p">(</span><span class="n">ca</span><span class="p">,</span> <span class="n">cb</span><span class="p">);</span>    <span class="c1">// 一对永久忽略</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在 <code>Start()</code> 中调一次，<code>Physics.IgnoreCollision</code> 生命周期内有效。</p>
+<hr>
+<h2 id="九伤害与霸体系统">九、伤害与霸体系统
+</h2><h3 id="核心文件-3">核心文件
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>CharacterComboBase.cs</code></td>
+					<td><code>AttackTrigger()</code> → 距离角度判定 → 发事件</td>
+			</tr>
+			<tr>
+					<td><code>GameEventManager.cs</code></td>
+					<td>类型安全泛型事件调度</td>
+			</tr>
+			<tr>
+					<td><code>CharacterHealthBase.cs</code></td>
+					<td><code>OnCharacterHitEventHandler</code> → 调子类的动画/伤害分支</td>
+			</tr>
+			<tr>
+					<td><code>CharacterHeath.cs</code></td>
+					<td><code>CharacterHitAction</code> → 霸体判断 → 播受击或格挡</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="完整链路">完整链路
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">动画关键帧 ATK() 事件触发
+</span></span><span class="line"><span class="cl">  → Player.ATK()
+</span></span><span class="line"><span class="cl">    → PlayerATKIngState.ATK()
+</span></span><span class="line"><span class="cl">      → CharacterComboBase.ATK()
+</span></span><span class="line"><span class="cl">        → AttackTrigger()
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">AttackTrigger():
+</span></span><span class="line"><span class="cl">  判断 animTag:
+</span></span><span class="line"><span class="cl">    &#34;ATK&#34;:
+</span></span><span class="line"><span class="cl">      AttackDetection(距离&lt;comboDistance &amp;&amp; 角度&lt;80°)
+</span></span><span class="line"><span class="cl">      → 取得 hitName/parryName（ComboData 数组中随机取一个字符串）
+</span></span><span class="line"><span class="cl">      → GameEventsManager.CallEvent(&#34;触发伤害&#34;,
+</span></span><span class="line"><span class="cl">          damage, hitName, parryName, attacker, bearer, combo)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">GameEventManager → EventHandler&lt;float,string,string,Transform,Transform,ComboBase&gt;.CallBack
+</span></span><span class="line"><span class="cl">  → Action.Invoke(damage, hitName, parryName, attacker, bearer, combo)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">CharacterHealthBase.OnCharacterHitEventHandler:
+</span></span><span class="line"><span class="cl">  if (Bearer != this.transform) return;         ← 过滤：只处理被击中的那个敌人
+</span></span><span class="line"><span class="cl">  → CharacterHitAction(Damage, HitName, ParryName)
+</span></span><span class="line"><span class="cl">    → CharacterHeath.CharacterHitAction():
+</span></span><span class="line"><span class="cl">        if (hasStrength)  → animator.CrossFade(parryName)  ← 格挡动画
+</span></span><span class="line"><span class="cl">        else              → animator.CrossFade(hitName)    ← 受击动画
+</span></span><span class="line"><span class="cl">  → OnCharacterDamageAction → TakeDamage/TakeStrength
+</span></span><span class="line"><span class="cl">  → SetHitFVX → VFX_PoolManager.GetVFX(Enemy, &#34;Hit&#34;, 命中点)
+</span></span><span class="line"><span class="cl">  → SetHitSFX（被注释）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="霸体耐力槽">霸体=耐力槽
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">HasStrength</span> <span class="p">=</span> <span class="kc">true</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="err">→</span> <span class="n">TakeStrength</span><span class="p">(</span><span class="n">damage</span><span class="p">)</span>        <span class="err">←</span> <span class="err">扣耐力值</span>
+</span></span><span class="line"><span class="cl">  <span class="err">→</span> <span class="err">播</span> <span class="n">parryName</span> <span class="err">格挡动画</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">HasStrength</span> <span class="p">=</span> <span class="kc">false</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="err">→</span> <span class="n">TakeDamage</span><span class="p">(</span><span class="n">damage</span><span class="p">)</span>          <span class="err">←</span> <span class="err">扣血量</span>
+</span></span><span class="line"><span class="cl">  <span class="err">→</span> <span class="err">播</span> <span class="n">hitName</span> <span class="err">受击动画</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>耐力归零时触发 <code>&quot;达到QTE条件&quot;</code> 事件 → 通知攻击者可以 QTE 切人。</p>
+<h3 id="震屏与顿帧">震屏与顿帧
+</h3><p>代码已实现，调用在 <code>AttackTrigger</code> 中被注释（第 255、267、290、294、312 行）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="c1">// CameraHitFeel.MainInstance.CameraShake(shakeForce[ATKIndex-1]);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// CameraHitFeel.MainInstance.PF(pauseFrameTime);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>恢复后，<code>ComboData.ShakeForceList[]</code> 和 <code>PauseFrameTimeList[]</code> 与 <code>ATKCount</code> 长度对齐。每次 <code>ATK()</code> 动画事件 → <code>ATKIndex</code> 自增 → 读取数组对应位置。</p>
+<hr>
+<h2 id="十特效系统">十、特效系统
+</h2><h3 id="核心文件-4">核心文件
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>VFX_PoolManager.cs</code></td>
+					<td>单例，三级字典对象池</td>
+			</tr>
+			<tr>
+					<td><code>EffectItem.cs</code></td>
+					<td>挂预制体上，播放→定时回收</td>
+			</tr>
+			<tr>
+					<td><code>PoolItemBase.cs</code></td>
+					<td>池对象基类，<code>OnEnable→Spawn</code> / <code>OnDisable→ReSycle</code></td>
+			</tr>
+			<tr>
+					<td><code>VFXItemData.cs</code></td>
+					<td>MonoBehaviour，定义角色特效列表</td>
+			</tr>
+			<tr>
+					<td><code>VFXManager.cs</code></td>
+					<td>全局粒子速度控制器</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="三级字典结构">三级字典结构
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">effectPool</span><span class="p">[</span><span class="n">CharacterNameList</span><span class="p">][</span><span class="n">VFXNameString</span><span class="p">]</span> <span class="err">→</span> <span class="n">Queue</span><span class="p">&lt;</span><span class="n">GameObject</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">例</span><span class="p">:</span> <span class="n">effectPool</span><span class="p">[</span><span class="n">Seele</span><span class="p">][</span><span class="s">&#34;Slash&#34;</span><span class="p">]</span>    <span class="err">→</span> <span class="n">Queue</span><span class="p">(</span><span class="err">刀光×</span><span class="m">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">effectPool</span><span class="p">[</span><span class="n">Enemy</span><span class="p">][</span><span class="s">&#34;Hit&#34;</span><span class="p">]</span>      <span class="err">→</span> <span class="n">Queue</span><span class="p">(</span><span class="err">火花×</span><span class="m">5</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="effectitem-生命周期已修复">EffectItem 生命周期（已修复）
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">TryGetVFX → Dequeue(不活跃) → Init(角色,特效名) → SetActive(true)
+</span></span><span class="line"><span class="cl">  → OnEnable → Spawn → StartPlay
+</span></span><span class="line"><span class="cl">    → ParticleSystem.Play()
+</span></span><span class="line"><span class="cl">    → TimerManager.GetOneTimer(playTime, StartReCycle)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">playTime到期 → StartReCycle → ReturnVFX(角色,特效名,go)
+</span></span><span class="line"><span class="cl">  → SetActive(false) → OnDisable → ReSycle → ParticleSystem.Stop()
+</span></span><span class="line"><span class="cl">  → Enqueue(回池)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="修复过的-bug">修复过的 Bug
+</h3><p>早期版本 Dequeue 后立即 Enqueue 回去——池中实例全部活跃时再次 Dequeue 拿到活跃对象，<code>SetActive(true)</code> 是空操作，粒子不启动。修复方案：对象只在播放完毕 <code>ReturnVFX</code> 时才回池，队列只含未活跃实例。</p>
+<h3 id="双-api">双 API
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="c1">// 有父级（刀光附着武器骨骼，不改位置）</span>
+</span></span><span class="line"><span class="cl"><span class="n">VFX_PoolManager</span><span class="p">.</span><span class="n">TryGetVFX</span><span class="p">(</span><span class="n">Seele</span><span class="p">,</span> <span class="s">&#34;Slash&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 无父级（世界坐标生成火花）</span>
+</span></span><span class="line"><span class="cl"><span class="n">VFX_PoolManager</span><span class="p">.</span><span class="n">GetVFX</span><span class="p">(</span><span class="n">Enemy</span><span class="p">,</span> <span class="s">&#34;Hit&#34;</span><span class="p">,</span> <span class="n">worldPos</span><span class="p">,</span> <span class="n">rotation</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="受击特效点计算">受击特效点计算
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">Vector3</span> <span class="n">hitDir</span> <span class="p">=</span> <span class="p">(</span><span class="n">attacker</span><span class="p">.</span><span class="n">position</span> <span class="p">-</span> <span class="n">hitter</span><span class="p">.</span><span class="n">position</span><span class="p">).</span><span class="n">normalized</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Vector3</span> <span class="n">targetPos</span> <span class="p">=</span> <span class="n">hitter</span><span class="p">.</span><span class="n">position</span> <span class="p">+</span> <span class="n">hitDir</span> <span class="p">*</span> <span class="m">0.8f</span> <span class="p">+</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">up</span> <span class="p">*</span> <span class="m">1f</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="十一音效系统">十一、音效系统
+</h2><h3 id="核心文件-5">核心文件
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>SFX_PoolManager.cs</code></td>
+					<td>单例，两套词典（普通/按角色名分池）</td>
+			</tr>
+			<tr>
+					<td><code>SoundItem.cs</code></td>
+					<td>池化预制体组件，Spawn 时从 SoundData 取 Clip</td>
+			</tr>
+			<tr>
+					<td><code>ComboSFXtem.cs</code></td>
+					<td>池化预制体组件，Spawn 时从 ComboData 取 Clip</td>
+			</tr>
+			<tr>
+					<td><code>SoundData.cs</code></td>
+					<td>ScriptableObject，Clip 总库</td>
+			</tr>
+			<tr>
+					<td><code>CharacterComboBase.cs</code></td>
+					<td><code>PlayOneShot</code> + <code>PlayComboFX</code></td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="两套播放路径">两套播放路径
+</h3><p><strong>直配 <code>PlayOneShot</code>（语音+武器声）：</strong></p>
+<p>在 <code>UpdateComboAnimation()</code> / <code>ExecuteSkill()</code> 中自动调用，从 <code>ComboData._characterVoice[]</code> 和 <code>_weaponSound[]</code> 随机取 Clip，通过角色 GameObject 上的 <code>AudioSource.PlayOneShot</code> 播放。ComboData 资产填好数组即可，不需要动画事件。</p>
+<p><strong>池化 <code>SFX_PoolManager</code>（3D 空间音效）：</strong></p>
+<p>通过动画关键帧上的 <code>PlayComboFX</code> 事件触发，从 <code>soundCenter</code> 或 <code>bigSoundCenter</code> 取出 <code>SoundItem</code> 预制体激活，播完自动回池。需配置：</p>
+<ol>
+<li><code>ComboData</code> 勾选 <code>App Audio Prefab</code> + 设 <code>Universal Sound</code>（<code>SoundStyle</code> 枚举值）</li>
+<li><code>SFX_PoolManager.Sound Pools</code> 列表中注册对应 <code>SoundStyle</code> + <code>Sound Prefab</code> + <code>Sound Count</code></li>
+<li>动画关键帧上加 <code>PlayComboFX()</code> 事件</li>
+</ol>
+<h3 id="playcombofx-技能支持">PlayComboFX 技能支持
+</h3><p>普通攻击读 <code>currentCombo</code>，技能读 <code>currentSkill</code>。修复后的回退逻辑：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">currentCombo</span> <span class="p">!=</span> <span class="kc">null</span><span class="p">)</span>  <span class="err">→</span> <span class="err">取</span> <span class="n">currentCombo</span><span class="p">.</span><span class="n">GetComboSoundStyle</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">currentSkill</span> <span class="p">!=</span> <span class="kc">null</span> <span class="p">&amp;&amp;</span> <span class="n">currentSkill</span><span class="p">.</span><span class="n">AppAudioPrefab</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="err">→</span> <span class="err">取</span> <span class="n">currentSkill</span><span class="p">.</span><span class="n">universalSound</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="err">→</span> <span class="k">return</span><span class="err">（静默）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="池化路径的并发-bug">池化路径的并发 Bug
+</h3><p>早期 <code>TryGetSoundPool</code> 也是 Dequeue→SetActive→立即 Enqueue，和 VFX 同样 Bug。已添加 <code>Count == 0</code> 守卫防止队列耗尽时报错。更深层的并发修复与 VFX 同理，尚未完全同步改造。</p>
+<hr>
+<h2 id="十二辅助系统">十二、辅助系统
+</h2><h3 id="timermanager计时器对象池">TimerManager（计时器对象池）
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>TimerManager.cs</code></td>
+					<td>单例，管理 <code>_notWorkTimers</code> 队列 + <code>_isWorkingTimers</code> 列表</td>
+			</tr>
+			<tr>
+					<td><code>GameTimer.cs</code></td>
+					<td>单个计时器，支持 deltaTime / unscaledDeltaTime</td>
+			</tr>
+	</tbody>
+</table></div>
+<p><code>Update</code> 中倒序遍历工作中的计时器，完成时回收：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">GetOneTimer</span><span class="p">(</span><span class="kt">float</span> <span class="n">time</span><span class="p">,</span> <span class="n">Action</span> <span class="n">task</span><span class="p">)</span>       <span class="c1">// 受 timeScale 影响</span>
+</span></span><span class="line"><span class="cl"><span class="n">GetTimer</span><span class="p">(</span><span class="kt">float</span> <span class="n">time</span><span class="p">,</span> <span class="n">Action</span> <span class="n">task</span><span class="p">)</span>          <span class="c1">// 同上，返回引用供取消</span>
+</span></span><span class="line"><span class="cl"><span class="n">GetRealTimer</span><span class="p">(</span><span class="kt">float</span> <span class="n">time</span><span class="p">,</span> <span class="n">Action</span> <span class="n">task</span><span class="p">)</span>      <span class="c1">// 不受 timeScale 影响</span>
+</span></span><span class="line"><span class="cl"><span class="n">UnregisterTimer</span><span class="p">(</span><span class="n">GameTimer</span> <span class="n">timer</span><span class="p">)</span>           <span class="c1">// 手动取消</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用场景：闪避冷却 0.5s、QTE 超时 3s、缓冲到 Idle 0.15s、攻击动画退出后延时 0.2s 回 NullState。</p>
+<h3 id="gameblackboard全局黑板">GameBlackboard（全局黑板）
+</h3><p>单例，存当前锁定敌人 <code>BindableProperty&lt;Transform&gt; enemy</code> 和所有角色引用 <code>Dictionary&lt;string, Player&gt;</code>。<code>SetEnemy(Transform)</code> 触发 <code>OnValueChanged</code>，Player 监听更新 Inspector 显示。</p>
+<h3 id="bindableproperty响应式属性">BindableProperty（响应式属性）
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">class</span> <span class="nc">BindableProperty</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">T</span> <span class="n">Value</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="k">event</span> <span class="n">Action</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">OnValueChanged</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用处：<code>enemy</code>（黑板更新）、<code>newCharacterName</code>（候补列表维护）、<code>currentIndex</code>（comboIndex 变化时清零 ATKIndex）</p>
+<h3 id="自动追踪敌人">自动追踪敌人
+</h3><p><code>CharacterCombo.UpdateEnemy()</code> 每帧 <code>Physics.SphereCast(detectionOrigin, radius, dir, out hit, length, WhatIsEnemy)</code> 扇形扫描，命中 → 更新 <code>GameBlackboard.SetEnemy</code>。</p>
+<p><code>UpdateDetectionDir()</code> 综合相机朝向 × 玩家移动输入计算扫描方向。<code>UpdateAttackLookAtEnemy()</code> 攻击中缓动朝向敌人（&lt;6.5m 且 &gt;0.09m）。</p>
+<hr>
+<h2 id="十三scriptableobject-数据体系">十三、ScriptableObject 数据体系
+</h2><h3 id="完整配置层次">完整配置层次
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">PlayerSO.asset                    ← 角色总资产
+</span></span><span class="line"><span class="cl">  └── PlayerMovementData
+</span></span><span class="line"><span class="cl">        ├── bufferToIdleTime: 0.15s
+</span></span><span class="line"><span class="cl">        ├── turnBackAngle: 135°
+</span></span><span class="line"><span class="cl">        ├── PlayerDashData:      闪避动画名、冷却0.5s、淡入12帧
+</span></span><span class="line"><span class="cl">        ├── PlayerSprintData:    移动倍率3x
+</span></span><span class="line"><span class="cl">        ├── PlayerRunData / WalkData / IdleData
+</span></span><span class="line"><span class="cl">        ├── PlayerReturnRunData
+</span></span><span class="line"><span class="cl">        └── PlayerCameraRecenteringData: 相机居中角度范围
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  └── PlayerComboData
+</span></span><span class="line"><span class="cl">        └── PlayerComboSOData
+</span></span><span class="line"><span class="cl">              ├── lightCombo: ComboContainerData.asset
+</span></span><span class="line"><span class="cl">              ├── heavyCombo: ComboContainerData.asset
+</span></span><span class="line"><span class="cl">              ├── executeCombo: ComboContainerData.asset
+</span></span><span class="line"><span class="cl">              ├── skillCombo: ComboData.asset (Skikk)
+</span></span><span class="line"><span class="cl">              ├── finishSkillCombo: ComboData.asset (FinishiSkill)
+</span></span><span class="line"><span class="cl">              └── switchSkill: ComboData.asset (SwitchSkill)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ComboContainerData.asset:
+</span></span><span class="line"><span class="cl">  comboDates[]: List&lt;ComboData&gt;       按顺序排列的攻击段
+</span></span><span class="line"><span class="cl">  DodgeATKData: ComboData             闪A替换第一段
+</span></span><span class="line"><span class="cl">  BackDodgeATKData: ComboData         后闪A替换第一段
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ComboData.asset (每一段):
+</span></span><span class="line"><span class="cl">  动画: _comboName
+</span></span><span class="line"><span class="cl">  伤害: _comboDamage, _attackDistance, _comboOffset
+</span></span><span class="line"><span class="cl">  受击: _hitName[], _parryName[]
+</span></span><span class="line"><span class="cl">  音效: _weaponSound[], _characterVoice[], _universalSound, appAudioPrefab
+</span></span><span class="line"><span class="cl">  打击: _ATKCount, _shakeForceList[], _pauseFrameTime, _pauseFrameTimeList[]
+</span></span><span class="line"><span class="cl">  类型: attackStyle (Skikk/FinishiSkill/SwitchSkill)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="运行时映射关系">运行时映射关系
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">comboIndex  → comboDates[comboIndex] → ComboData → comboName → CrossFade
+</span></span><span class="line"><span class="cl">ATKIndex    → ShakeForceList[ATKIndex-1] / PauseFrameTimeList[ATKIndex-1]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="十四ui-系统">十四、UI 系统
+</h2><h3 id="核心文件-6">核心文件
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>文件</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>UIManager.cs</code></td>
+					<td>单例，自动查找子 UI</td>
+			</tr>
+			<tr>
+					<td><code>StateBarUI.cs</code></td>
+					<td>血条，World→Screen 定位 + fillAmount 更新</td>
+			</tr>
+			<tr>
+					<td><code>BloodPos.cs</code></td>
+					<td>挂在敌人上，每帧调 ShowAt 定位</td>
+			</tr>
+			<tr>
+					<td><code>SwitchTimeUI.cs</code></td>
+					<td>QTE 倒计时 + 候补角色头像 + 滑入滑出动画</td>
+			</tr>
+			<tr>
+					<td><code>SwitchTimeCountDownUI.cs</code></td>
+					<td>空类，未实现</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="血条绑定">血条绑定
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">UIManager.Awake → transform.Find(&#34;UIRoot/State Bar&#34;) → StateBarUI
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">BloodPos.LateUpdate → UIManager.stateBarUI.ShowAt(敌人位置)
+</span></span><span class="line"><span class="cl">  → Camera.WorldToScreenPoint → UI 定位 + 距离缩放
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">CharacterHealthBase.OnUpdatePH → stateBarUI.UpdateBlood(HP/maxHP)
+</span></span><span class="line"><span class="cl">  → GreenBloodBar.fillAmount = percentage
+</span></span><span class="line"><span class="cl">  → Update(): if(Green &lt; Red) Red -= Time.deltaTime * 0.05（红条缓退）
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="qte-倒计时选人-ui">QTE 倒计时选人 UI
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="c1">// ActiveImage(List&lt;CharacterNameList&gt;, float time)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 1人: R_Image 隐藏，只显示 L</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 2人: 双头像显示</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 0人: 直接 return</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// MatchImage(CharacterNameList) → 返回 Sprite（Seele/Stick）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// UnActive() → 协程 MoveUI 滑出 → SetActive(false)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// MoveUI(Vector3 src, Vector3 dst, float speed, bool canUnActive)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>修复过：旧版 <code>ActiveImage</code> 固定取 <code>waitingCharacterList[0]</code> 和 <code>[1]</code>，单角色时越界崩溃。改版为接收 <code>List</code> 参数，调用方 <code>StartSwitchSkill</code> 检查 Count 后再传。</p>
+<hr>
+<h2 id="十五已知薄弱点">十五、已知薄弱点
+</h2><h3 id="代码层">代码层
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>问题</th>
+					<th>影响</th>
+					<th>修复方向</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>重攻击未接线</td>
+					<td><code>R_Atk.started += OnHeavyAttackInput</code> 没有在 <code>AddInputActionEvent</code> 中注册</td>
+					<td>注册回调一行即通</td>
+			</tr>
+			<tr>
+					<td>震屏/顿帧调用被注释</td>
+					<td><code>AttackTrigger</code> 中 5 处 <code>CameraHitFeel</code> 调用被注释</td>
+					<td>取消注释，确认 <code>CinemachineImpulseListener</code> 挂到所有 VCam</td>
+			</tr>
+			<tr>
+					<td>SFX 池并发 Bug</td>
+					<td><code>TryGetSoundPool</code> 还保留了立即 Enqueue 的设计，池耗尽后失效</td>
+					<td>参照 VFX 的修复方案，加 <code>ReturnSFX</code> 延迟回池</td>
+			</tr>
+			<tr>
+					<td>Timeline 绑定依赖代码补绑</td>
+					<td>每次 Play 前 <code>SetGenericBinding</code> 遍历查找</td>
+					<td>可接受但不够优雅，Inspector 绑定可直接解决</td>
+			</tr>
+			<tr>
+					<td>硬编码枚举</td>
+					<td><code>CharacterNameList</code> 和 <code>AttackStyle</code> 写死，加角色需改代码</td>
+					<td>改为 ScriptableObject 配置表</td>
+			</tr>
+			<tr>
+					<td><code>CameraHitFeel.PF/SlowMotion</code> 依赖 <code>CharacterManager</code></td>
+					<td>单例可能在初始化时未就绪</td>
+					<td>改为事件回调或 <code>Start</code> 中延迟初始化</td>
+			</tr>
+			<tr>
+					<td><code>SkillCombo.cs</code> 的 <code>DodgeComboInput</code> 用 switch 逐角色判断</td>
+					<td>加角色需补 case</td>
+					<td>合并为统一逻辑</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="架构层">架构层
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>问题</th>
+					<th>影响</th>
+					<th>修复方向</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Movement 和 Combo FSM 无显式协调协议</td>
+					<td>靠 <code>Player</code> 层中转，隐式依赖正确</td>
+					<td>引入状态协调接口</td>
+			</tr>
+			<tr>
+					<td>Timeline 和 CameraSwitcher 各管一半</td>
+					<td>理解成本高，配置易遗漏</td>
+					<td>封装为一个 <code>SkillCameraController</code></td>
+			</tr>
+			<tr>
+					<td>对象池缺少预热/扩容机制</td>
+					<td>高并发时特效/音效静默失败</td>
+					<td>加 <code>EnsureCapacity</code> 自动扩容或返回警告</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="功能层">功能层
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>问题</th>
+					<th>说明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>仅支持 2 角色切换</td>
+					<td>加角色需改枚举、补 CameraSwitcher、补 <code>DodgeComboInput</code> 分支等</td>
+			</tr>
+			<tr>
+					<td>无网络/多人</td>
+					<td>单机 Demo</td>
+			</tr>
+			<tr>
+					<td>无存档</td>
+					<td>所有数据在内存</td>
+			</tr>
+			<tr>
+					<td>无战斗 UI 完整实现</td>
+					<td><code>SwitchTimeUI.MatchImage</code> 只有 2 个角色头像映射</td>
+			</tr>
+			<tr>
+					<td>闪避冷却无视慢动作</td>
+					<td><code>GetOneTimer</code> 受 <code>timeScale</code> 影响，0.06x 时冷却几乎永久</td>
+			</tr>
+			<tr>
+					<td>血条不支持多敌人</td>
+					<td>只有一个 <code>StateBarUI</code>，多敌人无法各自显示</td>
+			</tr>
+	</tbody>
+</table></div>
+<hr>
+<h2 id="十六配置清单附录">十六、配置清单（附录）
+</h2><h3 id="必须的-inspector-配置">必须的 Inspector 配置
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>组件</th>
+					<th>位置</th>
+					<th>配置项</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Player</strong></td>
+					<td>Player Prefab</td>
+					<td><code>PlayerSO</code>, <code>PlayableDirector</code>（如用 Timeline）, <code>Animator</code></td>
+			</tr>
+			<tr>
+					<td><strong>PlayerSO</strong></td>
+					<td><code>Player.Script</code></td>
+					<td><code>MovementData</code>, <code>ComboData</code> 拖入对应 SO 资产</td>
+			</tr>
+			<tr>
+					<td><strong>ComboData</strong></td>
+					<td>每个攻击段</td>
+					<td><code>AttackStyle</code>, <code>ComboName</code>, <code>ComboDamage</code>, <code>HitName[]</code>, <code>ParryName[]</code>, <code>ATKCount</code>, <code>ShakeForceList[]</code>, 音效数组</td>
+			</tr>
+			<tr>
+					<td><strong>ComboContainerData</strong></td>
+					<td>每个连招链</td>
+					<td><code>comboDates[]</code>顺序拖入，<code>DodgeATKData</code>, <code>BackDodgeATKData</code></td>
+			</tr>
+			<tr>
+					<td><strong>CameraSwitcher</strong></td>
+					<td>场景单例</td>
+					<td><code>State Camera Info List</code>: <code>CharacterName</code> + <code>AttackStyle</code> + <code>State Camera</code>(VCam)</td>
+			</tr>
+			<tr>
+					<td><strong>SkillTimelineManager</strong></td>
+					<td>场景单例</td>
+					<td><code>Entries</code>: <code>CharacterName</code> + <code>AttackStyle</code> + <code>Director</code></td>
+			</tr>
+			<tr>
+					<td><strong>PlayableDirector</strong></td>
+					<td>每个技能</td>
+					<td><code>playableAsset</code> = <code>.timeline</code> 文件</td>
+			</tr>
+			<tr>
+					<td><strong>Timeline</strong></td>
+					<td><code>.timeline</code> 资产</td>
+					<td>Animation Track → VCam → 录制 <code>PathPosition</code> 曲线</td>
+			</tr>
+			<tr>
+					<td><strong>VCam</strong></td>
+					<td>Player 子物体</td>
+					<td><code>Body=Tracked Dolly</code>, <code>Path=SmoothPath</code>, <code>VCamDollyHelper</code>, <code>CinemachineImpulseListener</code></td>
+			</tr>
+			<tr>
+					<td><strong>SFX_PoolManager</strong></td>
+					<td>场景单例</td>
+					<td><code>Sound Pools</code>: <code>SoundStyle</code> + <code>SoundPrefab</code> + <code>Count</code></td>
+			</tr>
+			<tr>
+					<td><strong>VFX_PoolManager</strong></td>
+					<td>场景单例</td>
+					<td><code>Effect Dates</code>: <code>Style</code> + <code>VFXItemData</code></td>
+			</tr>
+			<tr>
+					<td><strong>VFXItemData</strong></td>
+					<td>场景对象</td>
+					<td><code>effectItems</code>: <code>VFXName</code> + <code>VFXPrefab</code> + <code>count</code> + <code>applyParentPos</code></td>
+			</tr>
+			<tr>
+					<td><strong>SwitchCharacter</strong></td>
+					<td>场景单例</td>
+					<td><code>SwitchCharacterInfos[]</code>: <code>CharacterName</code> + <code>Character</code> + <code>AimAtPos</code> + <code>FollowAtPos</code> + <code>SpawnDistance</code></td>
+			</tr>
+			<tr>
+					<td><strong>UIManager</strong></td>
+					<td>场景单例</td>
+					<td>子路径 <code>UIRoot/State Bar</code> + <code>UIRoot/Switch Time</code> 存在</td>
+			</tr>
+			<tr>
+					<td><strong>SwitchTimeUI</strong></td>
+					<td>UIManager 子物体</td>
+					<td><code>SeeleImage</code>, <code>StickImage</code> 拖入 Sprite</td>
+			</tr>
+			<tr>
+					<td><strong>Enemy</strong></td>
+					<td>敌人 Prefab</td>
+					<td><code>CharacterHeath</code>, <code>BloodPos</code>, <code>CharacterHealthInfo</code></td>
+			</tr>
+			<tr>
+					<td><strong>Animator Controller</strong></td>
+					<td>角色/敌人 Animator</td>
+					<td>每个动画状态挂 <code>OnAnimationTranslation</code> 选对应枚举，Tag 设好（<code>ATK</code>/<code>Skill</code>/<code>Hit</code>/<code>Parry</code>/<code>Dodge</code>/<code>Movement</code>）</td>
+			</tr>
+	</tbody>
+</table></div>
+<hr>
+<blockquote>
+<p>项目持续迭代中。当前版本（2026-06）核心战斗循环完整可运行，相机系统 Timeline 方案稳定，切人、伤害、特效、音效路径闭环。已知薄弱点见第十五节。欢迎提 Issue 或直接 PR。</p>
+</blockquote>
+<hr>
+<h2 id="十七补充细节">十七、补充细节
+</h2><h3 id="根运动root-motion复用">根运动（Root Motion）复用
+</h3><p><code>CharacterMoveControllerBase.OnAnimatorMove()</code> 根据当前动画 Tag 决定位移倍率：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">if</span>   <span class="p">(</span><span class="n">AnimationAtTag</span><span class="p">(</span><span class="s">&#34;Movement&#34;</span><span class="p">))</span> <span class="err">→</span> <span class="n">Move</span><span class="p">(</span><span class="n">dir</span> <span class="p">*</span> <span class="n">deltaTime</span> <span class="p">*</span> <span class="n">moveMult</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">elif</span> <span class="p">(</span><span class="n">AnimationAtTag</span><span class="p">(</span><span class="s">&#34;Dodge&#34;</span><span class="p">))</span>    <span class="err">→</span> <span class="n">Move</span><span class="p">(</span><span class="n">dir</span> <span class="p">*</span> <span class="n">deltaTime</span> <span class="p">*</span> <span class="n">dodgeMult</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 其他 Tag 不移动</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同一个移动逻辑通过 Tag 复用，不需要每个状态单独写一段位移代码。闪避动画设 <code>&quot;Dodge&quot;</code> Tag 走 dodge 倍率，步行/奔跑/冲刺动画设 <code>&quot;Movement&quot;</code> Tag 走各自的 inputMult 倍率。</p>
+<h3 id="expandclassanimationattag-扩展方法">ExpandClass.AnimationAtTag 扩展方法
+</h3><p>整个项目中最高频的辅助方法，一行代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">bool</span> <span class="n">AnimationAtTag</span><span class="p">(</span><span class="k">this</span> <span class="n">Animator</span> <span class="n">animator</span><span class="p">,</span> <span class="kt">string</span> <span class="n">tagName</span><span class="p">,</span> <span class="kt">int</span> <span class="n">layerIndex</span> <span class="p">=</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">=&gt;</span> <span class="n">animator</span><span class="p">.</span><span class="n">GetCurrentAnimatorStateInfo</span><span class="p">(</span><span class="n">layerIndex</span><span class="p">).</span><span class="n">IsTag</span><span class="p">(</span><span class="n">tagName</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>出现在：<code>CanBaseComboInput</code> 的不在 Hit/Parry/Skill 中才能攻击判断、<code>AttackTrigger</code> 的三路分支、<code>PlayerMovementNullState.CheckStateExit</code> 的&quot;攻击中不能退出&quot;守卫、<code>CharacterHealthBase.LookAtAttacker</code> 的&quot;受击中才转脸&quot;判断。Tag 在 Animator Controller 中设，不写在代码枚举里，加新 Tag 改 Animator 即可。</p>
+<h3 id="animatorid-参数哈希">AnimatorID 参数哈希
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="k">readonly</span> <span class="kt">int</span> <span class="n">MovementID</span>  <span class="p">=</span> <span class="n">Animator</span><span class="p">.</span><span class="n">StringToHash</span><span class="p">(</span><span class="s">&#34;Movement&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="k">readonly</span> <span class="kt">int</span> <span class="n">HasInputID</span>  <span class="p">=</span> <span class="n">Animator</span><span class="p">.</span><span class="n">StringToHash</span><span class="p">(</span><span class="s">&#34;HasInput&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="k">readonly</span> <span class="kt">int</span> <span class="n">TurnBackID</span>  <span class="p">=</span> <span class="n">Animator</span><span class="p">.</span><span class="n">StringToHash</span><span class="p">(</span><span class="s">&#34;TurnBack&#34;</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>字符串哈希避免每帧字符串比较的 GC。<code>MovementID</code> 被 <code>HandInput()</code> 每帧 <code>SetFloat</code> 驱动 Blend Tree；<code>HasInputID</code> 切换待机/移动动画混合；<code>TurnBackID</code> 触发转身动画。</p>
+<h3 id="playermovementnullstatecheckstateexit-守卫">PlayerMovementNullState.CheckStateExit 守卫
+</h3><p>攻击/技能中，这个守卫防止动画退出时误切移动状态：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="k">void</span> <span class="n">CheckStateExit</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">AnimationAtTag</span><span class="p">(</span><span class="s">&#34;ATK&#34;</span><span class="p">)</span> <span class="p">||</span> <span class="n">AnimationAtTag</span><span class="p">(</span><span class="s">&#34;Skill&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>   <span class="c1">// 攻击还没播完，不退</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">PlayerMove</span> <span class="p">!=</span> <span class="n">zero</span><span class="p">)</span> <span class="err">→</span> <span class="n">ChangeState</span><span class="p">(</span><span class="n">runningState</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>                    <span class="err">→</span> <span class="n">ChangeState</span><span class="p">(</span><span class="n">idlingState</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>没有这个守卫，每次攻击动画退出过渡都会触发移动状态迁移，导致攻击连不上下一段。</p>
+<h3 id="移动状态链">移动状态链
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Idle ←→ Walk ←→ Run ←→ Sprint
+</span></span><span class="line"><span class="cl">  ↑                      ↑
+</span></span><span class="line"><span class="cl">  └── Dash退出有方向 ────┘
+</span></span><span class="line"><span class="cl">  └── Dash退出无方向 → Idle
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>各状态通过 <code>inputMult</code> 控制 Blend Tree 的 <code>Movement</code> 参数（Walk=1, Run=2, Sprint=3），同一个混合树复用不同速度。</p>
+<h3 id="vfxmanager-全局粒子速度控制">VFXManager 全局粒子速度控制
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">void</span> <span class="n">PauseVFX</span><span class="p">()</span>    <span class="err">→</span> <span class="err">所有粒子</span> <span class="n">simulationSpeed</span> <span class="p">=</span> <span class="m">0</span>         <span class="err">←</span> <span class="err">顿帧用</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">void</span> <span class="n">SetVFXSpeed</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="err">→</span> <span class="err">所有粒子</span> <span class="n">simulationSpeed</span> <span class="p">=</span> <span class="n">f</span>          <span class="err">←</span> <span class="err">慢动作用</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="k">void</span> <span class="n">ResetVXF</span><span class="p">()</span>    <span class="err">→</span> <span class="err">所有粒子恢复</span> <span class="n">speedMult</span>                 <span class="err">←</span> <span class="err">恢复</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>EffectItem.Awake()</code> 把自己挂载的 ParticleSystem 注册到 <code>VFXManager.allParticleSystems</code> 列表。全局速度控制不用遍历场景，直接用列表批量设。</p>
+<h3 id="相机水平居中recentering">相机水平居中（Recentering）
+</h3><p><code>PlayerCameraUtility.EnableRecentering(float waitTime, float recenteringTime)</code> 操作 <code>CinemachinePOV.m_HorizontalRecentering</code>。<code>PlayerMovementState</code> 根据 WASD 方向 + 相机垂直角度查 <code>PlayerCameraRecenteringData</code> 配置表，决定是否启用居中。松键时 <code>Movement.canceled</code> 停用。</p>
+<h3 id="相机遮挡避免">相机遮挡避免
+</h3><p><code>TP_CameraController_Pus.cs</code>：射线检测角色到相机的路径，被遮挡时拉近相机避免穿模。</p>
+<h3 id="charactercombobaseattackdetection-三条件">CharacterComboBase.AttackDetection 三条件
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="n">GetEnemy</span><span class="p">()</span> <span class="p">==</span> <span class="kc">null</span>      <span class="err">→</span> <span class="k">return</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="err">距离</span> <span class="p">&gt;</span> <span class="n">comboDistance</span>     <span class="err">→</span> <span class="k">return</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="err">角度</span> <span class="p">&gt;</span> <span class="m">80</span><span class="err">°</span>               <span class="err">→</span> <span class="k">return</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="err">全部通过</span>                 <span class="err">→</span> <span class="k">return</span> <span class="kc">true</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>和敌人检测（<code>SphereCast</code> 锁定）不是同一个方法。检测负责&quot;找到敌人&quot;，判定负责&quot;当前能不能打到&quot;。两者独立，一个在 <code>UpdateEnemy</code> 扫描，一个在 <code>AttackTrigger</code> 过滤。</p>
+
 </section>
 
 
