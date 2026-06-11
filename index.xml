@@ -7,672 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>水元素长弓</copyright>
-        <lastBuildDate>Thu, 11 Jun 2026 15:53:47 +0800</lastBuildDate><atom:link href="https://14kesu.github.io/letere-git.github-io/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Unity渲染相关</title>
-        <link>https://14kesu.github.io/letere-git.github-io/p/unity%E6%B8%B2%E6%9F%93%E7%9B%B8%E5%85%B3/</link>
-        <pubDate>Thu, 11 Jun 2026 15:53:47 +0800</pubDate>
-        
-        <guid>https://14kesu.github.io/letere-git.github-io/p/unity%E6%B8%B2%E6%9F%93%E7%9B%B8%E5%85%B3/</guid>
-        <description>&lt;h2 id=&#34;一unity-渲染管线对比&#34;&gt;一、Unity 渲染管线对比
-&lt;/h2&gt;&lt;h3 id=&#34;11-内置渲染管线built-in-render-pipeline&#34;&gt;1.1 内置渲染管线（Built-in Render Pipeline）
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;固定功能管线&lt;/strong&gt;：渲染流程是 Unity 官方预先编写好的一套固定流程，开发者只能通过开关选项调整，无法改变核心运作方式。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&amp;ldquo;一个管线应对所有场景&amp;rdquo;——试图用一套逻辑兼顾从手机到 PC 的所有平台&lt;/li&gt;
-&lt;li&gt;在任何特定场景下都不是最优的——为了兼容性而显得臃肿&lt;/li&gt;
-&lt;li&gt;对开发者来说像一个黑盒，灵活性差&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;12-可编程渲染管线srp-scriptable-render-pipeline&#34;&gt;1.2 可编程渲染管线（SRP: Scriptable Render Pipeline）
-&lt;/h3&gt;&lt;p&gt;Unity 提供底层 API（ScriptableRenderContext）和框架，允许用 C# 脚本编写和控制整个渲染流程。URP 和 HDRP 是官方基于这套 API 写好的两套预设。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&amp;ldquo;为特定目标量身定制&amp;rdquo;&lt;/strong&gt;：URP 和 HDRP 是为特定目标从头编写的、极其专注和优化的管线。&lt;/p&gt;
-&lt;h3 id=&#34;13-urp-vs-hdrp-详细对比&#34;&gt;1.3 URP vs HDRP 详细对比
-&lt;/h3&gt;&lt;table&gt;
-	&lt;thead&gt;
-			&lt;tr&gt;
-					&lt;th&gt;特性维度&lt;/th&gt;
-					&lt;th&gt;URP（通用渲染管线）&lt;/th&gt;
-					&lt;th&gt;HDRP（高清渲染管线）&lt;/th&gt;
-			&lt;/tr&gt;
-	&lt;/thead&gt;
-	&lt;tbody&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;核心目标&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;效率、灵活性、跨平台&lt;/td&gt;
-					&lt;td&gt;极致图形保真度、物理正确性&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;目标平台&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;移动端、PC（中低端）、WebGL&lt;/td&gt;
-					&lt;td&gt;高性能 PC、高端主机（PS5/Xbox）&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;渲染路径&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;前向渲染（默认），可选延迟渲染&lt;/td&gt;
-					&lt;td&gt;延迟渲染（默认且强大），也支持前向&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;光照模型&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;简化版 PBR，优化保证性能&lt;/td&gt;
-					&lt;td&gt;完全基于物理的 PBR，更复杂精确&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;光源数量&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;每物体 2-4 个像素光，性能友好&lt;/td&gt;
-					&lt;td&gt;大量像素光，延迟渲染高效处理成百上千光源&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;Shader 复杂度&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;相对简单，有限但高效&lt;/td&gt;
-					&lt;td&gt;极其复杂，大量 3A 级效果模块&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;后处理效果&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;Bloom、SSAO、色彩调整等常用效果&lt;/td&gt;
-					&lt;td&gt;体积光、SSR、精确景深等电影级效果&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;高级特性&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;不支持或简化版&lt;/td&gt;
-					&lt;td&gt;光线追踪、体积雾、基于物理的相机、毛发/布料着色器&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;性能开销&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;低&lt;/td&gt;
-					&lt;td&gt;非常高&lt;/td&gt;
-			&lt;/tr&gt;
-	&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;14-为什么-srpurphdrp性能更好&#34;&gt;1.4 为什么 SRP（URP/HDRP）性能更好
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;SRP Batcher（CPU 性能提升）&lt;/strong&gt;：&lt;/p&gt;
-&lt;p&gt;传统方式（Built-in）：每个使用不同材质的物体，即使材质用同一个 Shader 只是参数不同，也会导致 GPU 中断渲染流程、切换 Shader 状态，产生巨大的 CPU 开销。&lt;/p&gt;
-&lt;p&gt;SRP Batcher：将所有使用同类 Shader 的物体的材质数据保存在 GPU 显存的特定区域。渲染时只需快速更新材质数据指针，无需进行昂贵的状态切换。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;结果&lt;/strong&gt;：渲染大量使用不同材质但共享同一 Shader 的物体时，CPU 开销大幅降低，帧率显著提升。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;更清晰的工作流&lt;/strong&gt;：URP/HDRP 的渲染流程用 C# 清晰定义，每条管线只包含目标所需的功能，无比精简高效。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;二完整图形渲染管线&#34;&gt;二、完整图形渲染管线
-&lt;/h2&gt;&lt;p&gt;图形渲染管线是实时渲染的核心组件。功能是将 3D 场景通过给定虚拟相机、光源等要素渲染为 2D 图像。&lt;/p&gt;
-&lt;h3 id=&#34;管线五大阶段总览&#34;&gt;管线五大阶段总览
-&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;准备阶段（CPU）→ 几何阶段（GPU）→ 光栅化阶段（GPU）→ 像素处理阶段（GPU）→ 输出与后处理
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;strong&gt;类比&lt;/strong&gt;：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;准备阶段：摄影师布景、调整灯光&lt;/li&gt;
-&lt;li&gt;几何阶段：把模特和景物投影到相机胶片上&lt;/li&gt;
-&lt;li&gt;光栅化：把胶片成像冲印成照片&lt;/li&gt;
-&lt;li&gt;像素处理：给照片调色、加滤镜&lt;/li&gt;
-&lt;li&gt;输出与后处理：照片装裱、展览&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;21-第一阶段准备阶段cpu&#34;&gt;2.1 第一阶段：准备阶段（CPU）
-&lt;/h3&gt;&lt;p&gt;CPU 为 GPU 准备好所有需要渲染的数据和指令，是渲染流水线的指挥官。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（1）剔除（Culling）&lt;/strong&gt;：&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;视锥体剔除（Frustum Culling）&lt;/strong&gt;：剔除完全在摄像机视野之外的物体。这是最基础的优化。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;遮挡剔除（Occlusion Culling）&lt;/strong&gt;：剔除被其他物体完全挡住的物体（即使在视野内）。算法更复杂，但能极大提升性能。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（2）排序与合批（Sorting &amp;amp; Batching）&lt;/strong&gt;：&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;渲染排序&lt;/strong&gt;：按材质、渲染状态（透明/不透明）排序，减少 GPU 状态切换开销。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;动态合批（Dynamic Batching）&lt;/strong&gt;：CPU 将多个小模型的顶点数据合并成一个，用一次 Draw Call 绘制。节省开支但有限制。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;静态合批（Static Batching）&lt;/strong&gt;：对不会移动的物体进行预处理合批，大幅减少 Draw Call。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（3）设置渲染状态&lt;/strong&gt;：材质（Shader、纹理）、混合模式、深度测试等。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（4）构建渲染命令列表&lt;/strong&gt;：生成一系列 Draw Call 命令。&lt;/p&gt;
-&lt;h3 id=&#34;22-第二阶段几何阶段gpu&#34;&gt;2.2 第二阶段：几何阶段（GPU）
-&lt;/h3&gt;&lt;p&gt;GPU 接收到 Draw Call 命令和顶点数据后，开始处理每个顶点。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（1）顶点着色器（Vertex Shader）&lt;/strong&gt;：&lt;/p&gt;
-&lt;p&gt;核心任务：处理每个顶点的位置，完成 &lt;strong&gt;MVP 变换&lt;/strong&gt;，将 3D 顶点坐标转换到 2D 屏幕坐标。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;完整坐标变换流程&lt;/strong&gt;：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;局部坐标（Local）
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ 模型矩阵（Model Matrix）
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;世界坐标（World）
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ 观察矩阵（View Matrix）
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;观察坐标（View）
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ 投影矩阵（Projection Matrix）
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;裁剪坐标（Clip）
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ 透视除法（Perspective Division）
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;NDC（归一化设备坐标）
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ 视口变换（Viewport Transformation）
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;屏幕坐标（Screen）
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Model 矩阵&lt;/strong&gt;：将物体从局部坐标系变换到世界坐标系，包含平移、旋转、缩放。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;View 矩阵&lt;/strong&gt;：将世界坐标变换到以相机为原点的观察坐标系。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Projection 矩阵&lt;/strong&gt;：将观察坐标变换到裁剪坐标（齐次裁剪空间）。两种投影方式：&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;正交投影&lt;/strong&gt;：视锥体为长方体，物体大小与距离无关，适合 2D 游戏、UI、小地图。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;透视投影&lt;/strong&gt;：视锥体为台体，近大远小，适合 3D 游戏。通过近平面（Near）、远平面（Far）、垂直视场角（FOV）、屏幕宽高比（Aspect Ratio）四个参数定义。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（2）曲面细分着色器（Tessellation Shader）&lt;/strong&gt;（可选）：
-动态增加模型的三角形数量，让表面更平滑细腻（用于地面、角色皮肤等）。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（3）几何着色器（Geometry Shader）&lt;/strong&gt;（可选）：
-可以一次处理整个图元（三角形），甚至生成或销毁图元。用法相对小众。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（4）裁剪（Clipping）&lt;/strong&gt;：
-将超出屏幕（视锥体）范围的三角形进行裁剪，只保留屏幕内的部分。&lt;/p&gt;
-&lt;p&gt;完全位于视锥体外的图元被裁剪掉，部分在视锥体内的图元需要裁剪操作。常见裁剪算法：Cohen-Sutherland 算法、Liang-Barsky 算法、Sutherland-Hodgman 多边形裁剪算法。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（5）背面剔除（Back Face Culling）&lt;/strong&gt;：
-剔除背对摄像机的图元，可减少约 50% 的渲染图元。&lt;/p&gt;
-&lt;p&gt;注意：背面剔除默认不开启。半透明物体不能使用背面剔除，否则会出现穿帮的情况。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（6）屏幕映射（Screen Mapping）&lt;/strong&gt;：
-将裁剪空间坐标转换到最终的屏幕坐标。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;透视除法&lt;/strong&gt;：除以 w 分量得到 NDC（归一化设备坐标），实现近大远小的视觉效果。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;视口变换&lt;/strong&gt;：NDC 坐标转换为窗口坐标（Window Coordinates）。&lt;/p&gt;
-&lt;h3 id=&#34;23-第三阶段图元装配primitive-assembly&#34;&gt;2.3 第三阶段：图元装配（Primitive Assembly）
-&lt;/h3&gt;&lt;p&gt;连接顶点处理和光栅化的桥梁。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输入&lt;/strong&gt;：顶点着色器处理后的一堆离散顶点。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;处理过程&lt;/strong&gt;：根据 Draw Call 指令（图元类型和索引缓冲区），将离散顶点连接成具体的几何图元（三角形）。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;输出&lt;/strong&gt;：完整的、连接好的三角形，每个三角形由三个顶点及其所有插值后的属性组成。&lt;/p&gt;
-&lt;h3 id=&#34;24-第四阶段光栅化阶段gpu&#34;&gt;2.4 第四阶段：光栅化阶段（GPU）
-&lt;/h3&gt;&lt;p&gt;将连续的几何图形（三角形）离散化为一个个的像素片段。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;三角形组装（Triangle Setup）&lt;/strong&gt;：对顶点的输入数据（颜色、法线、纹理坐标）进行插值，得到各个片段对应的数据值。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;三角形遍历（Triangle Traversal）/ 扫描转换（Scan Conversion）&lt;/strong&gt;：
-检查每个像素的中心是否在三角形内。如果是，就为该像素生成一个&lt;strong&gt;片段（Fragment）&lt;/strong&gt;。片段包含了插值后的数据（颜色、法线、深度、UV 等）。&lt;/p&gt;
-&lt;p&gt;对于透视投影，需要使用**透视校正插值（Perspective-Correct Interpolation）**来正确插值片段的颜色、纹理等信息。&lt;/p&gt;
-&lt;h3 id=&#34;25-判断点在三角形内部的方法&#34;&gt;2.5 判断点在三角形内部的方法
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;方法一：重心坐标法（Barycentric Coordinates）&lt;/strong&gt;—— GPU 实际使用的方法&lt;/p&gt;
-&lt;p&gt;任何三角形内的点 P 可以表示为三个顶点 A、B、C 的加权和：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;P = u * A + v * B + w * C
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;其中 u + v + w = 1，且 u &amp;gt;= 0, v &amp;gt;= 0, w &amp;gt;= 0
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;strong&gt;计算权重&lt;/strong&gt;（基于面积比）：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;计算整个三角形面积的两倍：&lt;code&gt;area_ABC = (B - A) × (C - A)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;计算子三角形面积：&lt;code&gt;area_PBC = (B - P) × (C - P)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;归一化：&lt;code&gt;u = area_PBC / area_ABC&lt;/code&gt;, &lt;code&gt;v = area_PCA / area_ABC&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;w = 1 - u - v&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;判断条件&lt;/strong&gt;：如果 &lt;code&gt;u &amp;gt;= 0&lt;/code&gt; 且 &lt;code&gt;v &amp;gt;= 0&lt;/code&gt; 且 &lt;code&gt;w &amp;gt;= 0&lt;/code&gt;（即 &lt;code&gt;u + v &amp;lt;= 1&lt;/code&gt;），则点 P 在三角形内部。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;为什么 GPU 喜欢这个方法？&lt;/strong&gt; 重心坐标不仅是判断工具，更是完美的&lt;strong&gt;插值权重&lt;/strong&gt;：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fragment_color = u * color_A + v * color_B + w * color_C
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;strong&gt;方法二：同向法（叉积法）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;计算边向量和点 P 到顶点向量的三次叉积，如果三次结果的符号相同，则点在三角形内部。&lt;/p&gt;
-&lt;h3 id=&#34;26-锯齿与抗锯齿&#34;&gt;2.6 锯齿与抗锯齿
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;锯齿产生原因&lt;/strong&gt;：3D 场景中的物体是连续的，而屏幕像素是离散的。用离散像素表示连续物体时丢失了连续信息。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;SSAA（超级采样抗锯齿）&lt;/strong&gt;：
-将屏幕渲染到更高分辨率的缓冲区（如 4xSSAA 将 800×600 渲染到 1600×1200），然后下采样。效果好但计算量极大（光栅化和片段着色器都是 4 倍）。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;MSAA（多重采样抗锯齿）&lt;/strong&gt;：
-每个片段使用多个采样点，计算三角面覆盖的采样点数量（覆盖率），片段着色器只计算一次颜色，最终颜色乘以覆盖率。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;4xMSAA：4 个采样点中覆盖了 2 个 → 颜色乘以 0.5 → 浅红色
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;strong&gt;MSAA 的问题&lt;/strong&gt;：与延迟渲染（Deferred Rendering）不兼容，因为光照阶段无法通过 G-Buffer 获取片段覆盖率信息。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;重心采样（Centroid Sampling）&lt;/strong&gt;：解决 MSAA 中采样点位于三角面外部的问题。GPU 通过覆盖的采样点确定采样的重心点。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;其他抗锯齿技术&lt;/strong&gt;：CSAA（覆盖采样抗锯齿）、CFAA（可编程过滤抗锯齿）、FXAA（快速近似抗锯齿）、TXAA（时间样本抗锯齿）、MFAA（多帧采样抗锯齿）、MLAA（形态抗锯齿）、SMAA（亚像素形态抗锯齿）。&lt;/p&gt;
-&lt;h3 id=&#34;27-第五阶段像素处理阶段gpu&#34;&gt;2.7 第五阶段：像素处理阶段（GPU）
-&lt;/h3&gt;&lt;p&gt;这是最复杂、最灵活的阶段，现代图形学的很多特效都在这里发生。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;（1）片段着色器（Fragment Shader）/ 像素着色器（Pixel Shader）&lt;/strong&gt;：&lt;/p&gt;
-&lt;p&gt;核心任务：计算每个片段的最终颜色。&lt;/p&gt;
-&lt;p&gt;工作原理：使用从顶点着色器插值过来的数据（如 UV），进行&lt;strong&gt;纹理采样&lt;/strong&gt;，并应用光照模型进行计算。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;纹理贴图（Texture Mapping）&lt;/strong&gt;：
-将图像信息映射到三角形网格上，增加物体表面细节。纹理上的每个像素称为&lt;strong&gt;纹素（Texel）&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;常见纹理技术：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;凹凸贴图（Bump Mapping）&lt;/strong&gt;：通过光照信息产生视觉错觉&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;法线贴图（Normal Mapping）&lt;/strong&gt;：直接存储表面法线，改变光照计算结果（性能更好）&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;高度贴图（Height Mapping）&lt;/strong&gt;：存储高度信息，需要计算法线扰动&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;视差贴图（Parallax Mapping）&lt;/strong&gt;：模拟表面凹凸的深度感&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;位移贴图（Displacement Mapping）&lt;/strong&gt;：实际移动顶点的位置&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;立方体贴图（Cubemap）&lt;/strong&gt;：用于环境反射&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;阴影贴图（Shadowmap）&lt;/strong&gt;：存储光源视角的深度信息&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;（2）逐片段操作（Per-Fragment Operations）&lt;/strong&gt;：&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;深度测试（Depth Test）&lt;/strong&gt;：比较片段深度值和深度缓冲区（Z-Buffer）中的值，丢弃被遮挡的片段。这是解决可见性问题的关键技术。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;模板测试（Stencil Test）&lt;/strong&gt;：利用模板缓冲区（Stencil Buffer）标记特定区域，实现轮廓、镜子等特效。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;混合（Blending）&lt;/strong&gt;：处理片段颜色和帧缓冲区中已有颜色的混合，主要用于渲染透明物体（玻璃、火焰）。&lt;/p&gt;
-&lt;h3 id=&#34;28-第六阶段输出与后处理&#34;&gt;2.8 第六阶段：输出与后处理
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;输出到帧缓冲区（Frame Buffer）&lt;/strong&gt;：通过所有测试的片段，将其颜色值写入帧缓冲区。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;后处理（Post-Processing）&lt;/strong&gt;：对整张渲染好的图像进行屏幕空间的特效处理。后处理通常通过在全屏四边形上执行一个特殊的 Shader 来实现。&lt;/p&gt;
-&lt;p&gt;常见后处理效果：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Bloom&lt;/strong&gt;：泛光效果，让明亮区域扩散出光芒&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;色调映射（Tone Mapping）&lt;/strong&gt;：将 HDR 颜色转换到屏幕能显示的 LDR&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;颜色校正（Color Grading）&lt;/strong&gt;：调整整体颜色和氛围&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;景深（Depth of Field）&lt;/strong&gt;：模拟相机焦点清晰、背景模糊的效果&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;SSAO（屏幕空间环境光遮蔽）&lt;/strong&gt;：在屏幕空间计算细微阴影，增加立体感&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;SSR（屏幕空间反射）&lt;/strong&gt;：在屏幕空间计算反射效果&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;三光照模型&#34;&gt;三、光照模型
-&lt;/h2&gt;&lt;h3 id=&#34;31-phong-模型&#34;&gt;3.1 Phong 模型
-&lt;/h3&gt;&lt;p&gt;计算光照最常用的经验模型，参数信息都是经验得到的，没有实际的物理意义。将光照分为三个部分：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;漫反射分量&lt;/strong&gt;：光线照射到粗糙表面后向各个方向均匀反射&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;镜面高光&lt;/strong&gt;：光线照射到光滑表面后沿反射方向集中反射&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;环境光&lt;/strong&gt;：模拟场景中其他物体反射的间接光照，在光照信息上叠加一个较小的常量&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;32-blinn-phong-模型&#34;&gt;3.2 Blinn-Phong 模型
-&lt;/h3&gt;&lt;p&gt;对 Phong 模型的改进。Phong 模型在处理高光时，当观察方向和反射光线夹角大于 90 度时，镜面反射分量会被消除，导致高光不连续。&lt;/p&gt;
-&lt;p&gt;Blinn-Phong 引入了&lt;strong&gt;半角向量（Halfway Vector）&lt;/strong&gt;：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;H = (L + V) / |L + V|    // 光线方向 L 和观察方向 V 的中间位置
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;用半角向量 H 和法线 N 的夹角来计算镜面反射。无论观察者在哪个方向，半角向量和法线夹角都不会超过 90 度，不会出现高光不连续的问题。&lt;/p&gt;
-&lt;h3 id=&#34;33-pbr基于物理的渲染&#34;&gt;3.3 PBR（基于物理的渲染）
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;目标&lt;/strong&gt;：物理正确——材质参数具有真实的物理意义，在任何光照环境下都能表现出一致的行为。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;核心参数&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;金属度（Metallic）&lt;/strong&gt;：材质的金属特性&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;粗糙度（Roughness）&lt;/strong&gt;：表面的光滑程度&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;AO（环境光遮蔽）&lt;/strong&gt;：环境光照下的遮蔽信息&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;图像-Based Lighting（IBL）&lt;/strong&gt;：使用环境贴图来模拟全局光照，配合 PBR 参数实现逼真的光照效果。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;四渲染路径rendering-path&#34;&gt;四、渲染路径（Rendering Path）
-&lt;/h2&gt;&lt;h3 id=&#34;41-前向渲染forward-rendering&#34;&gt;4.1 前向渲染（Forward Rendering）
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;原理&lt;/strong&gt;：在每个物体的片段着色器中，对所有影响该片段的光源进行循环计算。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;流程&lt;/strong&gt;：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;物体 → 顶点着色器 → 片段着色器（计算所有光照）→ 输出
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;MSAA 等抗锯齿支持好&lt;/li&gt;
-&lt;li&gt;Shader 编写直观&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;光源数量多时性能下降极快&lt;/li&gt;
-&lt;li&gt;复杂度 = O(物体数 × 光源数)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;适用场景&lt;/strong&gt;：移动平台、光源数量较少的场景。&lt;/p&gt;
-&lt;h3 id=&#34;42-延迟渲染deferred-rendering&#34;&gt;4.2 延迟渲染（Deferred Rendering）
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;核心思想&lt;/strong&gt;：将几何和光照计算完全分离。&amp;ldquo;延迟&amp;quot;了昂贵的光照计算。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Pass 1：几何通道（G-Buffer Pass）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;不计算任何光照，只存储所有物体的几何信息到多个渲染目标（MRT）中。这些渲染目标集合称为 &lt;strong&gt;G-Buffer&lt;/strong&gt;（Geometry Buffer）。&lt;/p&gt;
-&lt;p&gt;G-Buffer 通常包含：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;漫反射颜色（Albedo）&lt;/li&gt;
-&lt;li&gt;世界空间法线（World Normal）&lt;/li&gt;
-&lt;li&gt;世界空间位置（World Position）/ 深度&lt;/li&gt;
-&lt;li&gt;金属度 / 粗糙度等 PBR 参数&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Pass 2：光照通道（Lighting Pass）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;利用 G-Buffer 中的信息计算光照。不再绘制任何场景物体，针对每个光源在屏幕上绘制代表其影响范围的形状，对覆盖的每个像素从 G-Buffer 中读取信息进行光照计算。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;核心优势&lt;/strong&gt;：复杂度变为 O(N)，只与屏幕像素数和光源数量有关，与场景几何复杂度无关。渲染 1000 个三角形和 100000 个三角形，如果最终屏幕像素数和光源数相同，光照计算开销是一样的。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;与 MSAA 不兼容&lt;/li&gt;
-&lt;li&gt;对透明物体处理困难&lt;/li&gt;
-&lt;li&gt;G-Buffer 占用大量显存带宽&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;适用场景&lt;/strong&gt;：光源数量多、场景复杂的 PC/主机游戏。&lt;/p&gt;
-&lt;h3 id=&#34;43-前向-forward&#34;&gt;4.3 前向 +（Forward+）
-&lt;/h3&gt;&lt;p&gt;现代引擎（如 URP/HDRP）提供的混合方案。将屏幕分块（Tile），每块记录影响该块的光源列表，在片段着色器中只计算当前块的光源。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;五阴影shadows&#34;&gt;五、阴影（Shadows）
-&lt;/h2&gt;&lt;h3 id=&#34;51-shadowmap-原理&#34;&gt;5.1 Shadowmap 原理
-&lt;/h3&gt;&lt;p&gt;阴影贴图技术是一种&lt;strong&gt;渲染到纹理&lt;/strong&gt;的技术。原理非常简单：&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;第一步&lt;/strong&gt;：从光源位置渲染一遍场景，将深度信息写入阴影贴图。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;第二步&lt;/strong&gt;：正常渲染场景，用阴影贴图判断每个片段是否落在阴影中。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;从光源视角看，像素 p 的深度值为 d(p)
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;阴影贴图中离光源最近的深度值为 s(p)
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;如果 d(p) &amp;gt; s(p) → 有物体挡住 → p 在阴影中
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;如果 d(p) = s(p) → 没有被挡 → p 不在阴影中
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;52-阴影粉刺shadow-acne&#34;&gt;5.2 阴影粉刺（Shadow Acne）
-&lt;/h3&gt;&lt;p&gt;由于 Shadowmap 精度问题，平面上的某些像素深度比深度贴图大，某些比深度贴图小，导致某些地方有阴影、某些没有的粉刺现象。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;解决方案&lt;/strong&gt;：使用**偏移量（Bias）**对阴影贴图中的深度值进行调整。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;调整前：有些像素比深度贴图大，有些比深度贴图小
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;调整后：所有像素都比深度贴图大，没有粉刺
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;注意：偏移量过大会导致阴影偏离物体的失真现象（Peter Panning）。偏移量大小与平面倾斜度有关，平面越倾斜，需要的偏移量越大。&lt;/p&gt;
-&lt;h3 id=&#34;53-阴影走样aliasing&#34;&gt;5.3 阴影走样（Aliasing）
-&lt;/h3&gt;&lt;p&gt;阴影边缘出现锯齿。可以提升 Shadowmap 分辨率来降低走样影响，但同时也增大了显存消耗。&lt;/p&gt;
-&lt;h3 id=&#34;54-软阴影&#34;&gt;5.4 软阴影
-&lt;/h3&gt;&lt;p&gt;理想化的点光源（体积无限小）会产生&lt;strong&gt;硬阴影&lt;/strong&gt;，因为光线要么完全被挡住（全阴影），要么完全没被挡住。&lt;/p&gt;
-&lt;p&gt;软阴影的本质是&lt;strong&gt;模拟光源的体积&lt;/strong&gt;，计算片元对光源的可见覆盖率。覆盖率从 0%（本影）到 100%（完全照亮）的连续变化形成&lt;strong&gt;半影&lt;/strong&gt;的过渡区域。&lt;/p&gt;
-&lt;h3 id=&#34;55-pcf百分比渐近过滤&#34;&gt;5.5 PCF（百分比渐近过滤）
-&lt;/h3&gt;&lt;p&gt;传统硬阴影：对阴影贴图采样一次，结果非 0 即 1。&lt;/p&gt;
-&lt;p&gt;PCF：在当前采样点周围取一个区域（如 3×3 的 kernel），进行多次深度比较，得到多个非 0 即 1 的结果，然后取平均值。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;例如 9 次采样，5 次在阴影中 → 阴影亮度 = 5/9 ≈ 0.55
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这个平均值不再是二元的 0 或 1，而是介于 0 到 1 之间的灰度值，在视觉上产生边缘模糊效果。&lt;/p&gt;
-&lt;h3 id=&#34;56-pcss百分比渐近软阴影&#34;&gt;5.6 PCSS（百分比渐近软阴影）
-&lt;/h3&gt;&lt;p&gt;PCSS 是比 PCF 更高级的软阴影技术，很多引擎的标配：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Blocker Search&lt;/strong&gt;：在当前片段位置，搜索区域内有多少深度值比当前片段小（遮挡物），计算平均深度&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Penumbra Size Estimation&lt;/strong&gt;：根据光源大小、遮挡物平均深度和当前片段深度，计算半影宽度（基于相似三角形原理）&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;PCF Filtering&lt;/strong&gt;：用上一步计算出的动态半影宽度决定 PCF 滤波的 Kernel 大小&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;半影宽 → 用大的 Kernel 采样
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;半影窄 → 用小的 Kernel 采样
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;hr&gt;
-&lt;h2 id=&#34;六draw-call&#34;&gt;六、Draw Call
-&lt;/h2&gt;&lt;h3 id=&#34;61-什么是-draw-call&#34;&gt;6.1 什么是 Draw Call
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Draw Call&lt;/strong&gt; 是 CPU 调用图形 API（OpenGL、DirectX）向 GPU 发起的绘制命令。每个 Draw Call 命令都包含了绘制一个或多个图形对象所需的所有信息（顶点数据、纹理、Shader 等）。&lt;/p&gt;
-&lt;h3 id=&#34;62-draw-call-过多为什么会影响性能&#34;&gt;6.2 Draw Call 过多为什么会影响性能
-&lt;/h3&gt;&lt;p&gt;每个 Draw Call 都有&lt;strong&gt;CPU 开销&lt;/strong&gt;：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;CPU 准备渲染数据&lt;/li&gt;
-&lt;li&gt;CPU 调用图形 API&lt;/li&gt;
-&lt;li&gt;驱动处理和验证命令&lt;/li&gt;
-&lt;li&gt;GPU 执行命令&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;当 Draw Call 过多时，CPU 忙于提交命令，无法处理其他逻辑，成为&lt;strong&gt;CPU-Bound&lt;/strong&gt;瓶颈。&lt;/p&gt;
-&lt;h3 id=&#34;63-影响-draw-call-数量的因素&#34;&gt;6.3 影响 Draw Call 数量的因素
-&lt;/h3&gt;&lt;table&gt;
-	&lt;thead&gt;
-			&lt;tr&gt;
-					&lt;th&gt;因素&lt;/th&gt;
-					&lt;th&gt;说明&lt;/th&gt;
-			&lt;/tr&gt;
-	&lt;/thead&gt;
-	&lt;tbody&gt;
-			&lt;tr&gt;
-					&lt;td&gt;对象数量&lt;/td&gt;
-					&lt;td&gt;每个对象至少需要一次 Draw Call&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;材质数量&lt;/td&gt;
-					&lt;td&gt;每个材质需要一次 Draw Call&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;纹理贴图&lt;/td&gt;
-					&lt;td&gt;纹理切换需要额外 Draw Call&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;Shader 复杂度&lt;/td&gt;
-					&lt;td&gt;复杂 Shader 可能需要多个 Pass&lt;/td&gt;
-			&lt;/tr&gt;
-	&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;100 个立方体 + 同一材质 → 100 个 Draw Call&lt;/li&gt;
-&lt;li&gt;100 个立方体 + 不同材质 → 大于 100 个 Draw Call（因为材质和纹理不同）&lt;/li&gt;
-&lt;li&gt;复杂角色模型 + 多个纹理和材质 → 多个 Draw Call（模型本身 + 每个纹理）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;七合批batching&#34;&gt;七、合批（Batching）
-&lt;/h2&gt;&lt;p&gt;合批将多个物体的渲染数据合并，用&lt;strong&gt;一次 Draw Call&lt;/strong&gt; 绘制，极大减轻 CPU 负担。&lt;/p&gt;
-&lt;h3 id=&#34;71-静态合批static-batching&#34;&gt;7.1 静态合批（Static Batching）
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;原理&lt;/strong&gt;：将不会移动的静态物体在运行前合并成一个大的顶点/索引缓冲区。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;工作原理&lt;/strong&gt;：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;预处理&lt;/strong&gt;：Unity 编辑器在构建时将所有标记为 &lt;code&gt;Static&lt;/code&gt; 且使用相同材质的物体的网格数据合并&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;渲染&lt;/strong&gt;：合并后只需一次 Draw Call 全部绘制&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：性能收益巨大，最有效的减少 Draw Call 手段之一。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;内存开销增加（合并后的网格额外占内存）&lt;/li&gt;
-&lt;li&gt;只适用于静态物体（不能再移动、旋转、缩放）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;72-动态合批dynamic-batching&#34;&gt;7.2 动态合批（Dynamic Batching）
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;原理&lt;/strong&gt;：Unity 运行时每帧自动将小型动态物体的网格数据合并。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;工作原理&lt;/strong&gt;：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;CPU 每帧遍历使用同一材质且满足条件的小型动态物体&lt;/li&gt;
-&lt;li&gt;将顶点数据从本地空间变换到世界空间（CPU 上完成！）&lt;/li&gt;
-&lt;li&gt;将变换后的顶点数据合并到一个公共的顶点缓冲区&lt;/li&gt;
-&lt;li&gt;发起一次 Draw Call&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：适用于动态物体。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;限制条件&lt;/strong&gt;（极易被打断）：&lt;/p&gt;
-&lt;table&gt;
-	&lt;thead&gt;
-			&lt;tr&gt;
-					&lt;th&gt;条件&lt;/th&gt;
-					&lt;th&gt;说明&lt;/th&gt;
-			&lt;/tr&gt;
-	&lt;/thead&gt;
-	&lt;tbody&gt;
-			&lt;tr&gt;
-					&lt;td&gt;顶点数限制&lt;/td&gt;
-					&lt;td&gt;通常不超过 300 个&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;同一材质&lt;/td&gt;
-					&lt;td&gt;必须是完全相同的材质实例&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;统一缩放&lt;/td&gt;
-					&lt;td&gt;不能有非统一缩放（如 (1,2,1)）&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;多 Pass&lt;/td&gt;
-					&lt;td&gt;不能包含多个 Pass 的 Shader&lt;/td&gt;
-			&lt;/tr&gt;
-	&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;73-gpu-instancing&#34;&gt;7.3 GPU Instancing
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;原理&lt;/strong&gt;：在一次渲染调用中同时绘制多个相同模型的实例。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;减少 CPU 开销&lt;/li&gt;
-&lt;li&gt;适合大量相同物体（草地、人群、粒子）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：与动态合批互斥。如果材质开启了 GPU Instancing，物体不会尝试动态合批。&lt;/p&gt;
-&lt;h3 id=&#34;74-合批被打断的常见情况&#34;&gt;7.4 合批被打断的常见情况
-&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;使用不同的材质实例&lt;/strong&gt;（最常见！）：两个材质球即使看起来一样，只要是不同的资产，就会被视为不同的材质实例，中断合批。解决方案：共享同一个材质实例，使用 &lt;code&gt;MaterialPropertyBlock&lt;/code&gt; 修改属性。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;渲染顺序中断&lt;/strong&gt;：&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;渲染序列：[物体A(材质1)，物体B(材质1)，物体C(材质2)，物体D(材质1)]
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;合批结果：[A+B] → [C] → [D]  // 共 3 个 Draw Call
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;// D 无法和 A+B 合并，因为中间插入了 C
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
-&lt;li&gt;&lt;strong&gt;不满足动态合批的苛刻条件&lt;/strong&gt;：顶点超标、非统一缩放、多 Pass Shader。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;八渲染优化技术&#34;&gt;八、渲染优化技术
-&lt;/h2&gt;&lt;h3 id=&#34;81-渲染优化核心思路&#34;&gt;8.1 渲染优化核心思路
-&lt;/h3&gt;&lt;p&gt;面试口诀：&lt;strong&gt;合并、减面、剔除&lt;/strong&gt;&lt;/p&gt;
-&lt;table&gt;
-	&lt;thead&gt;
-			&lt;tr&gt;
-					&lt;th&gt;技术&lt;/th&gt;
-					&lt;th&gt;原理&lt;/th&gt;
-					&lt;th&gt;效果&lt;/th&gt;
-			&lt;/tr&gt;
-	&lt;/thead&gt;
-	&lt;tbody&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;LOD&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;远处物体用低面数模型&lt;/td&gt;
-					&lt;td&gt;减少 GPU 渲染量&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;视锥剔除&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;剔除视野外的物体&lt;/td&gt;
-					&lt;td&gt;减少不必要的绘制&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;遮挡剔除&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;剔除被挡住的物体&lt;/td&gt;
-					&lt;td&gt;进一步减少绘制&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;静态合批&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;合并静态物体&lt;/td&gt;
-					&lt;td&gt;大幅减少 Draw Call&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;动态合批&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;合批小型动态物体&lt;/td&gt;
-					&lt;td&gt;减少 Draw Call（有严格限制）&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;GPU Instancing&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;一次绘制多个相同模型&lt;/td&gt;
-					&lt;td&gt;减少 CPU 开销&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;屏幕空间技术&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;在屏幕空间采样计算&lt;/td&gt;
-					&lt;td&gt;减少场景计算需求&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;Shader 指令优化&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;减少不必要的计算和采样&lt;/td&gt;
-					&lt;td&gt;降低 GPU 开销&lt;/td&gt;
-			&lt;/tr&gt;
-	&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;82-lodlevel-of-detail&#34;&gt;8.2 LOD（Level of Detail）
-&lt;/h3&gt;&lt;p&gt;LOD 技术在物体远离相机时使用低细节模型，减少多边形数量。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;LOD 0（近距离）：高面数模型，细节最丰富
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;LOD 1（中距离）：中面数模型
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;LOD 2（远距离）：低面数模型
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Culled（超出范围）：不渲染
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;Unity 中通过 LOD Group 组件实现，自动根据物体与相机的距离切换 LOD 级别。&lt;/p&gt;
-&lt;h3 id=&#34;83-视锥剔除frustum-culling&#34;&gt;8.3 视锥剔除（Frustum Culling）
-&lt;/h3&gt;&lt;p&gt;检查物体是否在相机的视锥体内，不在则不渲染。&lt;/p&gt;
-&lt;p&gt;Unity 默认启用视锥剔除，不需要手动设置。&lt;/p&gt;
-&lt;h3 id=&#34;84-遮挡剔除occlusion-culling&#34;&gt;8.4 遮挡剔除（Occlusion Culling）
-&lt;/h3&gt;&lt;p&gt;通过**遮挡剔除数据（Occlusion Data）**预计算场景中的遮挡关系，运行时判断被遮挡的物体不渲染。&lt;/p&gt;
-&lt;p&gt;需要预先 Bake 遮挡数据（Window → Rendering → Occlusion Culling）。&lt;/p&gt;
-&lt;h3 id=&#34;85-屏幕空间技术&#34;&gt;8.5 屏幕空间技术
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;SSAO（屏幕空间环境光遮蔽）&lt;/strong&gt;：在屏幕空间计算像素间的遮挡关系，产生细微的环境阴影&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;SSR（屏幕空间反射）&lt;/strong&gt;：利用屏幕空间的颜色和深度信息计算反射效果&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;SSGI（屏幕空间全局光照）&lt;/strong&gt;：近似全局光照效果&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;屏幕空间技术的共同特点：只在屏幕空间采样计算，不涉及场景几何体，性能开销相对可控。&lt;/p&gt;
-&lt;h3 id=&#34;86-shader-优化建议&#34;&gt;8.6 Shader 优化建议
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;减少纹理采样次数&lt;/li&gt;
-&lt;li&gt;使用精度更低的变量（&lt;code&gt;half&lt;/code&gt; 代替 &lt;code&gt;float&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;避免在片段着色器中做复杂计算（移到顶点着色器）&lt;/li&gt;
-&lt;li&gt;使用宏控制 Shader 变体数量&lt;/li&gt;
-&lt;li&gt;避免使用 &lt;code&gt;if&lt;/code&gt; 分支（GPU 不擅长分支预测）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;87-常用渲染分析工具&#34;&gt;8.7 常用渲染分析工具
-&lt;/h3&gt;&lt;table&gt;
-	&lt;thead&gt;
-			&lt;tr&gt;
-					&lt;th&gt;工具&lt;/th&gt;
-					&lt;th&gt;用途&lt;/th&gt;
-			&lt;/tr&gt;
-	&lt;/thead&gt;
-	&lt;tbody&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;Unity Profiler&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;分析 CPU/GPU/内存瓶颈&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;Frame Debugger&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;逐帧查看 Draw Call&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;RenderDoc&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;深度 GPU 调试和分析&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;GPU Profiler&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;分析 GPU 各阶段耗时&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;&lt;strong&gt;Memory Profiler&lt;/strong&gt;&lt;/td&gt;
-					&lt;td&gt;分析纹理和网格内存占用&lt;/td&gt;
-			&lt;/tr&gt;
-	&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;hr&gt;
-&lt;blockquote&gt;
-&lt;p&gt;本文涵盖 Unity 渲染的核心知识体系，从渲染管线对比到完整图形渲染管线流程，再到光照模型、阴影、合批、优化技术等，适合 Unity 开发者和图形学学习者系统性复习。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        </item>
-        <item>
+        <lastBuildDate>Thu, 11 Jun 2026 15:49:00 +0800</lastBuildDate><atom:link href="https://14kesu.github.io/letere-git.github-io/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>C&#43;&#43;八股总结</title>
         <link>https://14kesu.github.io/letere-git.github-io/p/c-%E5%85%AB%E8%82%A1%E6%80%BB%E7%BB%93/</link>
         <pubDate>Thu, 11 Jun 2026 15:49:00 +0800</pubDate>
@@ -2353,9 +1688,674 @@
 </description>
         </item>
         <item>
+        <title>Unity渲染相关</title>
+        <link>https://14kesu.github.io/letere-git.github-io/p/unity%E6%B8%B2%E6%9F%93%E7%9B%B8%E5%85%B3/</link>
+        <pubDate>Thu, 04 Jun 2026 15:53:47 +0800</pubDate>
+        
+        <guid>https://14kesu.github.io/letere-git.github-io/p/unity%E6%B8%B2%E6%9F%93%E7%9B%B8%E5%85%B3/</guid>
+        <description>&lt;h2 id=&#34;一unity-渲染管线对比&#34;&gt;一、Unity 渲染管线对比
+&lt;/h2&gt;&lt;h3 id=&#34;11-内置渲染管线built-in-render-pipeline&#34;&gt;1.1 内置渲染管线（Built-in Render Pipeline）
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;固定功能管线&lt;/strong&gt;：渲染流程是 Unity 官方预先编写好的一套固定流程，开发者只能通过开关选项调整，无法改变核心运作方式。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;一个管线应对所有场景&amp;rdquo;——试图用一套逻辑兼顾从手机到 PC 的所有平台&lt;/li&gt;
+&lt;li&gt;在任何特定场景下都不是最优的——为了兼容性而显得臃肿&lt;/li&gt;
+&lt;li&gt;对开发者来说像一个黑盒，灵活性差&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;12-可编程渲染管线srp-scriptable-render-pipeline&#34;&gt;1.2 可编程渲染管线（SRP: Scriptable Render Pipeline）
+&lt;/h3&gt;&lt;p&gt;Unity 提供底层 API（ScriptableRenderContext）和框架，允许用 C# 脚本编写和控制整个渲染流程。URP 和 HDRP 是官方基于这套 API 写好的两套预设。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&amp;ldquo;为特定目标量身定制&amp;rdquo;&lt;/strong&gt;：URP 和 HDRP 是为特定目标从头编写的、极其专注和优化的管线。&lt;/p&gt;
+&lt;h3 id=&#34;13-urp-vs-hdrp-详细对比&#34;&gt;1.3 URP vs HDRP 详细对比
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;特性维度&lt;/th&gt;
+					&lt;th&gt;URP（通用渲染管线）&lt;/th&gt;
+					&lt;th&gt;HDRP（高清渲染管线）&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;核心目标&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;效率、灵活性、跨平台&lt;/td&gt;
+					&lt;td&gt;极致图形保真度、物理正确性&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;目标平台&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;移动端、PC（中低端）、WebGL&lt;/td&gt;
+					&lt;td&gt;高性能 PC、高端主机（PS5/Xbox）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;渲染路径&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;前向渲染（默认），可选延迟渲染&lt;/td&gt;
+					&lt;td&gt;延迟渲染（默认且强大），也支持前向&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;光照模型&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;简化版 PBR，优化保证性能&lt;/td&gt;
+					&lt;td&gt;完全基于物理的 PBR，更复杂精确&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;光源数量&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;每物体 2-4 个像素光，性能友好&lt;/td&gt;
+					&lt;td&gt;大量像素光，延迟渲染高效处理成百上千光源&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;Shader 复杂度&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;相对简单，有限但高效&lt;/td&gt;
+					&lt;td&gt;极其复杂，大量 3A 级效果模块&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;后处理效果&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;Bloom、SSAO、色彩调整等常用效果&lt;/td&gt;
+					&lt;td&gt;体积光、SSR、精确景深等电影级效果&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;高级特性&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;不支持或简化版&lt;/td&gt;
+					&lt;td&gt;光线追踪、体积雾、基于物理的相机、毛发/布料着色器&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;性能开销&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;低&lt;/td&gt;
+					&lt;td&gt;非常高&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;14-为什么-srpurphdrp性能更好&#34;&gt;1.4 为什么 SRP（URP/HDRP）性能更好
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;SRP Batcher（CPU 性能提升）&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;传统方式（Built-in）：每个使用不同材质的物体，即使材质用同一个 Shader 只是参数不同，也会导致 GPU 中断渲染流程、切换 Shader 状态，产生巨大的 CPU 开销。&lt;/p&gt;
+&lt;p&gt;SRP Batcher：将所有使用同类 Shader 的物体的材质数据保存在 GPU 显存的特定区域。渲染时只需快速更新材质数据指针，无需进行昂贵的状态切换。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;结果&lt;/strong&gt;：渲染大量使用不同材质但共享同一 Shader 的物体时，CPU 开销大幅降低，帧率显著提升。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;更清晰的工作流&lt;/strong&gt;：URP/HDRP 的渲染流程用 C# 清晰定义，每条管线只包含目标所需的功能，无比精简高效。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;二完整图形渲染管线&#34;&gt;二、完整图形渲染管线
+&lt;/h2&gt;&lt;p&gt;图形渲染管线是实时渲染的核心组件。功能是将 3D 场景通过给定虚拟相机、光源等要素渲染为 2D 图像。&lt;/p&gt;
+&lt;h3 id=&#34;管线五大阶段总览&#34;&gt;管线五大阶段总览
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;准备阶段（CPU）→ 几何阶段（GPU）→ 光栅化阶段（GPU）→ 像素处理阶段（GPU）→ 输出与后处理
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;类比&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;准备阶段：摄影师布景、调整灯光&lt;/li&gt;
+&lt;li&gt;几何阶段：把模特和景物投影到相机胶片上&lt;/li&gt;
+&lt;li&gt;光栅化：把胶片成像冲印成照片&lt;/li&gt;
+&lt;li&gt;像素处理：给照片调色、加滤镜&lt;/li&gt;
+&lt;li&gt;输出与后处理：照片装裱、展览&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;21-第一阶段准备阶段cpu&#34;&gt;2.1 第一阶段：准备阶段（CPU）
+&lt;/h3&gt;&lt;p&gt;CPU 为 GPU 准备好所有需要渲染的数据和指令，是渲染流水线的指挥官。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（1）剔除（Culling）&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;视锥体剔除（Frustum Culling）&lt;/strong&gt;：剔除完全在摄像机视野之外的物体。这是最基础的优化。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;遮挡剔除（Occlusion Culling）&lt;/strong&gt;：剔除被其他物体完全挡住的物体（即使在视野内）。算法更复杂，但能极大提升性能。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（2）排序与合批（Sorting &amp;amp; Batching）&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;渲染排序&lt;/strong&gt;：按材质、渲染状态（透明/不透明）排序，减少 GPU 状态切换开销。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;动态合批（Dynamic Batching）&lt;/strong&gt;：CPU 将多个小模型的顶点数据合并成一个，用一次 Draw Call 绘制。节省开支但有限制。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;静态合批（Static Batching）&lt;/strong&gt;：对不会移动的物体进行预处理合批，大幅减少 Draw Call。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（3）设置渲染状态&lt;/strong&gt;：材质（Shader、纹理）、混合模式、深度测试等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（4）构建渲染命令列表&lt;/strong&gt;：生成一系列 Draw Call 命令。&lt;/p&gt;
+&lt;h3 id=&#34;22-第二阶段几何阶段gpu&#34;&gt;2.2 第二阶段：几何阶段（GPU）
+&lt;/h3&gt;&lt;p&gt;GPU 接收到 Draw Call 命令和顶点数据后，开始处理每个顶点。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（1）顶点着色器（Vertex Shader）&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;核心任务：处理每个顶点的位置，完成 &lt;strong&gt;MVP 变换&lt;/strong&gt;，将 3D 顶点坐标转换到 2D 屏幕坐标。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;完整坐标变换流程&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;局部坐标（Local）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ 模型矩阵（Model Matrix）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;世界坐标（World）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ 观察矩阵（View Matrix）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;观察坐标（View）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ 投影矩阵（Projection Matrix）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;裁剪坐标（Clip）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ 透视除法（Perspective Division）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;NDC（归一化设备坐标）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ↓ 视口变换（Viewport Transformation）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;屏幕坐标（Screen）
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Model 矩阵&lt;/strong&gt;：将物体从局部坐标系变换到世界坐标系，包含平移、旋转、缩放。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;View 矩阵&lt;/strong&gt;：将世界坐标变换到以相机为原点的观察坐标系。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Projection 矩阵&lt;/strong&gt;：将观察坐标变换到裁剪坐标（齐次裁剪空间）。两种投影方式：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;正交投影&lt;/strong&gt;：视锥体为长方体，物体大小与距离无关，适合 2D 游戏、UI、小地图。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;透视投影&lt;/strong&gt;：视锥体为台体，近大远小，适合 3D 游戏。通过近平面（Near）、远平面（Far）、垂直视场角（FOV）、屏幕宽高比（Aspect Ratio）四个参数定义。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（2）曲面细分着色器（Tessellation Shader）&lt;/strong&gt;（可选）：
+动态增加模型的三角形数量，让表面更平滑细腻（用于地面、角色皮肤等）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（3）几何着色器（Geometry Shader）&lt;/strong&gt;（可选）：
+可以一次处理整个图元（三角形），甚至生成或销毁图元。用法相对小众。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（4）裁剪（Clipping）&lt;/strong&gt;：
+将超出屏幕（视锥体）范围的三角形进行裁剪，只保留屏幕内的部分。&lt;/p&gt;
+&lt;p&gt;完全位于视锥体外的图元被裁剪掉，部分在视锥体内的图元需要裁剪操作。常见裁剪算法：Cohen-Sutherland 算法、Liang-Barsky 算法、Sutherland-Hodgman 多边形裁剪算法。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（5）背面剔除（Back Face Culling）&lt;/strong&gt;：
+剔除背对摄像机的图元，可减少约 50% 的渲染图元。&lt;/p&gt;
+&lt;p&gt;注意：背面剔除默认不开启。半透明物体不能使用背面剔除，否则会出现穿帮的情况。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（6）屏幕映射（Screen Mapping）&lt;/strong&gt;：
+将裁剪空间坐标转换到最终的屏幕坐标。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;透视除法&lt;/strong&gt;：除以 w 分量得到 NDC（归一化设备坐标），实现近大远小的视觉效果。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;视口变换&lt;/strong&gt;：NDC 坐标转换为窗口坐标（Window Coordinates）。&lt;/p&gt;
+&lt;h3 id=&#34;23-第三阶段图元装配primitive-assembly&#34;&gt;2.3 第三阶段：图元装配（Primitive Assembly）
+&lt;/h3&gt;&lt;p&gt;连接顶点处理和光栅化的桥梁。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输入&lt;/strong&gt;：顶点着色器处理后的一堆离散顶点。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;处理过程&lt;/strong&gt;：根据 Draw Call 指令（图元类型和索引缓冲区），将离散顶点连接成具体的几何图元（三角形）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;输出&lt;/strong&gt;：完整的、连接好的三角形，每个三角形由三个顶点及其所有插值后的属性组成。&lt;/p&gt;
+&lt;h3 id=&#34;24-第四阶段光栅化阶段gpu&#34;&gt;2.4 第四阶段：光栅化阶段（GPU）
+&lt;/h3&gt;&lt;p&gt;将连续的几何图形（三角形）离散化为一个个的像素片段。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;三角形组装（Triangle Setup）&lt;/strong&gt;：对顶点的输入数据（颜色、法线、纹理坐标）进行插值，得到各个片段对应的数据值。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;三角形遍历（Triangle Traversal）/ 扫描转换（Scan Conversion）&lt;/strong&gt;：
+检查每个像素的中心是否在三角形内。如果是，就为该像素生成一个&lt;strong&gt;片段（Fragment）&lt;/strong&gt;。片段包含了插值后的数据（颜色、法线、深度、UV 等）。&lt;/p&gt;
+&lt;p&gt;对于透视投影，需要使用**透视校正插值（Perspective-Correct Interpolation）**来正确插值片段的颜色、纹理等信息。&lt;/p&gt;
+&lt;h3 id=&#34;25-判断点在三角形内部的方法&#34;&gt;2.5 判断点在三角形内部的方法
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;方法一：重心坐标法（Barycentric Coordinates）&lt;/strong&gt;—— GPU 实际使用的方法&lt;/p&gt;
+&lt;p&gt;任何三角形内的点 P 可以表示为三个顶点 A、B、C 的加权和：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;P = u * A + v * B + w * C
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;其中 u + v + w = 1，且 u &amp;gt;= 0, v &amp;gt;= 0, w &amp;gt;= 0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;计算权重&lt;/strong&gt;（基于面积比）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;计算整个三角形面积的两倍：&lt;code&gt;area_ABC = (B - A) × (C - A)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;计算子三角形面积：&lt;code&gt;area_PBC = (B - P) × (C - P)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;归一化：&lt;code&gt;u = area_PBC / area_ABC&lt;/code&gt;, &lt;code&gt;v = area_PCA / area_ABC&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;w = 1 - u - v&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;判断条件&lt;/strong&gt;：如果 &lt;code&gt;u &amp;gt;= 0&lt;/code&gt; 且 &lt;code&gt;v &amp;gt;= 0&lt;/code&gt; 且 &lt;code&gt;w &amp;gt;= 0&lt;/code&gt;（即 &lt;code&gt;u + v &amp;lt;= 1&lt;/code&gt;），则点 P 在三角形内部。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;为什么 GPU 喜欢这个方法？&lt;/strong&gt; 重心坐标不仅是判断工具，更是完美的&lt;strong&gt;插值权重&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fragment_color = u * color_A + v * color_B + w * color_C
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;方法二：同向法（叉积法）&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;计算边向量和点 P 到顶点向量的三次叉积，如果三次结果的符号相同，则点在三角形内部。&lt;/p&gt;
+&lt;h3 id=&#34;26-锯齿与抗锯齿&#34;&gt;2.6 锯齿与抗锯齿
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;锯齿产生原因&lt;/strong&gt;：3D 场景中的物体是连续的，而屏幕像素是离散的。用离散像素表示连续物体时丢失了连续信息。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SSAA（超级采样抗锯齿）&lt;/strong&gt;：
+将屏幕渲染到更高分辨率的缓冲区（如 4xSSAA 将 800×600 渲染到 1600×1200），然后下采样。效果好但计算量极大（光栅化和片段着色器都是 4 倍）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MSAA（多重采样抗锯齿）&lt;/strong&gt;：
+每个片段使用多个采样点，计算三角面覆盖的采样点数量（覆盖率），片段着色器只计算一次颜色，最终颜色乘以覆盖率。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;4xMSAA：4 个采样点中覆盖了 2 个 → 颜色乘以 0.5 → 浅红色
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;MSAA 的问题&lt;/strong&gt;：与延迟渲染（Deferred Rendering）不兼容，因为光照阶段无法通过 G-Buffer 获取片段覆盖率信息。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;重心采样（Centroid Sampling）&lt;/strong&gt;：解决 MSAA 中采样点位于三角面外部的问题。GPU 通过覆盖的采样点确定采样的重心点。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;其他抗锯齿技术&lt;/strong&gt;：CSAA（覆盖采样抗锯齿）、CFAA（可编程过滤抗锯齿）、FXAA（快速近似抗锯齿）、TXAA（时间样本抗锯齿）、MFAA（多帧采样抗锯齿）、MLAA（形态抗锯齿）、SMAA（亚像素形态抗锯齿）。&lt;/p&gt;
+&lt;h3 id=&#34;27-第五阶段像素处理阶段gpu&#34;&gt;2.7 第五阶段：像素处理阶段（GPU）
+&lt;/h3&gt;&lt;p&gt;这是最复杂、最灵活的阶段，现代图形学的很多特效都在这里发生。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（1）片段着色器（Fragment Shader）/ 像素着色器（Pixel Shader）&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;核心任务：计算每个片段的最终颜色。&lt;/p&gt;
+&lt;p&gt;工作原理：使用从顶点着色器插值过来的数据（如 UV），进行&lt;strong&gt;纹理采样&lt;/strong&gt;，并应用光照模型进行计算。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;纹理贴图（Texture Mapping）&lt;/strong&gt;：
+将图像信息映射到三角形网格上，增加物体表面细节。纹理上的每个像素称为&lt;strong&gt;纹素（Texel）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;常见纹理技术：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;凹凸贴图（Bump Mapping）&lt;/strong&gt;：通过光照信息产生视觉错觉&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;法线贴图（Normal Mapping）&lt;/strong&gt;：直接存储表面法线，改变光照计算结果（性能更好）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;高度贴图（Height Mapping）&lt;/strong&gt;：存储高度信息，需要计算法线扰动&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;视差贴图（Parallax Mapping）&lt;/strong&gt;：模拟表面凹凸的深度感&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;位移贴图（Displacement Mapping）&lt;/strong&gt;：实际移动顶点的位置&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;立方体贴图（Cubemap）&lt;/strong&gt;：用于环境反射&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;阴影贴图（Shadowmap）&lt;/strong&gt;：存储光源视角的深度信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;（2）逐片段操作（Per-Fragment Operations）&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;深度测试（Depth Test）&lt;/strong&gt;：比较片段深度值和深度缓冲区（Z-Buffer）中的值，丢弃被遮挡的片段。这是解决可见性问题的关键技术。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;模板测试（Stencil Test）&lt;/strong&gt;：利用模板缓冲区（Stencil Buffer）标记特定区域，实现轮廓、镜子等特效。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;混合（Blending）&lt;/strong&gt;：处理片段颜色和帧缓冲区中已有颜色的混合，主要用于渲染透明物体（玻璃、火焰）。&lt;/p&gt;
+&lt;h3 id=&#34;28-第六阶段输出与后处理&#34;&gt;2.8 第六阶段：输出与后处理
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;输出到帧缓冲区（Frame Buffer）&lt;/strong&gt;：通过所有测试的片段，将其颜色值写入帧缓冲区。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;后处理（Post-Processing）&lt;/strong&gt;：对整张渲染好的图像进行屏幕空间的特效处理。后处理通常通过在全屏四边形上执行一个特殊的 Shader 来实现。&lt;/p&gt;
+&lt;p&gt;常见后处理效果：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Bloom&lt;/strong&gt;：泛光效果，让明亮区域扩散出光芒&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;色调映射（Tone Mapping）&lt;/strong&gt;：将 HDR 颜色转换到屏幕能显示的 LDR&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;颜色校正（Color Grading）&lt;/strong&gt;：调整整体颜色和氛围&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;景深（Depth of Field）&lt;/strong&gt;：模拟相机焦点清晰、背景模糊的效果&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SSAO（屏幕空间环境光遮蔽）&lt;/strong&gt;：在屏幕空间计算细微阴影，增加立体感&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SSR（屏幕空间反射）&lt;/strong&gt;：在屏幕空间计算反射效果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;三光照模型&#34;&gt;三、光照模型
+&lt;/h2&gt;&lt;h3 id=&#34;31-phong-模型&#34;&gt;3.1 Phong 模型
+&lt;/h3&gt;&lt;p&gt;计算光照最常用的经验模型，参数信息都是经验得到的，没有实际的物理意义。将光照分为三个部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;漫反射分量&lt;/strong&gt;：光线照射到粗糙表面后向各个方向均匀反射&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;镜面高光&lt;/strong&gt;：光线照射到光滑表面后沿反射方向集中反射&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;环境光&lt;/strong&gt;：模拟场景中其他物体反射的间接光照，在光照信息上叠加一个较小的常量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;32-blinn-phong-模型&#34;&gt;3.2 Blinn-Phong 模型
+&lt;/h3&gt;&lt;p&gt;对 Phong 模型的改进。Phong 模型在处理高光时，当观察方向和反射光线夹角大于 90 度时，镜面反射分量会被消除，导致高光不连续。&lt;/p&gt;
+&lt;p&gt;Blinn-Phong 引入了&lt;strong&gt;半角向量（Halfway Vector）&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;H = (L + V) / |L + V|    // 光线方向 L 和观察方向 V 的中间位置
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;用半角向量 H 和法线 N 的夹角来计算镜面反射。无论观察者在哪个方向，半角向量和法线夹角都不会超过 90 度，不会出现高光不连续的问题。&lt;/p&gt;
+&lt;h3 id=&#34;33-pbr基于物理的渲染&#34;&gt;3.3 PBR（基于物理的渲染）
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;目标&lt;/strong&gt;：物理正确——材质参数具有真实的物理意义，在任何光照环境下都能表现出一致的行为。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;核心参数&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;金属度（Metallic）&lt;/strong&gt;：材质的金属特性&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;粗糙度（Roughness）&lt;/strong&gt;：表面的光滑程度&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AO（环境光遮蔽）&lt;/strong&gt;：环境光照下的遮蔽信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;图像-Based Lighting（IBL）&lt;/strong&gt;：使用环境贴图来模拟全局光照，配合 PBR 参数实现逼真的光照效果。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;四渲染路径rendering-path&#34;&gt;四、渲染路径（Rendering Path）
+&lt;/h2&gt;&lt;h3 id=&#34;41-前向渲染forward-rendering&#34;&gt;4.1 前向渲染（Forward Rendering）
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;原理&lt;/strong&gt;：在每个物体的片段着色器中，对所有影响该片段的光源进行循环计算。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;流程&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;物体 → 顶点着色器 → 片段着色器（计算所有光照）→ 输出
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MSAA 等抗锯齿支持好&lt;/li&gt;
+&lt;li&gt;Shader 编写直观&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;光源数量多时性能下降极快&lt;/li&gt;
+&lt;li&gt;复杂度 = O(物体数 × 光源数)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;适用场景&lt;/strong&gt;：移动平台、光源数量较少的场景。&lt;/p&gt;
+&lt;h3 id=&#34;42-延迟渲染deferred-rendering&#34;&gt;4.2 延迟渲染（Deferred Rendering）
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;核心思想&lt;/strong&gt;：将几何和光照计算完全分离。&amp;ldquo;延迟&amp;quot;了昂贵的光照计算。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Pass 1：几何通道（G-Buffer Pass）&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;不计算任何光照，只存储所有物体的几何信息到多个渲染目标（MRT）中。这些渲染目标集合称为 &lt;strong&gt;G-Buffer&lt;/strong&gt;（Geometry Buffer）。&lt;/p&gt;
+&lt;p&gt;G-Buffer 通常包含：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;漫反射颜色（Albedo）&lt;/li&gt;
+&lt;li&gt;世界空间法线（World Normal）&lt;/li&gt;
+&lt;li&gt;世界空间位置（World Position）/ 深度&lt;/li&gt;
+&lt;li&gt;金属度 / 粗糙度等 PBR 参数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Pass 2：光照通道（Lighting Pass）&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;利用 G-Buffer 中的信息计算光照。不再绘制任何场景物体，针对每个光源在屏幕上绘制代表其影响范围的形状，对覆盖的每个像素从 G-Buffer 中读取信息进行光照计算。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;核心优势&lt;/strong&gt;：复杂度变为 O(N)，只与屏幕像素数和光源数量有关，与场景几何复杂度无关。渲染 1000 个三角形和 100000 个三角形，如果最终屏幕像素数和光源数相同，光照计算开销是一样的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;与 MSAA 不兼容&lt;/li&gt;
+&lt;li&gt;对透明物体处理困难&lt;/li&gt;
+&lt;li&gt;G-Buffer 占用大量显存带宽&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;适用场景&lt;/strong&gt;：光源数量多、场景复杂的 PC/主机游戏。&lt;/p&gt;
+&lt;h3 id=&#34;43-前向-forward&#34;&gt;4.3 前向 +（Forward+）
+&lt;/h3&gt;&lt;p&gt;现代引擎（如 URP/HDRP）提供的混合方案。将屏幕分块（Tile），每块记录影响该块的光源列表，在片段着色器中只计算当前块的光源。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;五阴影shadows&#34;&gt;五、阴影（Shadows）
+&lt;/h2&gt;&lt;h3 id=&#34;51-shadowmap-原理&#34;&gt;5.1 Shadowmap 原理
+&lt;/h3&gt;&lt;p&gt;阴影贴图技术是一种&lt;strong&gt;渲染到纹理&lt;/strong&gt;的技术。原理非常简单：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第一步&lt;/strong&gt;：从光源位置渲染一遍场景，将深度信息写入阴影贴图。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第二步&lt;/strong&gt;：正常渲染场景，用阴影贴图判断每个片段是否落在阴影中。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;从光源视角看，像素 p 的深度值为 d(p)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;阴影贴图中离光源最近的深度值为 s(p)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;如果 d(p) &amp;gt; s(p) → 有物体挡住 → p 在阴影中
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;如果 d(p) = s(p) → 没有被挡 → p 不在阴影中
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;52-阴影粉刺shadow-acne&#34;&gt;5.2 阴影粉刺（Shadow Acne）
+&lt;/h3&gt;&lt;p&gt;由于 Shadowmap 精度问题，平面上的某些像素深度比深度贴图大，某些比深度贴图小，导致某些地方有阴影、某些没有的粉刺现象。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决方案&lt;/strong&gt;：使用**偏移量（Bias）**对阴影贴图中的深度值进行调整。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;调整前：有些像素比深度贴图大，有些比深度贴图小
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;调整后：所有像素都比深度贴图大，没有粉刺
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注意：偏移量过大会导致阴影偏离物体的失真现象（Peter Panning）。偏移量大小与平面倾斜度有关，平面越倾斜，需要的偏移量越大。&lt;/p&gt;
+&lt;h3 id=&#34;53-阴影走样aliasing&#34;&gt;5.3 阴影走样（Aliasing）
+&lt;/h3&gt;&lt;p&gt;阴影边缘出现锯齿。可以提升 Shadowmap 分辨率来降低走样影响，但同时也增大了显存消耗。&lt;/p&gt;
+&lt;h3 id=&#34;54-软阴影&#34;&gt;5.4 软阴影
+&lt;/h3&gt;&lt;p&gt;理想化的点光源（体积无限小）会产生&lt;strong&gt;硬阴影&lt;/strong&gt;，因为光线要么完全被挡住（全阴影），要么完全没被挡住。&lt;/p&gt;
+&lt;p&gt;软阴影的本质是&lt;strong&gt;模拟光源的体积&lt;/strong&gt;，计算片元对光源的可见覆盖率。覆盖率从 0%（本影）到 100%（完全照亮）的连续变化形成&lt;strong&gt;半影&lt;/strong&gt;的过渡区域。&lt;/p&gt;
+&lt;h3 id=&#34;55-pcf百分比渐近过滤&#34;&gt;5.5 PCF（百分比渐近过滤）
+&lt;/h3&gt;&lt;p&gt;传统硬阴影：对阴影贴图采样一次，结果非 0 即 1。&lt;/p&gt;
+&lt;p&gt;PCF：在当前采样点周围取一个区域（如 3×3 的 kernel），进行多次深度比较，得到多个非 0 即 1 的结果，然后取平均值。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;例如 9 次采样，5 次在阴影中 → 阴影亮度 = 5/9 ≈ 0.55
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这个平均值不再是二元的 0 或 1，而是介于 0 到 1 之间的灰度值，在视觉上产生边缘模糊效果。&lt;/p&gt;
+&lt;h3 id=&#34;56-pcss百分比渐近软阴影&#34;&gt;5.6 PCSS（百分比渐近软阴影）
+&lt;/h3&gt;&lt;p&gt;PCSS 是比 PCF 更高级的软阴影技术，很多引擎的标配：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Blocker Search&lt;/strong&gt;：在当前片段位置，搜索区域内有多少深度值比当前片段小（遮挡物），计算平均深度&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Penumbra Size Estimation&lt;/strong&gt;：根据光源大小、遮挡物平均深度和当前片段深度，计算半影宽度（基于相似三角形原理）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PCF Filtering&lt;/strong&gt;：用上一步计算出的动态半影宽度决定 PCF 滤波的 Kernel 大小&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;半影宽 → 用大的 Kernel 采样
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;半影窄 → 用小的 Kernel 采样
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;hr&gt;
+&lt;h2 id=&#34;六draw-call&#34;&gt;六、Draw Call
+&lt;/h2&gt;&lt;h3 id=&#34;61-什么是-draw-call&#34;&gt;6.1 什么是 Draw Call
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Draw Call&lt;/strong&gt; 是 CPU 调用图形 API（OpenGL、DirectX）向 GPU 发起的绘制命令。每个 Draw Call 命令都包含了绘制一个或多个图形对象所需的所有信息（顶点数据、纹理、Shader 等）。&lt;/p&gt;
+&lt;h3 id=&#34;62-draw-call-过多为什么会影响性能&#34;&gt;6.2 Draw Call 过多为什么会影响性能
+&lt;/h3&gt;&lt;p&gt;每个 Draw Call 都有&lt;strong&gt;CPU 开销&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;CPU 准备渲染数据&lt;/li&gt;
+&lt;li&gt;CPU 调用图形 API&lt;/li&gt;
+&lt;li&gt;驱动处理和验证命令&lt;/li&gt;
+&lt;li&gt;GPU 执行命令&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;当 Draw Call 过多时，CPU 忙于提交命令，无法处理其他逻辑，成为&lt;strong&gt;CPU-Bound&lt;/strong&gt;瓶颈。&lt;/p&gt;
+&lt;h3 id=&#34;63-影响-draw-call-数量的因素&#34;&gt;6.3 影响 Draw Call 数量的因素
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;因素&lt;/th&gt;
+					&lt;th&gt;说明&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;对象数量&lt;/td&gt;
+					&lt;td&gt;每个对象至少需要一次 Draw Call&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;材质数量&lt;/td&gt;
+					&lt;td&gt;每个材质需要一次 Draw Call&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;纹理贴图&lt;/td&gt;
+					&lt;td&gt;纹理切换需要额外 Draw Call&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Shader 复杂度&lt;/td&gt;
+					&lt;td&gt;复杂 Shader 可能需要多个 Pass&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;100 个立方体 + 同一材质 → 100 个 Draw Call&lt;/li&gt;
+&lt;li&gt;100 个立方体 + 不同材质 → 大于 100 个 Draw Call（因为材质和纹理不同）&lt;/li&gt;
+&lt;li&gt;复杂角色模型 + 多个纹理和材质 → 多个 Draw Call（模型本身 + 每个纹理）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;七合批batching&#34;&gt;七、合批（Batching）
+&lt;/h2&gt;&lt;p&gt;合批将多个物体的渲染数据合并，用&lt;strong&gt;一次 Draw Call&lt;/strong&gt; 绘制，极大减轻 CPU 负担。&lt;/p&gt;
+&lt;h3 id=&#34;71-静态合批static-batching&#34;&gt;7.1 静态合批（Static Batching）
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;原理&lt;/strong&gt;：将不会移动的静态物体在运行前合并成一个大的顶点/索引缓冲区。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;工作原理&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;预处理&lt;/strong&gt;：Unity 编辑器在构建时将所有标记为 &lt;code&gt;Static&lt;/code&gt; 且使用相同材质的物体的网格数据合并&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;渲染&lt;/strong&gt;：合并后只需一次 Draw Call 全部绘制&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：性能收益巨大，最有效的减少 Draw Call 手段之一。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;内存开销增加（合并后的网格额外占内存）&lt;/li&gt;
+&lt;li&gt;只适用于静态物体（不能再移动、旋转、缩放）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;72-动态合批dynamic-batching&#34;&gt;7.2 动态合批（Dynamic Batching）
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;原理&lt;/strong&gt;：Unity 运行时每帧自动将小型动态物体的网格数据合并。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;工作原理&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;CPU 每帧遍历使用同一材质且满足条件的小型动态物体&lt;/li&gt;
+&lt;li&gt;将顶点数据从本地空间变换到世界空间（CPU 上完成！）&lt;/li&gt;
+&lt;li&gt;将变换后的顶点数据合并到一个公共的顶点缓冲区&lt;/li&gt;
+&lt;li&gt;发起一次 Draw Call&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：适用于动态物体。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;限制条件&lt;/strong&gt;（极易被打断）：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;条件&lt;/th&gt;
+					&lt;th&gt;说明&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;顶点数限制&lt;/td&gt;
+					&lt;td&gt;通常不超过 300 个&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;同一材质&lt;/td&gt;
+					&lt;td&gt;必须是完全相同的材质实例&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;统一缩放&lt;/td&gt;
+					&lt;td&gt;不能有非统一缩放（如 (1,2,1)）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;多 Pass&lt;/td&gt;
+					&lt;td&gt;不能包含多个 Pass 的 Shader&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;73-gpu-instancing&#34;&gt;7.3 GPU Instancing
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;原理&lt;/strong&gt;：在一次渲染调用中同时绘制多个相同模型的实例。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;减少 CPU 开销&lt;/li&gt;
+&lt;li&gt;适合大量相同物体（草地、人群、粒子）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：与动态合批互斥。如果材质开启了 GPU Instancing，物体不会尝试动态合批。&lt;/p&gt;
+&lt;h3 id=&#34;74-合批被打断的常见情况&#34;&gt;7.4 合批被打断的常见情况
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;使用不同的材质实例&lt;/strong&gt;（最常见！）：两个材质球即使看起来一样，只要是不同的资产，就会被视为不同的材质实例，中断合批。解决方案：共享同一个材质实例，使用 &lt;code&gt;MaterialPropertyBlock&lt;/code&gt; 修改属性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;渲染顺序中断&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;渲染序列：[物体A(材质1)，物体B(材质1)，物体C(材质2)，物体D(材质1)]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;合批结果：[A+B] → [C] → [D]  // 共 3 个 Draw Call
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;// D 无法和 A+B 合并，因为中间插入了 C
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;&lt;strong&gt;不满足动态合批的苛刻条件&lt;/strong&gt;：顶点超标、非统一缩放、多 Pass Shader。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;八渲染优化技术&#34;&gt;八、渲染优化技术
+&lt;/h2&gt;&lt;h3 id=&#34;81-渲染优化核心思路&#34;&gt;8.1 渲染优化核心思路
+&lt;/h3&gt;&lt;p&gt;面试口诀：&lt;strong&gt;合并、减面、剔除&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;技术&lt;/th&gt;
+					&lt;th&gt;原理&lt;/th&gt;
+					&lt;th&gt;效果&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;LOD&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;远处物体用低面数模型&lt;/td&gt;
+					&lt;td&gt;减少 GPU 渲染量&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;视锥剔除&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;剔除视野外的物体&lt;/td&gt;
+					&lt;td&gt;减少不必要的绘制&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;遮挡剔除&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;剔除被挡住的物体&lt;/td&gt;
+					&lt;td&gt;进一步减少绘制&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;静态合批&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;合并静态物体&lt;/td&gt;
+					&lt;td&gt;大幅减少 Draw Call&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;动态合批&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;合批小型动态物体&lt;/td&gt;
+					&lt;td&gt;减少 Draw Call（有严格限制）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;GPU Instancing&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;一次绘制多个相同模型&lt;/td&gt;
+					&lt;td&gt;减少 CPU 开销&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;屏幕空间技术&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;在屏幕空间采样计算&lt;/td&gt;
+					&lt;td&gt;减少场景计算需求&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;Shader 指令优化&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;减少不必要的计算和采样&lt;/td&gt;
+					&lt;td&gt;降低 GPU 开销&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;82-lodlevel-of-detail&#34;&gt;8.2 LOD（Level of Detail）
+&lt;/h3&gt;&lt;p&gt;LOD 技术在物体远离相机时使用低细节模型，减少多边形数量。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;LOD 0（近距离）：高面数模型，细节最丰富
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;LOD 1（中距离）：中面数模型
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;LOD 2（远距离）：低面数模型
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Culled（超出范围）：不渲染
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Unity 中通过 LOD Group 组件实现，自动根据物体与相机的距离切换 LOD 级别。&lt;/p&gt;
+&lt;h3 id=&#34;83-视锥剔除frustum-culling&#34;&gt;8.3 视锥剔除（Frustum Culling）
+&lt;/h3&gt;&lt;p&gt;检查物体是否在相机的视锥体内，不在则不渲染。&lt;/p&gt;
+&lt;p&gt;Unity 默认启用视锥剔除，不需要手动设置。&lt;/p&gt;
+&lt;h3 id=&#34;84-遮挡剔除occlusion-culling&#34;&gt;8.4 遮挡剔除（Occlusion Culling）
+&lt;/h3&gt;&lt;p&gt;通过**遮挡剔除数据（Occlusion Data）**预计算场景中的遮挡关系，运行时判断被遮挡的物体不渲染。&lt;/p&gt;
+&lt;p&gt;需要预先 Bake 遮挡数据（Window → Rendering → Occlusion Culling）。&lt;/p&gt;
+&lt;h3 id=&#34;85-屏幕空间技术&#34;&gt;8.5 屏幕空间技术
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SSAO（屏幕空间环境光遮蔽）&lt;/strong&gt;：在屏幕空间计算像素间的遮挡关系，产生细微的环境阴影&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SSR（屏幕空间反射）&lt;/strong&gt;：利用屏幕空间的颜色和深度信息计算反射效果&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SSGI（屏幕空间全局光照）&lt;/strong&gt;：近似全局光照效果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;屏幕空间技术的共同特点：只在屏幕空间采样计算，不涉及场景几何体，性能开销相对可控。&lt;/p&gt;
+&lt;h3 id=&#34;86-shader-优化建议&#34;&gt;8.6 Shader 优化建议
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;减少纹理采样次数&lt;/li&gt;
+&lt;li&gt;使用精度更低的变量（&lt;code&gt;half&lt;/code&gt; 代替 &lt;code&gt;float&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;避免在片段着色器中做复杂计算（移到顶点着色器）&lt;/li&gt;
+&lt;li&gt;使用宏控制 Shader 变体数量&lt;/li&gt;
+&lt;li&gt;避免使用 &lt;code&gt;if&lt;/code&gt; 分支（GPU 不擅长分支预测）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;87-常用渲染分析工具&#34;&gt;8.7 常用渲染分析工具
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;工具&lt;/th&gt;
+					&lt;th&gt;用途&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;Unity Profiler&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;分析 CPU/GPU/内存瓶颈&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;Frame Debugger&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;逐帧查看 Draw Call&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;RenderDoc&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;深度 GPU 调试和分析&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;GPU Profiler&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;分析 GPU 各阶段耗时&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;Memory Profiler&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;分析纹理和网格内存占用&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文涵盖 Unity 渲染的核心知识体系，从渲染管线对比到完整图形渲染管线流程，再到光照模型、阴影、合批、优化技术等，适合 Unity 开发者和图形学学习者系统性复习。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
         <title>Unity知识梗概</title>
         <link>https://14kesu.github.io/letere-git.github-io/p/unity%E7%9F%A5%E8%AF%86%E6%A2%97%E6%A6%82/</link>
-        <pubDate>Thu, 11 Jun 2026 15:34:53 +0800</pubDate>
+        <pubDate>Thu, 04 Jun 2026 15:34:53 +0800</pubDate>
         
         <guid>https://14kesu.github.io/letere-git.github-io/p/unity%E7%9F%A5%E8%AF%86%E6%A2%97%E6%A6%82/</guid>
         <description>&lt;h2 id=&#34;一monobehaviour-生命周期&#34;&gt;一、MonoBehaviour 生命周期
@@ -5592,7 +5592,7 @@
         <item>
         <title>C#知识点概要</title>
         <link>https://14kesu.github.io/letere-git.github-io/p/c%23%E7%9F%A5%E8%AF%86%E7%82%B9%E6%A6%82%E8%A6%81/</link>
-        <pubDate>Thu, 11 Jun 2026 15:15:42 +0800</pubDate>
+        <pubDate>Tue, 02 Jun 2026 15:15:42 +0800</pubDate>
         
         <guid>https://14kesu.github.io/letere-git.github-io/p/c%23%E7%9F%A5%E8%AF%86%E7%82%B9%E6%A6%82%E8%A6%81/</guid>
         <description>&lt;h2 id=&#34;一基础语法&#34;&gt;一、基础语法
@@ -8766,11 +8766,11 @@
 </description>
         </item>
         <item>
-        <title>对战斗系统进行一个从基础到完善的拆解</title>
-        <link>https://14kesu.github.io/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%88%B0%E5%AE%8C%E5%96%84%E7%9A%84%E6%8B%86%E8%A7%A3/</link>
-        <pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate>
+        <title>对战斗系统进行一个基础的拆解</title>
+        <link>https://14kesu.github.io/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%9F%BA%E7%A1%80%E7%9A%84%E6%8B%86%E8%A7%A3/</link>
+        <pubDate>Fri, 29 May 2026 15:49:00 +0800</pubDate>
         
-        <guid>https://14kesu.github.io/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%88%B0%E5%AE%8C%E5%96%84%E7%9A%84%E6%8B%86%E8%A7%A3/</guid>
+        <guid>https://14kesu.github.io/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%9F%BA%E7%A1%80%E7%9A%84%E6%8B%86%E8%A7%A3/</guid>
         <description>&lt;h2 id=&#34;一项目概述&#34;&gt;一、项目概述
 &lt;/h2&gt;&lt;p&gt;一个从空白 Unity 工程开始搭建的 3D 动作战斗原型。约 6,800 行 C#，88 个脚本文件，覆盖 13 个模块。所有系统从零设计实现，不使用战斗中间件或现成框架。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;已实现的战斗功能：&lt;/strong&gt;&lt;/p&gt;

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="逐层拆解一个 Unity 3D 动作战斗原型，从输入到伤害的每一步代码实现">
-<title>对战斗系统进行一个从基础到完善的拆解</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="一个从空白 Unity 工程开始搭建的 3D 动作战斗原型">
+<title>对战斗系统进行一个基础的拆解</title>
 
-<link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%88%B0%E5%AE%8C%E5%96%84%E7%9A%84%E6%8B%86%E8%A7%A3/'>
+<link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%9F%BA%E7%A1%80%E7%9A%84%E6%8B%86%E8%A7%A3/'>
 
-<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.87faa1fbeaa0c848cde3d06494824d75580baa0ffd12e4d98e2922ce298fc885.css"><meta property='og:title' content="对战斗系统进行一个从基础到完善的拆解">
-<meta property='og:description' content="逐层拆解一个 Unity 3D 动作战斗原型，从输入到伤害的每一步代码实现">
-<meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%88%B0%E5%AE%8C%E5%96%84%E7%9A%84%E6%8B%86%E8%A7%A3/'>
+<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.87faa1fbeaa0c848cde3d06494824d75580baa0ffd12e4d98e2922ce298fc885.css"><meta property='og:title' content="对战斗系统进行一个基础的拆解">
+<meta property='og:description' content="一个从空白 Unity 工程开始搭建的 3D 动作战斗原型">
+<meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%9F%BA%E7%A1%80%E7%9A%84%E6%8B%86%E8%A7%A3/'>
 <meta property='og:site_name' content='水元素长弓'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-06-11T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-06-11T00:00:00&#43;00:00'/>
-<meta name="twitter:title" content="对战斗系统进行一个从基础到完善的拆解">
-<meta name="twitter:description" content="逐层拆解一个 Unity 3D 动作战斗原型，从输入到伤害的每一步代码实现">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Unity' /><meta property='article:published_time' content='2026-05-29T15:49:00&#43;08:00'/><meta property='article:modified_time' content='2026-05-29T15:49:00&#43;08:00'/>
+<meta name="twitter:title" content="对战斗系统进行一个基础的拆解">
+<meta name="twitter:description" content="一个从空白 Unity 工程开始搭建的 3D 动作战斗原型">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -414,15 +414,23 @@
 
     <div class="article-details">
     
+    <header class="article-category">
+        
+            <a href="/letere-git.github-io/categories/unity/" >
+                Unity
+            </a>
+        
+    </header>
+    
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E4%BB%8E%E5%9F%BA%E7%A1%80%E5%88%B0%E5%AE%8C%E5%96%84%E7%9A%84%E6%8B%86%E8%A7%A3/">对战斗系统进行一个从基础到完善的拆解</a>
+            <a href="/letere-git.github-io/p/%E5%AF%B9%E6%88%98%E6%96%97%E7%B3%BB%E7%BB%9F%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%9F%BA%E7%A1%80%E7%9A%84%E6%8B%86%E8%A7%A3/">对战斗系统进行一个基础的拆解</a>
         </h2>
     
         
         <h3 class="article-subtitle">
-            逐层拆解一个 Unity 3D 动作战斗原型，从输入到伤害的每一步代码实现
+            一个从空白 Unity 工程开始搭建的 3D 动作战斗原型
         </h3>
         
     </div>
@@ -443,7 +451,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published" datetime='2026-06-11T00:00:00Z'>2026-06-11</time>
+                <time class="article-time--published" datetime='2026-05-29T15:49:00&#43;08:00'>2026-05-29</time>
             </div>
         
 
@@ -1985,6 +1993,12 @@
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/letere-git.github-io/tags/unity/">Unity</a>
+        
+    </section>
+
 
     </footer>
 
@@ -2027,6 +2041,89 @@
     
 
     
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/letere-git.github-io/p/unity%E6%B8%B2%E6%9F%93%E7%9B%B8%E5%85%B3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Unity渲染相关</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/letere-git.github-io/p/unity%E7%9F%A5%E8%AF%86%E6%A2%97%E6%A6%82/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Unity知识梗概</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/unity%E4%B8%AD%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%94%A8%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/unity%E4%B8%AD%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%94%A8%E6%B3%95/cover.1f928826e88fd2831c288f5f42e179c2_hu_447cac875cc5b91e.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Unity中的提示词用法"
+                        
+                        data-hash="md5-H5KIJuiP0oMcKI9fQuF5wg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Unity中的提示词用法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/">
+        
+        
+            <div class="article-image">
+                <img src="/letere-git.github-io/p/%E5%9F%BA%E4%BA%8Eunity%E5%BC%80%E5%8F%91%E7%9A%84%E7%AE%80%E6%98%93%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8/cover.e4ba76c4bf7cd12b573cc40104590564_hu_64caa3aafe89255f.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 基于unity开发的简易任务列表"
+                        
+                        data-hash="md5-5Lp2xL980StXPMQBBFkFZA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于unity开发的简易任务列表</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
 
      
     
