@@ -7,7 +7,15 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>水元素长弓</copyright>
-        <lastBuildDate>Thu, 11 Jun 2026 15:49:00 +0800</lastBuildDate><atom:link href="https://14kesu.github.io/letere-git.github-io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 17 Jul 2026 17:58:26 +0800</lastBuildDate><atom:link href="https://14kesu.github.io/letere-git.github-io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Lua</title>
+        <link>https://14kesu.github.io/letere-git.github-io/categories/lua/</link>
+        <pubDate>Fri, 17 Jul 2026 17:58:26 +0800</pubDate>
+        
+        <guid>https://14kesu.github.io/letere-git.github-io/categories/lua/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>C&#43;&#43;</title>
         <link>https://14kesu.github.io/letere-git.github-io/categories/c&#43;&#43;/</link>
         <pubDate>Thu, 11 Jun 2026 15:49:00 +0800</pubDate>

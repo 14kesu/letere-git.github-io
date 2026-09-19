@@ -1,0 +1,2815 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Lua 语言系统性入门，涵盖基础语法、Table、元表、闭包、协程、面向对象及与 C/Unity 的集成">
+<title>Lua入门</title>
+
+<link rel='canonical' href='https://14kesu.github.io/letere-git.github-io/p/lua%E5%85%A5%E9%97%A8/'>
+
+<link rel="stylesheet" href="/letere-git.github-io/scss/style.min.9fd0fa2eb514c3267007b528ca216ba30a687cba9496956a60b1e060aa098fb0.css"><meta property='og:title' content="Lua入门">
+<meta property='og:description' content="Lua 语言系统性入门，涵盖基础语法、Table、元表、闭包、协程、面向对象及与 C/Unity 的集成">
+<meta property='og:url' content='https://14kesu.github.io/letere-git.github-io/p/lua%E5%85%A5%E9%97%A8/'>
+<meta property='og:site_name' content='水元素长弓'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Lua' /><meta property='article:tag' content='脚本语言' /><meta property='article:published_time' content='2026-07-17T17:58:26&#43;08:00'/><meta property='article:modified_time' content='2026-07-17T17:58:26&#43;08:00'/><meta property='og:image' content='https://14kesu.github.io/letere-git.github-io/cover.png' />
+<meta name="twitter:title" content="Lua入门">
+<meta name="twitter:description" content="Lua 语言系统性入门，涵盖基础语法、Table、元表、闭包、协程、面向对象及与 C/Unity 的集成"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://14kesu.github.io/letere-git.github-io/cover.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "light");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/letere-git.github-io/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/letere-git.github-io/img/avatar_hu_84d16f2ad1980017.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">😋</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/letere-git.github-io">水元素长弓</a></h1>
+            <h2 class="site-description">嘿嘿嘿嘿嘿</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/448017544?spm_id_from=333.1007.0.0'
+                        target="_blank"
+                        title="BiliBili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/14kesu'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/letere-git.github-io/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/letere-git.github-io/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://14kesu.github.io/letere-git.github-io/" selected>简体中文</option>
+                                
+                                    <option value="https://14kesu.github.io/letere-git.github-io/ja/" >日本語</option>
+                                
+                                    <option value="https://14kesu.github.io/letere-git.github-io/zh-tw/" >正體中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一lua-简介">一、Lua 简介</a></li>
+    <li><a href="#二环境搭建与运行">二、环境搭建与运行</a></li>
+    <li><a href="#三基础语法">三、基础语法</a>
+      <ol>
+        <li><a href="#31-变量与作用域">3.1 变量与作用域</a></li>
+        <li><a href="#32-数据类型">3.2 数据类型</a></li>
+        <li><a href="#33-运算符">3.3 运算符</a></li>
+        <li><a href="#34-流程控制">3.4 流程控制</a></li>
+      </ol>
+    </li>
+    <li><a href="#四函数">四、函数</a>
+      <ol>
+        <li><a href="#41-基本用法">4.1 基本用法</a></li>
+        <li><a href="#42-多返回值">4.2 多返回值</a></li>
+        <li><a href="#43-可变参数">4.3 可变参数</a></li>
+        <li><a href="#44-默认参数与命名参数">4.4 默认参数与命名参数</a></li>
+        <li><a href="#45-闭包">4.5 闭包</a></li>
+        <li><a href="#46-尾调用优化">4.6 尾调用优化</a></li>
+      </ol>
+    </li>
+    <li><a href="#五表table">五、表（Table）</a>
+      <ol>
+        <li><a href="#51-构造与访问">5.1 构造与访问</a></li>
+        <li><a href="#52-增删改查">5.2 增删改查</a></li>
+        <li><a href="#53-遍历ipairs-与-pairs">5.3 遍历：ipairs 与 pairs</a></li>
+        <li><a href="#54-table-库常用函数">5.4 table 库常用函数</a></li>
+      </ol>
+    </li>
+    <li><a href="#六元表与元方法metatable">六、元表与元方法（Metatable）</a>
+      <ol>
+        <li><a href="#61-setmetatable-与-getmetatable">6.1 setmetatable 与 getmetatable</a></li>
+        <li><a href="#62-常用元方法">6.2 常用元方法</a></li>
+        <li><a href="#63-__index实现继承与默认值">6.3 __index：实现继承与默认值</a></li>
+        <li><a href="#64-运算符重载">6.4 运算符重载</a></li>
+      </ol>
+    </li>
+    <li><a href="#七模块与包">七、模块与包</a></li>
+    <li><a href="#八协程coroutine">八、协程（Coroutine）</a></li>
+    <li><a href="#九错误处理">九、错误处理</a></li>
+    <li><a href="#十常用标准库">十、常用标准库</a>
+      <ol>
+        <li><a href="#101-string-库">10.1 string 库</a></li>
+        <li><a href="#102-math-库">10.2 math 库</a></li>
+        <li><a href="#103-os-库">10.3 os 库</a></li>
+        <li><a href="#104-io-库与文件读写">10.4 io 库与文件读写</a></li>
+      </ol>
+    </li>
+    <li><a href="#十一面向对象">十一、面向对象</a>
+      <ol>
+        <li><a href="#111-类与实例">11.1 类与实例</a></li>
+        <li><a href="#112-继承">11.2 继承</a></li>
+        <li><a href="#113-封装私有成员">11.3 封装（私有成员）</a></li>
+      </ol>
+    </li>
+    <li><a href="#十二lua-与-c--unity">十二、Lua 与 C / Unity</a>
+      <ol>
+        <li><a href="#121-c-与-lua-的交互">12.1 C 与 Lua 的交互</a></li>
+        <li><a href="#122-unity-中的-luaxlua--tolua">12.2 Unity 中的 Lua（xLua / ToLua）</a></li>
+      </ol>
+    </li>
+    <li><a href="#十三常见陷阱与最佳实践">十三、常见陷阱与最佳实践</a></li>
+    <li><a href="#十四高频面试问答">十四、高频面试问答</a>
+      <ol>
+        <li><a href="#141-lua-的数据类型有哪些">14.1 Lua 的数据类型有哪些？</a></li>
+        <li><a href="#142-为什么-lua-数组下标从-1-开始">14.2 为什么 Lua 数组下标从 1 开始？</a></li>
+        <li><a href="#143-ipairs-和-pairs-的区别">14.3 <code>ipairs</code> 和 <code>pairs</code> 的区别？</a></li>
+        <li><a href="#144-__index-和-__newindex-的作用">14.4 <code>__index</code> 和 <code>__newindex</code> 的作用？</a></li>
+        <li><a href="#145-如何实现面向对象">14.5 如何实现面向对象？</a></li>
+        <li><a href="#146-闭包是什么有什么用">14.6 闭包是什么？有什么用？</a></li>
+        <li><a href="#147-协程和线程的区别">14.7 协程和线程的区别？</a></li>
+        <li><a href="#148-pcall-和-xpcall-的区别">14.8 pcall 和 xpcall 的区别？</a></li>
+        <li><a href="#149-如何判断表中是否有某个键">14.9 如何判断表中是否有某个键？</a></li>
+        <li><a href="#1410-lua-的-gc-机制">14.10 Lua 的 GC 机制？</a></li>
+        <li><a href="#1411-rawget--rawset-有什么用">14.11 <code>rawget</code> / <code>rawset</code> 有什么用？</a></li>
+        <li><a href="#1412-深拷贝和浅拷贝的区别">14.12 深拷贝和浅拷贝的区别？</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/letere-git.github-io/p/lua%E5%85%A5%E9%97%A8/">
+                
+                    <img src="/letere-git.github-io/cover.png" loading="lazy" alt="Featured image of post Lua入门" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/letere-git.github-io/categories/lua/" >
+                Lua
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/letere-git.github-io/p/lua%E5%85%A5%E9%97%A8/">Lua入门</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Lua 语言系统性入门，涵盖基础语法、Table、元表、闭包、协程、面向对象及与 C/Unity 的集成
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published" datetime='2026-07-17T17:58:26&#43;08:00'>2026-07-17</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="一lua-简介">一、Lua 简介
+</h2><p>Lua 是一门<strong>轻量、小巧、可嵌入</strong>的脚本语言，1993 年诞生于巴西里约热内卢天主教大学。它的设计目标是作为一种&quot;胶水语言&quot;，方便地嵌入到宿主程序（通常是 C/C++ 程序）中，为其提供灵活的扩展能力。</p>
+<p><strong>核心特点</strong>：</p>
+<ul>
+<li><strong>轻量</strong>：解释器极小（约 200KB），启动快，内存占用低</li>
+<li><strong>可嵌入</strong>：通过 C API 与宿主程序双向调用，极易集成</li>
+<li><strong>动态类型</strong>：变量无需声明类型，运行时确定</li>
+<li><strong>表（Table）为核心</strong>：数组、字典、对象、模块、命名空间都用表实现</li>
+<li><strong>函数是一等公民</strong>：函数可作为变量、参数、返回值，支持闭包</li>
+<li><strong>协程支持</strong>：语言内置非对称协程，适合异步/状态机</li>
+<li><strong>自动内存管理</strong>：基于标记清除的 GC</li>
+</ul>
+<p><strong>典型应用场景</strong>：</p>
+<div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>领域</th>
+					<th>案例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>游戏开发</td>
+					<td>《魔兽世界》插件、ROBLOX、LÖVE 引擎、Unity 的 xLua / ToLua</td>
+			</tr>
+			<tr>
+					<td>Web 服务</td>
+					<td>OpenResty（Nginx + Lua）、Kong 网关</td>
+			</tr>
+			<tr>
+					<td>数据库</td>
+					<td>Redis 脚本、Tarantool</td>
+			</tr>
+			<tr>
+					<td>嵌入式</td>
+					<td>路由器、机顶盒、Wireshark 的脚本</td>
+			</tr>
+			<tr>
+					<td>编辑器/工具</td>
+					<td>Neovim、AwesomeWM、Pandoc 过滤器</td>
+			</tr>
+	</tbody>
+</table></div>
+<blockquote>
+<p>对游戏开发者来说，Lua 最大的价值在于<strong>热更新</strong>：把易变的业务逻辑（技能、活动、数值）写成 Lua，可以在线替换脚本而无需重新打包发版。</p>
+</blockquote>
+<hr>
+<h2 id="二环境搭建与运行">二、环境搭建与运行
+</h2><p><strong>安装</strong>：从 <a class="link" href="https://www.lua.org"  target="_blank" rel="noopener"
+    >lua.org</a> 下载源码编译，或使用发行版包管理器（<code>apt install lua5.4</code>、<code>brew install lua</code>）。游戏项目常使用 <strong>LuaJIT</strong>（兼容 Lua 5.1，带 JIT 编译，性能更高）。</p>
+<p><strong>检查版本</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">lua -v        <span class="c1"># Lua 5.4.x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>运行代码的几种方式</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">lua script.lua            <span class="c1"># 运行脚本文件</span>
+</span></span><span class="line"><span class="cl">lua -e <span class="s2">&#34;print(&#39;hello&#39;)&#34;</span>   <span class="c1"># 直接执行一段代码</span>
+</span></span><span class="line"><span class="cl">lua                        <span class="c1"># 进入交互式 REPL（Ctrl+D 退出）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- script.lua</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="s2">&#34;Hello, Lua!&#34;</span><span class="p">)</span>       <span class="c1">-- 输出：Hello, Lua!</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>注释</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 单行注释</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">--[[
+</span></span></span><span class="line"><span class="cl"><span class="cm">   多行注释
+</span></span></span><span class="line"><span class="cl"><span class="cm">   可以跨越多行
+</span></span></span><span class="line"><span class="cl"><span class="cm">]]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">--[==[
+</span></span></span><span class="line"><span class="cl"><span class="cm">   当注释内容里含有 ]] 时，
+</span></span></span><span class="line"><span class="cl"><span class="cm">   可以用更多等号作为长括号边界
+</span></span></span><span class="line"><span class="cl"><span class="cm">]==]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="三基础语法">三、基础语法
+</h2><h3 id="31-变量与作用域">3.1 变量与作用域
+</h3><p>Lua 的变量分为<strong>全局变量</strong>和<strong>局部变量</strong>。默认声明的变量是全局的，用 <code>local</code> 显式声明的是局部变量。</p>
+<p><strong>强烈建议</strong>：凡是能用局部变量的地方就用 <code>local</code>。局部变量访问更快（走寄存器），且不会污染全局环境。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="mi">10</span>            <span class="c1">-- 全局变量（不推荐）</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">20</span>      <span class="c1">-- 局部变量（推荐）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">do</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">30</span>  <span class="c1">-- 只在 do...end 块内可见</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- print(c)       -- 错误：c 在此处为 nil</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="c1">-- 同时声明多个</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">z</span>           <span class="c1">-- 未赋值，默认 nil</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>命名规范</strong>：</p>
+<ul>
+<li>变量、函数：小驼峰 <code>local userName = &quot;张三&quot;</code></li>
+<li>常量：全大写下划线 <code>local MAX_LEVEL = 99</code></li>
+<li>私有成员：下划线开头 <code>local _internal = {}</code></li>
+<li>避免用 <code>_</code> 之外的下划线开头命名（如 <code>_G</code>、<code>_ENV</code> 是保留用途）</li>
+</ul>
+<h3 id="32-数据类型">3.2 数据类型
+</h3><p>Lua 有 8 种基本类型，用 <code>type()</code> 可以获取。</p>
+<div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>类型</th>
+					<th>说明</th>
+					<th>示例</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>nil</code></td>
+					<td>空值，表示&quot;无&quot;</td>
+					<td><code>local a</code> → nil</td>
+			</tr>
+			<tr>
+					<td><code>boolean</code></td>
+					<td>布尔，只有 <code>true</code> / <code>false</code></td>
+					<td><code>local b = true</code></td>
+			</tr>
+			<tr>
+					<td><code>number</code></td>
+					<td>数字（5.3+ 区分整数/浮点，5.1 只有 double）</td>
+					<td><code>10</code>、<code>3.14</code></td>
+			</tr>
+			<tr>
+					<td><code>string</code></td>
+					<td>字符串（不可变）</td>
+					<td><code>&quot;hello&quot;</code>、<code>'hi'</code></td>
+			</tr>
+			<tr>
+					<td><code>table</code></td>
+					<td>表，唯一的数据结构</td>
+					<td><code>{1, 2, 3}</code></td>
+			</tr>
+			<tr>
+					<td><code>function</code></td>
+					<td>函数</td>
+					<td><code>function f() end</code></td>
+			</tr>
+			<tr>
+					<td><code>userdata</code></td>
+					<td>C 侧数据（如 Unity 对象）</td>
+					<td>由 C 创建</td>
+			</tr>
+			<tr>
+					<td><code>thread</code></td>
+					<td>协程</td>
+					<td><code>coroutine.create(...)</code></td>
+			</tr>
+	</tbody>
+</table></div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">type</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>        <span class="c1">-- nil</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">type</span><span class="p">(</span><span class="kc">true</span><span class="p">))</span>       <span class="c1">-- boolean</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">type</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>         <span class="c1">-- number</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">type</span><span class="p">(</span><span class="s2">&#34;abc&#34;</span><span class="p">))</span>      <span class="c1">-- string</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">type</span><span class="p">({}))</span>         <span class="c1">-- table</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">type</span><span class="p">(</span><span class="n">print</span><span class="p">))</span>      <span class="c1">-- function</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 只有 nil 和 false 为假，0 和 &#34;&#34; 都是真！</span>
+</span></span><span class="line"><span class="cl"><span class="kr">if</span> <span class="mi">0</span> <span class="kr">then</span> <span class="n">print</span><span class="p">(</span><span class="s2">&#34;0 是真的&#34;</span><span class="p">)</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="kr">if</span> <span class="s2">&#34;&#34;</span> <span class="kr">then</span> <span class="n">print</span><span class="p">(</span><span class="s2">&#34;空串也是真的&#34;</span><span class="p">)</span> <span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>类型转换</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">tonumber</span><span class="p">(</span><span class="s2">&#34;123&#34;</span><span class="p">))</span>      <span class="c1">-- 123</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">tonumber</span><span class="p">(</span><span class="s2">&#34;3.14&#34;</span><span class="p">))</span>     <span class="c1">-- 3.14</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">tonumber</span><span class="p">(</span><span class="s2">&#34;abc&#34;</span><span class="p">))</span>      <span class="c1">-- nil（转换失败）</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">tonumber</span><span class="p">(</span><span class="s2">&#34;FF&#34;</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>   <span class="c1">-- 255（按十六进制解析）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">tostring</span><span class="p">(</span><span class="mi">123</span><span class="p">))</span>        <span class="c1">-- &#34;123&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">tostring</span><span class="p">(</span><span class="kc">nil</span><span class="p">))</span>        <span class="c1">-- &#34;nil&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 字符串与数字在算术中会自动转换</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="s2">&#34;10&#34;</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>             <span class="c1">-- 15</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="s2">&#34;3&#34;</span> <span class="o">*</span> <span class="s2">&#34;4&#34;</span><span class="p">)</span>            <span class="c1">-- 12</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- 但比较时不会自动转换</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="s2">&#34;10&#34;</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span>           <span class="c1">-- false</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="33-运算符">3.3 运算符
+</h3><p><strong>算术运算符</strong>：<code>+ - * / % ^</code>，以及 5.3+ 的整除 <code>//</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="mi">7</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>      <span class="c1">-- 3.5（Lua 的 / 总是浮点除法）</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="mi">7</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>     <span class="c1">-- 3（整除，5.3+）</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="mi">7</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>      <span class="c1">-- 1</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="mi">2</span> <span class="o">^</span> <span class="mi">10</span><span class="p">)</span>     <span class="c1">-- 1024.0（幂运算）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>关系运算符</strong>：<code>== ~= &lt; &gt; &lt;= &gt;=</code>（注意&quot;不等于&quot;是 <code>~=</code> 而不是 <code>!=</code>）。</p>
+<p><strong>逻辑运算符</strong>：<code>and or not</code>，具有短路特性，且返回的是操作数本身而非 <code>true/false</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- and / or 返回操作数，可用于默认值</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">name</span> <span class="o">=</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">display</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="s2">&#34;默认名&#34;</span>   <span class="c1">-- &#34;默认名&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">ok</span> <span class="o">=</span> <span class="kc">true</span> <span class="ow">and</span> <span class="s2">&#34;成功&#34;</span>         <span class="c1">-- &#34;成功&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 模拟三目运算符：条件 and 真值 or 假值</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">20</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">tag</span> <span class="o">=</span> <span class="p">(</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&#34;成年&#34;</span> <span class="ow">or</span> <span class="s2">&#34;未成年&#34;</span>   <span class="c1">-- &#34;成年&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- 注意：当真值为 false/nil 时会失效，需用表或函数替代</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>连接运算符</strong>：<code>..</code>，把两个字符串拼接（数字会自动转为字符串）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="s2">&#34;a&#34;</span> <span class="o">..</span> <span class="s2">&#34;b&#34;</span><span class="p">)</span>        <span class="c1">-- ab</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="s2">&#34;n=&#34;</span> <span class="o">..</span> <span class="mi">10</span><span class="p">)</span>        <span class="c1">-- n=10</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="mi">1</span> <span class="o">..</span> <span class="mi">2</span> <span class="o">..</span> <span class="mi">3</span><span class="p">)</span>       <span class="c1">-- 123</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- 效率提示：循环内大量拼接会产生很多临时字符串，建议用 table.concat</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>长度运算符</strong>：<code>#</code>，取字符串长度或序列长度。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="o">#</span><span class="s2">&#34;hello&#34;</span><span class="p">)</span>          <span class="c1">-- 5</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="o">#</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span>        <span class="c1">-- 3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>运算符优先级</strong>（由高到低）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">^
+</span></span><span class="line"><span class="cl">not  #  -（一元负号）
+</span></span><span class="line"><span class="cl">*  /  //  %
+</span></span><span class="line"><span class="cl">+  -
+</span></span><span class="line"><span class="cl">..（右结合）
+</span></span><span class="line"><span class="cl">&lt;  &gt;  &lt;=  &gt;=  ~=  ==
+</span></span><span class="line"><span class="cl">and
+</span></span><span class="line"><span class="cl">or
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="34-流程控制">3.4 流程控制
+</h3><p><strong>if / elseif / else</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">score</span> <span class="o">=</span> <span class="mi">85</span>
+</span></span><span class="line"><span class="cl"><span class="kr">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">90</span> <span class="kr">then</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;优秀&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">elseif</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">60</span> <span class="kr">then</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;及格&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">else</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;不及格&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>while</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="kr">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>          <span class="c1">-- Lua 没有 i++ / i += 1</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>repeat&hellip;until</strong>（至少执行一次）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="kr">repeat</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="kr">until</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">3</span>           <span class="c1">-- 条件为真时退出</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>数值 for</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span> <span class="kr">do</span>        <span class="c1">-- 1 到 5，步长默认 1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="kr">do</span>   <span class="c1">-- 起始、结束、步长</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>           <span class="c1">-- 10, 8, 6, 4, 2</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>泛型 for</strong>（遍历迭代器，后面 Table 章节详解）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="kr">in</span> <span class="n">ipairs</span><span class="p">({</span> <span class="s2">&#34;a&#34;</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span> <span class="p">})</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>break 与 goto</strong>：<code>break</code> 跳出当前循环；<code>goto label</code> 跳转（Lua 5.2+，LuaJIT/5.1 不支持）。Lua 没有 <code>continue</code>，可用 <code>goto</code> 或反向 <code>if</code> 模拟。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span> <span class="kr">then</span> <span class="kr">goto</span> <span class="nl">continue</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">::</span><span class="nl">continue</span><span class="p">::</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="四函数">四、函数
+</h2><h3 id="41-基本用法">4.1 基本用法
+</h3><p>函数用 <code>function</code> 定义，本质是一个值，可赋给变量、作为参数传递、作为返回值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 标准定义</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 等价写法（语法糖）</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">add2</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="kr">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>       <span class="c1">-- 3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 函数作为参数（高阶函数）</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">apply</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">apply</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>  <span class="c1">-- 7</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="42-多返回值">4.2 多返回值
+</h3><p>Lua 函数可以返回多个值，这是它非常有用的特性。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">minMax</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">min</span><span class="p">,</span> <span class="n">max</span> <span class="o">=</span> <span class="n">list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="kr">in</span> <span class="n">ipairs</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">min</span> <span class="kr">then</span> <span class="n">min</span> <span class="o">=</span> <span class="n">v</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">max</span> <span class="kr">then</span> <span class="n">max</span> <span class="o">=</span> <span class="n">v</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">min</span><span class="p">,</span> <span class="n">max</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">minMax</span><span class="p">({</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">})</span>   <span class="c1">-- lo=1, hi=5</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">minMax</span><span class="p">({</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">})</span>         <span class="c1">-- z 为 nil</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>多返回值在调整时只保留第一个</strong>（放入括号或位于表达式中间时）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">f</span><span class="p">()</span> <span class="kr">return</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">f</span><span class="p">())</span>          <span class="c1">-- 1  2  3</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">((</span><span class="n">f</span><span class="p">()))</span>        <span class="c1">-- 1（加括号只取第一个）</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">f</span><span class="p">(),</span> <span class="mi">9</span><span class="p">)</span>       <span class="c1">-- 1  9（不是最后一个位置只取第一个）</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="p">{</span> <span class="n">f</span><span class="p">()</span> <span class="p">}</span>   <span class="c1">-- {1, 2, 3}（列表构造时全部展开）</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">t2</span> <span class="o">=</span> <span class="p">{</span> <span class="n">f</span><span class="p">(),</span> <span class="mi">9</span> <span class="p">}</span> <span class="c1">-- {1, 9}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="43-可变参数">4.3 可变参数
+</h3><p>用 <code>...</code> 接收不定数量的参数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">sum</span><span class="p">(...)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="kr">in</span> <span class="n">ipairs</span><span class="p">({</span> <span class="p">...</span> <span class="p">})</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">        <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">v</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">total</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>    <span class="c1">-- 10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 用 select 处理可变参数</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">count</span><span class="p">(...)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">select</span><span class="p">(</span><span class="s2">&#34;#&#34;</span><span class="p">,</span> <span class="p">...)</span>   <span class="c1">-- 参数个数</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">second</span><span class="p">(...)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">...)</span>     <span class="c1">-- 从第 2 个开始的全部参数</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>   <span class="c1">-- 3（# 也能统计 nil）</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">second</span><span class="p">(</span><span class="s2">&#34;a&#34;</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span><span class="p">))</span>  <span class="c1">-- b  c</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="44-默认参数与命名参数">4.4 默认参数与命名参数
+</h3><p>Lua 不支持默认参数和命名参数，但可用惯用法模拟。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 默认参数：用 or 提供默认值</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">greeting</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="s2">&#34;世界&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">greeting</span> <span class="o">=</span> <span class="n">greeting</span> <span class="ow">or</span> <span class="s2">&#34;你好&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">greeting</span> <span class="o">..</span> <span class="s2">&#34;，&#34;</span> <span class="o">..</span> <span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">greet</span><span class="p">()</span>               <span class="c1">-- 你好，世界</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 命名参数：传入一个 table</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">createWindow</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">title</span>  <span class="o">=</span> <span class="n">opts.title</span>  <span class="ow">or</span> <span class="s2">&#34;无标题&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">width</span>  <span class="o">=</span> <span class="n">opts.width</span>  <span class="ow">or</span> <span class="mi">800</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">height</span> <span class="o">=</span> <span class="n">opts.height</span> <span class="ow">or</span> <span class="mi">600</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">createWindow</span><span class="p">({</span> <span class="n">title</span> <span class="o">=</span> <span class="s2">&#34;主窗口&#34;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">1024</span> <span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="45-闭包">4.5 闭包
+</h3><p>闭包是<strong>函数 + 其捕获的外部局部变量</strong>。即使外层函数返回，被捕获的变量依然存在。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">counter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="kr">function</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">return</span> <span class="n">count</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">counter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">c1</span><span class="p">())</span>   <span class="c1">-- 1</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">c1</span><span class="p">())</span>   <span class="c1">-- 2</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">c2</span> <span class="o">=</span> <span class="n">counter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">c2</span><span class="p">())</span>   <span class="c1">-- 1（独立的新闭包）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 闭包在游戏中的典型用法：状态机、防抖、迭代器</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">makeIterator</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="kr">function</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">return</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">it</span> <span class="o">=</span> <span class="n">makeIterator</span><span class="p">({</span> <span class="s2">&#34;a&#34;</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">it</span><span class="p">())</span>   <span class="c1">-- a</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">it</span><span class="p">())</span>   <span class="c1">-- b</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="46-尾调用优化">4.6 尾调用优化
+</h3><p>当函数调用是函数的<strong>最后一个动作</strong>时，Lua 会进行尾调用优化，不增加栈深度（类似尾递归优化）。这对递归算法很重要。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 尾调用：返回的是函数调用，可优化</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">loop</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="kr">then</span> <span class="kr">return</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">loop</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>   <span class="c1">-- 尾调用，不会栈溢出</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 非尾调用：n * f(n-1) 中调用后还要做乘法</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">fact</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="kr">then</span> <span class="kr">return</span> <span class="mi">1</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>   <span class="c1">-- 普通递归，n 大时会栈溢出</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="五表table">五、表（Table）
+</h2><p>表是 Lua 中<strong>唯一的数据结构</strong>，既可以当数组，也可以当字典（哈希表），还能模拟对象、模块、队列、栈。理解表就理解了 Lua 的一半。</p>
+<h3 id="51-构造与访问">5.1 构造与访问
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 数组式（下标从 1 开始！）</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">arr</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>        <span class="c1">-- 10</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>        <span class="c1">-- 30</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>        <span class="c1">-- nil（Lua 没有 0 下标）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 字典式</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">person</span> <span class="o">=</span> <span class="p">{</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;张三&#34;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">25</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">person.name</span><span class="p">)</span>       <span class="c1">-- 张三</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s2">&#34;age&#34;</span><span class="p">])</span>     <span class="c1">-- 25（等价写法）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 混合</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">mixed</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span>             <span class="c1">-- 1,2,3 为数组部分</span>
+</span></span><span class="line"><span class="cl">    <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;test&#34;</span><span class="p">,</span>       <span class="c1">-- 键值部分</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;hundred&#34;</span><span class="p">,</span>   <span class="c1">-- 显式键</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>约定</strong>：数组和字典混用时，数组部分应从 1 开始连续，避免出现&quot;空洞&quot;，否则 <code>#</code> 长度不可预测。</p>
+</blockquote>
+<h3 id="52-增删改查">5.2 增删改查
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">t.name</span> <span class="o">=</span> <span class="s2">&#34;Lua&#34;</span>           <span class="c1">-- 新增/修改</span>
+</span></span><span class="line"><span class="cl"><span class="n">t</span><span class="p">[</span><span class="s2">&#34;version&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.4</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">t.name</span><span class="p">)</span>            <span class="c1">-- Lua</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">t.name</span> <span class="o">=</span> <span class="kc">nil</span>             <span class="c1">-- 删除：置为 nil</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">t.name</span><span class="p">)</span>            <span class="c1">-- nil</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 数组操作</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">list</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&#34;a&#34;</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">list</span><span class="p">[</span><span class="o">#</span><span class="n">list</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;d&#34;</span>    <span class="c1">-- 尾部追加（惯用写法）</span>
+</span></span><span class="line"><span class="cl"><span class="n">table.insert</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="s2">&#34;e&#34;</span><span class="p">)</span>  <span class="c1">-- 用 table 库追加</span>
+</span></span><span class="line"><span class="cl"><span class="n">table.insert</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;z&#34;</span><span class="p">)</span>  <span class="c1">-- 在索引 1 处插入</span>
+</span></span><span class="line"><span class="cl"><span class="n">table.remove</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>    <span class="c1">-- 删除索引 1 处元素</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="o">#</span><span class="n">list</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="53-遍历ipairs-与-pairs">5.3 遍历：ipairs 与 pairs
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>迭代器</th>
+					<th>用途</th>
+					<th>顺序</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>ipairs</code></td>
+					<td>遍历<strong>数组部分</strong>（从 1 开始、连续整数键）</td>
+					<td>有序（1,2,3&hellip;）</td>
+			</tr>
+			<tr>
+					<td><code>pairs</code></td>
+					<td>遍历<strong>所有键值对</strong></td>
+					<td>无序（哈希顺序）</td>
+			</tr>
+	</tbody>
+</table></div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">arr</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&#34;a&#34;</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- ipairs：遇到第一个 nil 就停止</span>
+</span></span><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="kr">in</span> <span class="n">ipairs</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>          <span class="c1">-- 1 a / 2 b / 3 c</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- pairs：遍历全部键（含非整数键）</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">person</span> <span class="o">=</span> <span class="p">{</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;张三&#34;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span> <span class="n">city</span> <span class="o">=</span> <span class="s2">&#34;北京&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="kr">in</span> <span class="n">pairs</span><span class="p">(</span><span class="n">person</span><span class="p">)</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>          <span class="c1">-- 顺序不保证</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>坑</strong>：遍历过程中不要新增键（未定义行为），删除当前键在 <code>pairs</code> 中允许但需谨慎。</p>
+</blockquote>
+<h3 id="54-table-库常用函数">5.4 table 库常用函数
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">table.insert</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>              <span class="c1">-- 尾部插入 → {3,1,4,1,5,9}</span>
+</span></span><span class="line"><span class="cl"><span class="n">table.remove</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>                 <span class="c1">-- 删除并返回末尾 → 9</span>
+</span></span><span class="line"><span class="cl"><span class="n">table.sort</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="kr">function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="kr">return</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span> <span class="kr">end</span><span class="p">)</span>  <span class="c1">-- 排序</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">table.concat</span><span class="p">({</span> <span class="s2">&#34;a&#34;</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span><span class="p">,</span> <span class="s2">&#34;c&#34;</span> <span class="p">},</span> <span class="s2">&#34;-&#34;</span><span class="p">))</span>     <span class="c1">-- a-b-c</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">table.unpack</span><span class="p">({</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">}))</span>                <span class="c1">-- 1  2  3（5.2+，5.1 用 unpack）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 深拷贝（浅拷贝直接赋值即可，table 是引用类型）</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">deepCopy</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">if</span> <span class="n">type</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span> <span class="o">~=</span> <span class="s2">&#34;table&#34;</span> <span class="kr">then</span> <span class="kr">return</span> <span class="n">orig</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">copy</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="kr">in</span> <span class="n">pairs</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">        <span class="n">copy</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepCopy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">copy</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 经典：数组洗牌</span>
+</span></span><span class="line"><span class="cl"><span class="n">math.randomseed</span><span class="p">(</span><span class="n">os.time</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="o">#</span><span class="n">t</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">j</span> <span class="o">=</span> <span class="n">math.random</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>   <span class="c1">-- 平行赋值实现交换</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>注意</strong>：<code>t = {}</code> 只是让 <code>t</code> 指向新表，若有其他变量引用同一张表，它们仍指向旧表。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>          <span class="c1">-- b 和 a 是同一张表（引用）</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>          <span class="c1">-- 100</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">c</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">d</span> <span class="o">=</span> <span class="n">c</span>
+</span></span><span class="line"><span class="cl"><span class="n">c</span> <span class="o">=</span> <span class="p">{}</span>               <span class="c1">-- c 指向新表，d 仍指向旧表</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>          <span class="c1">-- 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="六元表与元方法metatable">六、元表与元方法（Metatable）
+</h2><p>元表允许我们<strong>改变表的行为</strong>——定义表的加法、比较、索引、调用等操作。这是 Lua 面向对象和高级用法的基础。</p>
+<h3 id="61-setmetatable-与-getmetatable">6.1 setmetatable 与 getmetatable
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">mt</span> <span class="o">=</span> <span class="p">{}</span>                       <span class="c1">-- 元表也是一个普通表</span>
+</span></span><span class="line"><span class="cl"><span class="n">setmetatable</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">mt</span><span class="p">)</span>                 <span class="c1">-- 设置元表</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">getmetatable</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">==</span> <span class="n">mt</span><span class="p">)</span>        <span class="c1">-- true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 保护元表：外部不可修改</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- setmetatable(t, { __metatable = &#34;locked&#34; })</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- print(getmetatable(t))           -- &#34;locked&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="62-常用元方法">6.2 常用元方法
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>元方法</th>
+					<th>触发时机</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>__index</code></td>
+					<td>访问不存在的键时</td>
+			</tr>
+			<tr>
+					<td><code>__newindex</code></td>
+					<td>设置不存在的键时</td>
+			</tr>
+			<tr>
+					<td><code>__add</code> / <code>__sub</code> / <code>__mul</code> / <code>__div</code></td>
+					<td>算术运算</td>
+			</tr>
+			<tr>
+					<td><code>__eq</code> / <code>__lt</code> / <code>__le</code></td>
+					<td>比较运算</td>
+			</tr>
+			<tr>
+					<td><code>__tostring</code></td>
+					<td><code>tostring()</code> 或 <code>print()</code> 时</td>
+			</tr>
+			<tr>
+					<td><code>__call</code></td>
+					<td>把表当函数调用时</td>
+			</tr>
+			<tr>
+					<td><code>__len</code></td>
+					<td>对表用 <code>#</code> 时（5.2+）</td>
+			</tr>
+			<tr>
+					<td><code>__concat</code></td>
+					<td>用 <code>..</code> 连接时</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="63-__index实现继承与默认值">6.3 __index：实现继承与默认值
+</h3><p><code>__index</code> 是最重要的元方法，用于<strong>查找缺失的键</strong>。它可以是表（从该表继续查）或函数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 用法一：默认值</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&#34;red&#34;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">10</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">config</span> <span class="o">=</span> <span class="n">setmetatable</span><span class="p">({},</span> <span class="p">{</span> <span class="n">__index</span> <span class="o">=</span> <span class="n">defaults</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">config.color</span><span class="p">)</span>     <span class="c1">-- red（自身没有，去 defaults 找）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 用法二：函数形式</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="n">setmetatable</span><span class="p">({},</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__index</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">return</span> <span class="s2">&#34;未定义的键：&#34;</span> <span class="o">..</span> <span class="n">tostring</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">t.foo</span><span class="p">)</span>            <span class="c1">-- 未定义的键：foo</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 用法三：只读表</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">protected</span> <span class="o">=</span> <span class="n">setmetatable</span><span class="p">({},</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__newindex</span> <span class="o">=</span> <span class="kr">function</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">error</span><span class="p">(</span><span class="s2">&#34;不允许修改只读表&#34;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- protected.x = 1      -- 报错</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="64-运算符重载">6.4 运算符重载
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">Vector</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="n">Vector.__index</span> <span class="o">=</span> <span class="n">Vector</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Vector</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">setmetatable</span><span class="p">({</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="p">},</span> <span class="n">Vector</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Vector</span><span class="p">.</span><span class="nf">__add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">Vector.new</span><span class="p">(</span><span class="n">a.x</span> <span class="o">+</span> <span class="n">b.x</span><span class="p">,</span> <span class="n">a.y</span> <span class="o">+</span> <span class="n">b.y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Vector</span><span class="p">.</span><span class="nf">__eq</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">a.x</span> <span class="o">==</span> <span class="n">b.x</span> <span class="ow">and</span> <span class="n">a.y</span> <span class="o">==</span> <span class="n">b.y</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Vector</span><span class="p">.</span><span class="nf">__tostring</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="s2">&#34;(&#34;</span> <span class="o">..</span> <span class="n">v.x</span> <span class="o">..</span> <span class="s2">&#34;, &#34;</span> <span class="o">..</span> <span class="n">v.y</span> <span class="o">..</span> <span class="s2">&#34;)&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Vector</span><span class="p">.</span><span class="nf">__call</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">Vector.new</span><span class="p">(</span><span class="n">v.x</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">v.y</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">v1</span> <span class="o">=</span> <span class="n">Vector.new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">Vector.new</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span><span class="p">)</span>          <span class="c1">-- (4, 6)</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">v1</span> <span class="o">==</span> <span class="n">Vector.new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1">-- true</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">v1</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>            <span class="c1">-- (2, 4)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>注意</strong>：<code>__eq</code> 只有在两个操作数<strong>类型相同且元表相同</strong>时才会触发；<code>__lt</code>/<code>__le</code> 可混合类型，但需都定义了元方法。</p>
+</blockquote>
+<hr>
+<h2 id="七模块与包">七、模块与包
+</h2><p>Lua 用表来实现模块，用 <code>require</code> 加载。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- mymod.lua</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">M</span> <span class="o">=</span> <span class="p">{}</span>                 <span class="c1">-- 模块表</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">M</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">M</span><span class="p">.</span><span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="s2">&#34;Hello, &#34;</span> <span class="o">..</span> <span class="n">name</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 私有函数（外部不可访问）</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">helper</span><span class="p">()</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">return</span> <span class="n">M</span>                     <span class="c1">-- 返回模块表</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- main.lua</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">mymod</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s2">&#34;mymod&#34;</span><span class="p">)</span>   <span class="c1">-- 首次加载后会被缓存</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">mymod.add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>           <span class="c1">-- 3</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">mymod.greet</span><span class="p">(</span><span class="s2">&#34;Lua&#34;</span><span class="p">))</span>        <span class="c1">-- Hello, Lua</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 再次 require 返回同一份缓存，不会重新执行</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">same</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s2">&#34;mymod&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">same</span> <span class="o">==</span> <span class="n">mymod</span><span class="p">)</span>             <span class="c1">-- true</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>包搜索路径</strong>：<code>package.path</code> 决定 <code>require</code> 去哪找 <code>.lua</code> 文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">package.path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- 可通过环境变量 LUA_PATH 或代码追加</span>
+</span></span><span class="line"><span class="cl"><span class="n">package.path</span> <span class="o">=</span> <span class="n">package.path</span> <span class="o">..</span> <span class="s2">&#34;;./?/init.lua&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="八协程coroutine">八、协程（Coroutine）
+</h2><p>协程是一种比线程更轻量的<strong>协作式并发</strong>：同一时刻只有一个协程运行，由程序主动让出控制权。用它可以优雅地实现状态机、异步流程、迭代器。</p>
+<div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th>函数</th>
+					<th>作用</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>coroutine.create(f)</code></td>
+					<td>创建协程</td>
+			</tr>
+			<tr>
+					<td><code>coroutine.resume(co, ...)</code></td>
+					<td>启动/恢复协程</td>
+			</tr>
+			<tr>
+					<td><code>coroutine.yield(...)</code></td>
+					<td>让出协程</td>
+			</tr>
+			<tr>
+					<td><code>coroutine.status(co)</code></td>
+					<td>查看状态（suspended/running/dead）</td>
+			</tr>
+			<tr>
+					<td><code>coroutine.wrap(f)</code></td>
+					<td>创建协程并返回直接可调用的函数</td>
+			</tr>
+	</tbody>
+</table></div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">co</span> <span class="o">=</span> <span class="n">coroutine.create</span><span class="p">(</span><span class="kr">function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;开始&#34;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">c</span> <span class="o">=</span> <span class="n">coroutine.yield</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>   <span class="c1">-- 让出，返回值给 resume</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;恢复，收到&#34;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="s2">&#34;结束&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">coroutine.resume</span><span class="p">(</span><span class="n">co</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1">-- true  3</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">coroutine.resume</span><span class="p">(</span><span class="n">co</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>    <span class="c1">-- 恢复，收到 10 / true  结束</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">coroutine.resume</span><span class="p">(</span><span class="n">co</span><span class="p">))</span>        <span class="c1">-- false  cannot resume dead coroutine</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>coroutine.wrap</code> 更简洁，调用即 resume，错误会直接抛出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">gen</span> <span class="o">=</span> <span class="n">coroutine.wrap</span><span class="p">(</span><span class="kr">function</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">        <span class="n">coroutine.yield</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">gen</span><span class="p">())</span>   <span class="c1">-- 1</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">gen</span><span class="p">())</span>   <span class="c1">-- 2</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">gen</span><span class="p">())</span>   <span class="c1">-- 3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>游戏开发典型用途</strong>：把一段需要&quot;分帧执行&quot;的逻辑写成协程，每帧 <code>resume</code> 一次，避免卡顿。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">task</span> <span class="o">=</span> <span class="n">coroutine.wrap</span><span class="p">(</span><span class="kr">function</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">        <span class="n">print</span><span class="p">(</span><span class="s2">&#34;执行第 &#34;</span> <span class="o">..</span> <span class="n">i</span> <span class="o">..</span> <span class="s2">&#34; 步&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">coroutine.yield</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 每帧调用一次 task()，即可分帧完成</span>
+</span></span><span class="line"><span class="cl"><span class="n">task</span><span class="p">()</span>   <span class="c1">-- 执行第 1 步</span>
+</span></span><span class="line"><span class="cl"><span class="n">task</span><span class="p">()</span>   <span class="c1">-- 执行第 2 步</span>
+</span></span><span class="line"><span class="cl"><span class="n">task</span><span class="p">()</span>   <span class="c1">-- 执行第 3 步</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="九错误处理">九、错误处理
+</h2><p>Lua 不强制捕获异常。错误可以显式抛出（<code>error</code>），也可以自动捕获并用 <code>pcall</code> / <code>xpcall</code> 处理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 主动抛错</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="kr">then</span>
+</span></span><span class="line"><span class="cl">        <span class="n">error</span><span class="p">(</span><span class="s2">&#34;除数不能为零&#34;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>   <span class="c1">-- 2 表示错误定位到调用者</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- assert：条件为假时抛错，常用于参数校验</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">setAge</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assert</span><span class="p">(</span><span class="n">type</span><span class="p">(</span><span class="n">age</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&#34;number&#34;</span><span class="p">,</span> <span class="s2">&#34;age 必须是数字&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assert</span><span class="p">(</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&#34;age 不能为负&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- pcall：保护性调用，返回 (成功, 结果或错误信息)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">pcall</span><span class="p">(</span><span class="n">divide</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">ok</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>     <span class="c1">-- false  除数不能为零</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">ok2</span><span class="p">,</span> <span class="n">result2</span> <span class="o">=</span> <span class="n">pcall</span><span class="p">(</span><span class="n">divide</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">ok2</span><span class="p">,</span> <span class="n">result2</span><span class="p">)</span>   <span class="c1">-- true   5.0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- xpcall：可传入错误处理函数，能获取堆栈信息</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">onError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="s2">&#34;捕获错误：&#34;</span> <span class="o">..</span> <span class="n">debug.traceback</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">ok3</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">xpcall</span><span class="p">(</span><span class="kr">function</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">error</span><span class="p">(</span><span class="s2">&#34;出错了&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span><span class="p">,</span> <span class="n">onError</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">ok3</span><span class="p">)</span>            <span class="c1">-- false</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>            <span class="c1">-- 捕获错误：...（含堆栈）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>错误约定</strong>：抛出的错误对象通常是字符串；也可以用 <code>error({ code = 500, msg = &quot;...&quot; })</code> 抛出 table，配合 <code>pcall</code> 结构化处理。</p>
+<hr>
+<h2 id="十常用标准库">十、常用标准库
+</h2><h3 id="101-string-库">10.1 string 库
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">s</span> <span class="o">=</span> <span class="s2">&#34;Hello, Lua&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="n">upper</span><span class="p">())</span>                       <span class="c1">-- HELLO, LUA（用冒号调用方法）</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="n">lower</span><span class="p">())</span>                       <span class="c1">-- hello, lua</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="n">len</span><span class="p">())</span>                         <span class="c1">-- 10</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">string.sub</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>             <span class="c1">-- Hello</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">string.rep</span><span class="p">(</span><span class="s2">&#34;ab&#34;</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>             <span class="c1">-- ababab</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">string.reverse</span><span class="p">(</span><span class="s2">&#34;abc&#34;</span><span class="p">))</span>           <span class="c1">-- cba</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">string.format</span><span class="p">(</span><span class="s2">&#34;%d-%s-%.2f&#34;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;x&#34;</span><span class="p">,</span> <span class="mf">3.14159</span><span class="p">))</span>  <span class="c1">-- 1-x-3.14</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 模式匹配（Lua 的&#34;正则&#34;，功能较弱但够用）</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">string.find</span><span class="p">(</span><span class="s2">&#34;hello world&#34;</span><span class="p">,</span> <span class="s2">&#34;world&#34;</span><span class="p">))</span>     <span class="c1">-- 7  11</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">string.match</span><span class="p">(</span><span class="s2">&#34;2026-09-19&#34;</span><span class="p">,</span> <span class="s2">&#34;(%d+)-(%d+)-(%d+)&#34;</span><span class="p">))</span>  <span class="c1">-- 2026 9 19</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">string.gsub</span><span class="p">(</span><span class="s2">&#34;a-b-c&#34;</span><span class="p">,</span> <span class="s2">&#34;-&#34;</span><span class="p">,</span> <span class="s2">&#34;+&#34;</span><span class="p">))</span>          <span class="c1">-- a+b+c  2</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">string.match</span><span class="p">(</span><span class="s2">&#34;key=value&#34;</span><span class="p">,</span> <span class="s2">&#34;(%w+)=(%w+)&#34;</span><span class="p">))</span> <span class="c1">-- key  value</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 模式中的魔法字符</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- %d 数字  %a 字母  %w 字母数字  %s 空白  %p 标点</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- + 一次或多次  * 零次或多次  - 懒惰匹配  ? 可选</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- . 任意字符（除换行）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="102-math-库">10.2 math 库
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">math.floor</span><span class="p">(</span><span class="mf">3.7</span><span class="p">))</span>     <span class="c1">-- 3</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">math.ceil</span><span class="p">(</span><span class="mf">3.2</span><span class="p">))</span>      <span class="c1">-- 4</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">math.abs</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">))</span>        <span class="c1">-- 5</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">math.max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>   <span class="c1">-- 5</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">math.min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>   <span class="c1">-- 1</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">math.sqrt</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>       <span class="c1">-- 4.0</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">math.random</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span> <span class="c1">-- 随机整数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">math.randomseed</span><span class="p">(</span><span class="n">os.time</span><span class="p">())</span>  <span class="c1">-- 播种，避免每次随机序列相同</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">math.huge</span><span class="p">,</span> <span class="o">-</span><span class="n">math.huge</span><span class="p">,</span> <span class="mi">0</span><span class="o">/</span><span class="mi">0</span><span class="p">)</span>  <span class="c1">-- 正无穷 负无穷 nan</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="103-os-库">10.3 os 库
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">os.time</span><span class="p">())</span>                    <span class="c1">-- Unix 时间戳</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">os.date</span><span class="p">(</span><span class="s2">&#34;%Y-%m-%d %H:%M:%S&#34;</span><span class="p">))</span> <span class="c1">-- 格式化时间</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">os.clock</span><span class="p">())</span>                   <span class="c1">-- CPU 时间（用于性能测试）</span>
+</span></span><span class="line"><span class="cl"><span class="n">os.exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                          <span class="c1">-- 退出程序</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- os.execute(&#34;dir&#34;)                -- 执行系统命令（注意安全）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="104-io-库与文件读写">10.4 io 库与文件读写
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 读文件</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">file</span> <span class="o">=</span> <span class="n">io.open</span><span class="p">(</span><span class="s2">&#34;data.txt&#34;</span><span class="p">,</span> <span class="s2">&#34;r&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">if</span> <span class="n">file</span> <span class="kr">then</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">content</span> <span class="o">=</span> <span class="n">file</span><span class="p">:</span><span class="n">read</span><span class="p">(</span><span class="s2">&#34;*a&#34;</span><span class="p">)</span>   <span class="c1">-- *a 读全部，*l 读一行</span>
+</span></span><span class="line"><span class="cl">    <span class="n">file</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 写文件</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">out</span> <span class="o">=</span> <span class="n">io.open</span><span class="p">(</span><span class="s2">&#34;out.txt&#34;</span><span class="p">,</span> <span class="s2">&#34;w&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">out</span><span class="p">:</span><span class="n">write</span><span class="p">(</span><span class="s2">&#34;Hello</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">out</span><span class="p">:</span><span class="n">write</span><span class="p">(</span><span class="s2">&#34;World</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">out</span><span class="p">:</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 按行遍历</span>
+</span></span><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">line</span> <span class="kr">in</span> <span class="n">io.lines</span><span class="p">(</span><span class="s2">&#34;data.txt&#34;</span><span class="p">)</span> <span class="kr">do</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>游戏项目中文件 IO 常被沙盒限制，更多使用宿主提供的 IO 接口；读写配置文件时注意处理 <code>io.open</code> 返回 <code>nil + 错误信息</code> 的情况。</p>
+</blockquote>
+<hr>
+<h2 id="十一面向对象">十一、面向对象
+</h2><p>Lua 没有 <code>class</code> 关键字，但可以用<strong>表 + 元表</strong>实现类和对象。核心是 <code>__index</code> 实现方法和属性的继承。</p>
+<h3 id="111-类与实例">11.1 类与实例
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 定义&#34;类&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">Animal</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="n">Animal.__index</span> <span class="o">=</span> <span class="n">Animal</span>            <span class="c1">-- 实例找不到的键，去 Animal 里找</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 构造函数</span>
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Animal</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">self</span> <span class="o">=</span> <span class="n">setmetatable</span><span class="p">({},</span> <span class="n">Animal</span><span class="p">)</span>  <span class="c1">-- 新对象，元表是 Animal</span>
+</span></span><span class="line"><span class="cl">    <span class="n">self.name</span> <span class="o">=</span> <span class="n">name</span>
+</span></span><span class="line"><span class="cl">    <span class="n">self.age</span> <span class="o">=</span> <span class="n">age</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">self</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 实例方法（用冒号，隐式传入 self）</span>
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Animal</span><span class="p">:</span><span class="nf">speak</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">self.name</span> <span class="o">..</span> <span class="s2">&#34; 发出了声音&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Animal</span><span class="p">:</span><span class="nf">getName</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">self.name</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 使用</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">cat</span> <span class="o">=</span> <span class="n">Animal.new</span><span class="p">(</span><span class="s2">&#34;咪咪&#34;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">cat</span><span class="p">:</span><span class="n">speak</span><span class="p">()</span>                        <span class="c1">-- 咪咪 发出了声音</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">cat</span><span class="p">:</span><span class="n">getName</span><span class="p">())</span>               <span class="c1">-- 咪咪</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 点号与冒号的等价关系</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- cat:speak()  等价于  cat.speak(cat)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="112-继承">11.2 继承
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">Dog</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="n">Dog.__index</span> <span class="o">=</span> <span class="n">Dog</span>
+</span></span><span class="line"><span class="cl"><span class="n">setmetatable</span><span class="p">(</span><span class="n">Dog</span><span class="p">,</span> <span class="p">{</span> <span class="n">__index</span> <span class="o">=</span> <span class="n">Animal</span> <span class="p">})</span>   <span class="c1">-- Dog 继承 Animal</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Dog</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">breed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">self</span> <span class="o">=</span> <span class="n">Animal.new</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>    <span class="c1">-- 调用父类构造</span>
+</span></span><span class="line"><span class="cl">    <span class="n">setmetatable</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">Dog</span><span class="p">)</span>               <span class="c1">-- 换成 Dog 的元表</span>
+</span></span><span class="line"><span class="cl">    <span class="n">self.breed</span> <span class="o">=</span> <span class="n">breed</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">self</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 重写父类方法</span>
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Dog</span><span class="p">:</span><span class="nf">speak</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="n">self.name</span> <span class="o">..</span> <span class="s2">&#34; 汪汪叫&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 调用父类方法</span>
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">Dog</span><span class="p">:</span><span class="nf">describe</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Animal.speak</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>                    <span class="c1">-- 显式调用父类实现</span>
+</span></span><span class="line"><span class="cl">    <span class="n">print</span><span class="p">(</span><span class="s2">&#34;品种：&#34;</span> <span class="o">..</span> <span class="n">self.breed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">dog</span> <span class="o">=</span> <span class="n">Dog.new</span><span class="p">(</span><span class="s2">&#34;旺财&#34;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&#34;柴犬&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dog</span><span class="p">:</span><span class="n">speak</span><span class="p">()</span>          <span class="c1">-- 旺财 汪汪叫（多态）</span>
+</span></span><span class="line"><span class="cl"><span class="n">dog</span><span class="p">:</span><span class="n">getName</span><span class="p">()</span>        <span class="c1">-- 继承自 Animal</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">dog</span><span class="p">:</span><span class="n">describe</span> <span class="ow">and</span> <span class="s2">&#34;ok&#34;</span> <span class="ow">or</span> <span class="s2">&#34;no&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dog</span><span class="p">:</span><span class="n">describe</span><span class="p">()</span>       <span class="c1">-- 旺财 发出了声音 / 品种：柴犬</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="113-封装私有成员">11.3 封装（私有成员）
+</h3><p>用闭包把变量藏在局部作用域中，实现真正的私有。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">newCounter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>                    <span class="c1">-- 私有，外部无法直接访问</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">local</span> <span class="n">obj</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">function</span> <span class="nc">obj</span><span class="p">.</span><span class="nf">inc</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">return</span> <span class="n">count</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">function</span> <span class="nc">obj</span><span class="p">.</span><span class="nf">get</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">return</span> <span class="n">count</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">return</span> <span class="n">obj</span>
+</span></span><span class="line"><span class="cl"><span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">c</span> <span class="o">=</span> <span class="n">newCounter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">c.inc</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">c.inc</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">c.get</span><span class="p">())</span>   <span class="c1">-- 2</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">c.count</span><span class="p">)</span>   <span class="c1">-- nil（外部访问不到）</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="十二lua-与-c--unity">十二、Lua 与 C / Unity
+</h2><h3 id="121-c-与-lua-的交互">12.1 C 与 Lua 的交互
+</h3><p>Lua 作为嵌入式语言，依赖 C API 与宿主通信，数据通过一个虚拟栈交换。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;lua.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;lauxlib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;lualib.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">lua_State</span><span class="o">*</span> <span class="n">L</span> <span class="o">=</span> <span class="nf">luaL_newstate</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nf">luaL_openlibs</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>                       <span class="cm">/* 打开标准库 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* 执行 Lua 代码 */</span>
+</span></span><span class="line"><span class="cl"><span class="nf">luaL_dostring</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="s">&#34;print(&#39;来自 C 的调用&#39;)&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* 把一个 C 函数注册给 Lua */</span>
+</span></span><span class="line"><span class="cl"><span class="nf">lua_register</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="s">&#34;c_add&#34;</span><span class="p">,</span> <span class="n">c_add</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">lua_close</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="122-unity-中的-luaxlua--tolua">12.2 Unity 中的 Lua（xLua / ToLua）
+</h3><p>Unity 游戏常用 <strong>xLua</strong> 或 <strong>ToLua</strong> 实现热更新：C# 侧提供接口，Lua 侧编写业务逻辑。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- xLua 中调用 C# 示例</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">GameObject</span> <span class="o">=</span> <span class="n">CS.UnityEngine</span><span class="p">.</span><span class="n">GameObject</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">go</span> <span class="o">=</span> <span class="n">GameObject</span><span class="p">(</span><span class="s2">&#34;MyObject&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">go</span><span class="p">:</span><span class="n">AddComponent</span><span class="p">(</span><span class="n">typeof</span><span class="p">(</span><span class="n">CS.UnityEngine</span><span class="p">.</span><span class="n">Rigidbody</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 访问 C# 静态字段/方法</span>
+</span></span><span class="line"><span class="cl"><span class="n">CS.UnityEngine</span><span class="p">.</span><span class="n">Time.deltaTime</span>
+</span></span><span class="line"><span class="cl"><span class="n">CS.UnityEngine</span><span class="p">.</span><span class="n">Debug.Log</span><span class="p">(</span><span class="s2">&#34;Hello from Lua&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-csharp" data-lang="csharp"><span class="line"><span class="cl"><span class="c1">// C# 侧加载并调用 Lua</span>
+</span></span><span class="line"><span class="cl"><span class="n">LuaEnv</span> <span class="n">env</span> <span class="p">=</span> <span class="k">new</span> <span class="n">LuaEnv</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">env</span><span class="p">.</span><span class="n">DoString</span><span class="p">(</span><span class="s">&#34;print(&#39;来自 C# 的 Lua 代码&#39;)&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">env</span><span class="p">.</span><span class="n">DoString</span><span class="p">(</span><span class="s">&#34;require(&#39;game_logic&#39;)&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">env</span><span class="p">.</span><span class="n">Dispose</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>为什么游戏用 Lua 热更新</strong>：</p>
+<ul>
+<li>逻辑改动无需重新编译 IL2CPP/C++，替换 <code>.lua</code> 文本即可</li>
+<li>分包体积小，适合在线更新</li>
+<li>脚本语言开发迭代快</li>
+</ul>
+<p><strong>注意</strong>：Lua 与 C# 之间跨语言调用有开销，高频逻辑（如每帧 <code>Update</code>）应尽量写在 C# 侧，Lua 只处理易变的业务逻辑。</p>
+<hr>
+<h2 id="十三常见陷阱与最佳实践">十三、常见陷阱与最佳实践
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="c1">-- 1. 数组下标从 1 开始，不是 0</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- t[0] 是 nil，不是 10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 2. 全局变量要避免，始终用 local</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">bad</span><span class="p">()</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="kr">end</span>      <span class="c1">-- 意外创建全局</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="kr">function</span> <span class="nf">good</span><span class="p">()</span> <span class="kd">local</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 3. 0 和 &#34;&#34; 在条件判断中为真</span>
+</span></span><span class="line"><span class="cl"><span class="kr">if</span> <span class="mi">0</span> <span class="kr">then</span> <span class="n">print</span><span class="p">(</span><span class="s2">&#34;会执行&#34;</span><span class="p">)</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- 判断空串要显式写：if s == &#34;&#34; then</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 4. 表是引用类型，赋值不是拷贝</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="n">print</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>          <span class="c1">-- 2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 5. 循环中拼接字符串性能差，用 table.concat</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- 差：</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- local s = &#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- for i = 1, 10000 do s = s .. i end</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- 好：</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">buf</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span> <span class="kr">do</span> <span class="n">buf</span><span class="p">[</span><span class="o">#</span><span class="n">buf</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="kr">end</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">s</span> <span class="o">=</span> <span class="n">table.concat</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 6. 用 == nil 判断存在，不要用 not</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- not 会把 false 也当成不存在</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">flag</span> <span class="o">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- if not flag then ... end   -- 误判</span>
+</span></span><span class="line"><span class="cl"><span class="kr">if</span> <span class="n">flag</span> <span class="o">==</span> <span class="kc">nil</span> <span class="kr">then</span> <span class="kr">end</span>        <span class="c1">-- 正确</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 7. pairs 遍历顺序不确定，不要依赖顺序</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- 需要顺序时先收集键再 table.sort</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 8. # 的长度只在序列（从 1 连续）时可靠</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">hole</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="mi">4</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">-- #hole 结果不确定（可能是 4，也可能是 2）</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 9. 函数调用缺少 self 时用点号即可，有 self 用冒号</span>
+</span></span><span class="line"><span class="cl"><span class="kd">local</span> <span class="n">obj</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">obj</span><span class="p">:</span><span class="nf">method</span><span class="p">()</span> <span class="kr">end</span>   <span class="c1">-- 定义用冒号</span>
+</span></span><span class="line"><span class="cl"><span class="n">obj</span><span class="p">:</span><span class="n">method</span><span class="p">()</span>                <span class="c1">-- 调用用冒号</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">-- 10. 深拷贝要递归，简单赋值只拷贝引用</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>最佳实践汇总</strong>：</p>
+<ul>
+<li>一律用 <code>local</code>，减少全局污染</li>
+<li>用 <code>pcall</code> 隔离不可信代码（如玩家脚本、热更脚本）</li>
+<li>大表复用，避免频繁创建造成 GC 压力</li>
+<li>用 <code>table.concat</code> 拼接大量字符串</li>
+<li>模块返回一个表，私有函数放在 <code>local</code> 中</li>
+<li>性能敏感处避免元表 <code>__index</code> 的深层链式查找</li>
+</ul>
+<hr>
+<h2 id="十四高频面试问答">十四、高频面试问答
+</h2><h3 id="141-lua-的数据类型有哪些">14.1 Lua 的数据类型有哪些？
+</h3><p>8 种：<code>nil</code>、<code>boolean</code>、<code>number</code>、<code>string</code>、<code>table</code>、<code>function</code>、<code>userdata</code>、<code>thread</code>。其中 <code>table</code> 是唯一的数据结构，<code>userdata</code> 用于表示 C 侧对象，<code>thread</code> 表示协程。</p>
+<h3 id="142-为什么-lua-数组下标从-1-开始">14.2 为什么 Lua 数组下标从 1 开始？
+</h3><p>历史与设计选择：更贴近数学和人类习惯（第一个元素是&quot;第 1 个&quot;），也便于用 <code>#</code> 表示长度、用 <code>1..#t</code> 遍历。代价是从 C 系语言转过来需要适应。</p>
+<h3 id="143-ipairs-和-pairs-的区别">14.3 <code>ipairs</code> 和 <code>pairs</code> 的区别？
+</h3><div class="table-wrapper"><table>
+	<thead>
+			<tr>
+					<th></th>
+					<th>ipairs</th>
+					<th>pairs</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>遍历范围</td>
+					<td>数组部分（连续整数键）</td>
+					<td>所有键值对</td>
+			</tr>
+			<tr>
+					<td>顺序</td>
+					<td>从 1 开始递增，遇 nil 停止</td>
+					<td>无序</td>
+			</tr>
+			<tr>
+					<td>底层</td>
+					<td><code>__index</code>（5.1）/ 专用迭代器</td>
+					<td><code>next</code></td>
+			</tr>
+			<tr>
+					<td>场景</td>
+					<td>遍历列表</td>
+					<td>遍历字典</td>
+			</tr>
+	</tbody>
+</table></div>
+<h3 id="144-__index-和-__newindex-的作用">14.4 <code>__index</code> 和 <code>__newindex</code> 的作用？
+</h3><ul>
+<li><code>__index</code>：访问<strong>不存在</strong>的键时触发，可用于默认值、继承、代理</li>
+<li><code>__newindex</code>：对<strong>不存在</strong>的键赋值时触发，可用于只读表、数据同步、拦截写入</li>
+<li>二者都可以是表或函数，是 Lua 面向对象和元编程的核心</li>
+</ul>
+<h3 id="145-如何实现面向对象">14.5 如何实现面向对象？
+</h3><p>用表表示对象，用 <code>__index</code> 让实例查找到类的方法，用 <code>setmetatable</code> 建立类与父类的继承链。构造函数（<code>new</code>）中 <code>setmetatable(self, Class)</code>，方法用 <code>:</code> 定义以隐式接收 <code>self</code>。</p>
+<h3 id="146-闭包是什么有什么用">14.6 闭包是什么？有什么用？
+</h3><p>闭包是函数加上它捕获的外部局部变量。用途：状态保持（计数器）、数据私有化（封装）、回调、迭代器、函数工厂。闭包捕获的是变量的引用而非拷贝。</p>
+<h3 id="147-协程和线程的区别">14.7 协程和线程的区别？
+</h3><p>协程是<strong>协作式</strong>的用户态并发，切换由程序显式 <code>yield</code> 控制，无抢占、无系统调度开销；线程是<strong>抢占式</strong>的系统级并发，可并行但需处理锁与竞态。Lua 协程本质是单线程内的控制流切换，适合状态机和异步流程。</p>
+<h3 id="148-pcall-和-xpcall-的区别">14.8 pcall 和 xpcall 的区别？
+</h3><p>都用于保护性调用并捕获错误。<code>pcall</code> 只返回成功标志与结果/错误信息；<code>xpcall</code> 额外接收一个<strong>错误处理函数</strong>，可以在其中调用 <code>debug.traceback</code> 获取堆栈，便于调试。</p>
+<h3 id="149-如何判断表中是否有某个键">14.9 如何判断表中是否有某个键？
+</h3><p>注意 <code>t[k] ~= nil</code> 会把值为 <code>false</code> 的情况也漏掉。正确做法是 <code>t[k] == nil</code> 判断不存在，或 5.2+ 用 <code>rawget(t, k) ~= nil</code>（绕过元表）。若确实可能存在 <code>false</code> 值，需用 <code>next</code> 或额外记录键集合。</p>
+<h3 id="1410-lua-的-gc-机制">14.10 Lua 的 GC 机制？
+</h3><p>Lua 使用**增量式标记清除（mark-and-sweep）**垃圾回收器（5.4 引入分代模式）。GC 从根（全局表、栈、注册表）出发标记可达对象，未被标记的回收。可通过 <code>collectgarbage()</code> 手动控制，<code>collectgarbage(&quot;count&quot;)</code> 查看内存占用。</p>
+<h3 id="1411-rawget--rawset-有什么用">14.11 <code>rawget</code> / <code>rawset</code> 有什么用？
+</h3><p>绕过元表的 <code>__index</code> / <code>__newindex</code> 直接读写表。用于实现元表逻辑时避免递归调用自身，或访问&quot;真实&quot;数据。</p>
+<h3 id="1412-深拷贝和浅拷贝的区别">14.12 深拷贝和浅拷贝的区别？
+</h3><p>浅拷贝只复制第一层引用（表还指向同一张子表），深拷贝递归复制所有层级。Lua 赋值运算符 <code>=</code> 永远是引用赋值，需要拷贝时必须手写递归函数。</p>
+<hr>
+<blockquote>
+<p>本文系统梳理了 Lua 从基础语法到元表、协程、面向对象及工程实践的核心内容，适合零基础入门与游戏开发方向快速查阅。示例以 Lua 5.4 为准，涉及 5.1/LuaJIT 差异处已单独标注。</p>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/letere-git.github-io/tags/lua/">Lua</a>
+        
+            <a href="/letere-git.github-io/tags/%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80/">脚本语言</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        const elementsToRender = [".main-article", ".widget--toc"];
+
+        elementsToRender.forEach(selector => {
+            const element = document.querySelector(selector);
+            if (element) {
+                renderMathInElement(element, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ],
+                    ignoredClasses: ["gist"]
+                });
+            }
+        });
+    });
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="14kesu/letere-git.github-io"
+    data-repo-id="R_kgDOQxEWrQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOQxEWrc4C9UEP"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="light"
+    data-lang="zh-CN"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (e.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+    <div class="comment"></div>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 水元素长弓
+    </section>
+    
+    <section class="powerby">
+        
+            不嘻嘻 <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.33.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/letere-git.github-io/ts/main.b4654cd74006fe7475d7723cd7373672b5ea2035ab23404eb9ff511cb27b581c.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+
+<div id="aplayer"></div>
+
+<script>
+    const home = "https:\/\/14kesu.github.io\/letere-git.github-io\/"
+    console.log(home);
+    const ap = new APlayer({
+        lrcType: 3,
+        container: document.getElementById('aplayer'),
+        fixed: true,
+        audio: [{
+        name: '电击曼波',
+        artist: '毒药是汤底',
+        url: home + 'music/电击曼波-毒药是汤底/song.mp3',
+        cover: home +  'music/电击曼波-毒药是汤底/cover.jpg',
+        lrc: home + 'music/电击曼波-毒药是汤底/lyric.lrc'
+        }]
+    });
+    
+
+    
+
+    window.onbeforeunload = () => {
+        
+        const playInfo = {
+            index: ap.list.index,
+            currentTime: ap.audio.currentTime,
+            paused: ap.paused
+        };
+        localStorage.setItem("playInfo", JSON.stringify(playInfo));
+    };
+
+    
+
+    window.onload = () => {
+        
+        const playInfo = JSON.parse(localStorage.getItem("playInfo"));
+        if (!playInfo) {
+            return;
+        }
+        
+        ap.list.switch(playInfo.index);
+        
+        setTimeout(() => {
+            
+            ap.seek(playInfo.currentTime);
+            
+            if (!playInfo.paused) {
+                ap.play()
+            }
+        }, 500);
+    };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+<script>
+    var pjax = new Pjax({
+        selectors: [
+            ".main-container"
+        ]
+    })
+</script>
+<script>
+    pjax._handleResponse = pjax.handleResponse;
+    pjax.handleResponse = function(responseText, request, href, options) {
+        if (request.responseText.match("<html")) {
+            if (responseText) {
+                
+                let newDom = new DOMParser().parseFromString(responseText, 'text/html');
+                
+                let bodyClass = newDom.body.className;
+                document.body.setAttribute("class", bodyClass)
+            }
+            
+            pjax._handleResponse(responseText, request, href, options);
+        } else {
+            
+        }
+    }
+</script>
+<script>
+    document.addEventListener('pjax:complete', () => {
+        
+        window.Stack.init();
+    })
+</script>
+
+
+    
+    <script src=https://14kesu.github.io/letere-git.github-io/js/topbar.min.js></script>
+
+<script>
+    
+    topbar.config({
+        barColors: {
+            '0': 'rgba(255,  255, 255, 1)', 
+            '1.0': 'rgba(0, 149, 234,  1)' 
+        }
+    })
+	
+    document.addEventListener('pjax:send', () => {
+        
+        topbar.show();
+    })
+	
+    document.addEventListener('pjax:complete', () => {
+        
+        
+        topbar.hide();
+    })
+</script>
+<script>
+    
+
+
+
+
+const live2d_path = 'https://cdn.jsdelivr.net/npm/live2d-widgets@1.0.0-rc.6/dist/';
+const cssPath = "https://14kesu.github.io/letere-git.github-io/waifu/waifu.css"
+const waifuTipsPath = "https://14kesu.github.io/letere-git.github-io/waifu/waifu-tips.json"
+
+
+
+
+function loadExternalResource(url, type) {
+  return new Promise((resolve, reject) => {
+    let tag;
+
+    if (type === 'css') {
+      tag = document.createElement('link');
+      tag.rel = 'stylesheet';
+      tag.href = url;
+    }
+    else if (type === 'js') {
+      tag = document.createElement('script');
+      tag.type = 'module';
+      tag.src = url;
+    }
+    if (tag) {
+      tag.onload = () => resolve(url);
+      tag.onerror = () => reject(url);
+      document.head.appendChild(tag);
+    }
+  });
+}
+
+(async () => {
+  
+  
+  
+
+  
+  
+  const OriginalImage = window.Image;
+  window.Image = function(...args) {
+    const img = new OriginalImage(...args);
+    img.crossOrigin = "anonymous";
+    return img;
+  };
+  window.Image.prototype = OriginalImage.prototype;
+  
+  
+  await Promise.all([
+    loadExternalResource(cssPath, 'css'),
+    loadExternalResource(live2d_path + 'waifu-tips.js', 'js')
+  ]);
+  
+  
+  initWidget({
+    waifuPath: waifuTipsPath,
+    cubism2Path: live2d_path + 'live2d.min.js',
+    tools: ['hitokoto', 'asteroids', 'switch-model', 'switch-texture', 'photo', 'info', 'quit'],
+    logLevel: 'warn',
+    drag: false,
+  });
+})();
+
+console.log(`\n%cLive2D%cWidget%c\n`, 'padding: 8px; background: #cd3e45; font-weight: bold; font-size: large; color: white;', 'padding: 8px; background: #ff5450; font-size: large; color: #eee;', '');
+
+
+
+</script>
+
+
+    </body>
+</html>
